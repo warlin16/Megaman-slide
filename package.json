@@ -1,0 +1,21 @@
+{
+  "name": "Megaman-slide",
+  "version": "1.0.0",
+  "description": "Megaman slide is a platform based run and gun game inspired by the jump slide segments of the 8th installment of the classic series.",
+  "main": "index.js",
+  "scripts": {
+    "webpack": "webpack --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/warlin16/Megaman-slide.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/warlin16/Megaman-slide/issues"
+  },
+  "homepage": "https://github.com/warlin16/Megaman-slide#readme"
+}
