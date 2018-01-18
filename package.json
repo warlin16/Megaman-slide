@@ -17,5 +17,11 @@
   "bugs": {
     "url": "https://github.com/warlin16/Megaman-slide/issues"
   },
-  "homepage": "https://github.com/warlin16/Megaman-slide#readme"
+  "homepage": "https://github.com/warlin16/Megaman-slide#readme",
+  "dependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.1",
+    "webpack": "^3.10.0"
+  }
 }
