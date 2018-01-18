@@ -87,18 +87,16 @@ var Game = function () {
     this.canvas = document.getElementById('main');
     this.ctx = this.canvas.getContext('2d');
     this.canvas.width = 900;
-    this.canvas.height = 500;
+    this.canvas.height = 670;
     this.player = new _player2.default(this.canvas);
   }
 
   _createClass(Game, [{
     key: 'render',
     value: function render() {
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.ctx.fillStyle = 'purple';
-      this.ctx.fillRect(this.player.x, this.player.y, this.player.width, this.player.height);
-
+      this.player.render();
       this.player.x += this.player.velX;
+      this.player.y += this.player.velY;
       this.player.physics();
       requestAnimationFrame(this.render.bind(this));
     }
@@ -142,27 +140,29 @@ var Player = function () {
   function Player(stage) {
     _classCallCheck(this, Player);
 
-    this.x = 100;
-    this.y = 250;
-    this.width = 15;
-    this.height = 15;
+    this.stage = stage;
+    this.x = 0;
+    this.y = 600;
+    this.width = 50;
+    this.height = 50;
     this.moving = false;
     this.speed = 3;
     this.velX = 0;
     this.velY = 0;
     this.falling = true;
-    this.stage = stage;
-    this.gravity = 0.5;
+    this.ctx = this.stage.getContext('2d');
+    this.gravity = 0.8;
   }
 
   _createClass(Player, [{
     key: 'move',
     value: function move(key) {
-      if (this.velX === this.speed) this.velX--;
       if (key === 'ArrowRight' && this.moving) {
         this.velX++;
       } else if (key === 'ArrowLeft' && this.moving) {
         this.velX--;
+      } else if (key === 'ArrowUp' && this.moving) {
+        this.velY -= 2;
       }
     }
   }, {
@@ -171,9 +171,26 @@ var Player = function () {
       if (this.x > this.stage.width - this.width) {
         this.x = this.stage.width - this.width;
       }
-      if (this.falling) {
-        this.y += this.gravity;
+      if (this.x < 0) {
+        this.x = 0;
       }
+      if (this.y < 0) {
+        this.y = 0;
+      }
+      if (this.y > this.stage.height - this.height) {
+        this.y = this.stage.height - this.height;
+      }
+      if (this.falling) {
+        this.y += this.velY + this.gravity;
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var bass = new Image();
+      bass.src = 'assets/bass.png';
+      this.ctx.clearRect(0, 0, this.stage.width, this.stage.height);
+      this.ctx.drawImage(bass, 0, 0, 50, 58, this.x, this.y, this.width, this.height);
     }
   }]);
 
