@@ -88,24 +88,18 @@ var Game = function () {
     this.ctx = this.canvas.getContext('2d');
     this.canvas.width = 900;
     this.canvas.height = 500;
-    this.player = new _player2.default();
+    this.player = new _player2.default(this.canvas);
   }
 
   _createClass(Game, [{
     key: 'render',
     value: function render() {
-      var _this = this;
-
-      var that = this;
-      document.addEventListener('keydown', function (e) {
-        debugger;
-        _this.player.move(e.key);
-      });
-
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.ctx.fillStyle = 'purple';
       this.ctx.fillRect(this.player.x, this.player.y, this.player.width, this.player.height);
 
+      this.player.x += this.player.velX;
+      this.player.physics();
       requestAnimationFrame(this.render.bind(this));
     }
   }]);
@@ -116,6 +110,17 @@ var Game = function () {
 document.addEventListener('DOMContentLoaded', function () {
   var game = new Game();
   game.render();
+
+  document.addEventListener('keydown', function (e) {
+    game.player.moving = true;
+    game.player.move(e.key);
+  });
+
+  document.addEventListener('keyup', function () {
+    game.player.moving = false;
+    game.player.velX = 0;
+    game.player.velY = 0;
+  });
 });
 
 /***/ }),
@@ -134,7 +139,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Player = function () {
-  function Player() {
+  function Player(stage) {
     _classCallCheck(this, Player);
 
     this.x = 100;
@@ -146,21 +151,28 @@ var Player = function () {
     this.velX = 0;
     this.velY = 0;
     this.falling = true;
+    this.stage = stage;
+    this.gravity = 0.5;
   }
 
   _createClass(Player, [{
     key: 'move',
     value: function move(key) {
-      if (key === 'ArrowRight' && this.move) {
-        if (this.velX < this.speed) {
-          this.velX++;
-        }
-        this.x += this.velX;
-      } else if (key === 'ArrowLeft' && this.move) {
-        if (this.velX > -this.speed) {
-          this.velX--;
-        }
-        this.x -= this.velX;
+      if (this.velX === this.speed) this.velX--;
+      if (key === 'ArrowRight' && this.moving) {
+        this.velX++;
+      } else if (key === 'ArrowLeft' && this.moving) {
+        this.velX--;
+      }
+    }
+  }, {
+    key: 'physics',
+    value: function physics() {
+      if (this.x > this.stage.width - this.width) {
+        this.x = this.stage.width - this.width;
+      }
+      if (this.falling) {
+        this.y += this.gravity;
       }
     }
   }]);
