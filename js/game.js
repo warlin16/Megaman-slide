@@ -29,10 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
   game.render();
 
   document.addEventListener('keydown', (e) => {
-    game.player.keysPressed[e.key] = true;
+    game.player.keysPressed[e.code] = true;
   });
 
   document.addEventListener('keyup', (e) => {
-    game.player.keysPressed[e.key] = false;
+    game.player.keysPressed[e.code] = false;
   });
 });
