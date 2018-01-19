@@ -76,6 +76,10 @@ var _player = __webpack_require__(1);
 
 var _player2 = _interopRequireDefault(_player);
 
+var _block = __webpack_require__(2);
+
+var _block2 = _interopRequireDefault(_block);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -87,16 +91,22 @@ var Game = function () {
     this.canvas = document.getElementById('main');
     this.ctx = this.canvas.getContext('2d');
     this.canvas.width = 900;
-    this.canvas.height = 670;
+    this.canvas.height = 600;
     this.player = new _player2.default(this.canvas);
   }
 
   _createClass(Game, [{
+    key: 'renderBlocks',
+    value: function renderBlocks() {
+      for (var i = 0; i <= 1; i++) {
+        new _block2.default(i * 100, i * 10, 100, 20, this.canvas);
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
+      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.player.render();
-      this.player.x += this.player.velX;
-      this.player.y += this.player.velY;
       this.player.physics();
       requestAnimationFrame(this.render.bind(this));
     }
@@ -110,14 +120,11 @@ document.addEventListener('DOMContentLoaded', function () {
   game.render();
 
   document.addEventListener('keydown', function (e) {
-    game.player.moving = true;
-    game.player.move(e.key);
+    game.player.keysPressed[e.key] = true;
   });
 
-  document.addEventListener('keyup', function () {
-    game.player.moving = false;
-    game.player.velX = 0;
-    game.player.velY = 0;
+  document.addEventListener('keyup', function (e) {
+    game.player.keysPressed[e.key] = false;
   });
 });
 
@@ -141,28 +148,33 @@ var Player = function () {
     _classCallCheck(this, Player);
 
     this.stage = stage;
+    this.ctx = this.stage.getContext('2d');
     this.x = 0;
     this.y = 600;
     this.width = 50;
     this.height = 50;
-    this.moving = false;
-    this.speed = 3;
+    this.speed = 6;
     this.velX = 0;
     this.velY = 0;
+    this.jumping = false;
     this.falling = true;
-    this.ctx = this.stage.getContext('2d');
-    this.gravity = 0.8;
+    this.gravity = 1.2;
+    this.slide = 0.8;
+    this.keysPressed = {};
   }
 
   _createClass(Player, [{
     key: 'move',
-    value: function move(key) {
-      if (key === 'ArrowRight' && this.moving) {
-        this.velX++;
-      } else if (key === 'ArrowLeft' && this.moving) {
-        this.velX--;
-      } else if (key === 'ArrowUp' && this.moving) {
-        this.velY -= 2;
+    value: function move() {
+      if (this.keysPressed.ArrowRight) {
+        this.velX += this.speed;
+      } else if (false) {
+        this.velX -= this.speed;
+      } else if (false) {
+        this.falling = !this.falling;
+        this.jumping = !this.jumping;
+        this.velY -= this.speed;
+        this.distance = this.y;
       }
     }
   }, {
@@ -175,21 +187,33 @@ var Player = function () {
         this.x = 0;
       }
       if (this.y < 0) {
+        this.velY = 0;
+        this.jumping = false;
+        this.falling = true;
         this.y = 0;
       }
       if (this.y > this.stage.height - this.height) {
         this.y = this.stage.height - this.height;
       }
+      if (this.jumping && this.y <= this.distance - 35) {
+        this.velY = 0;
+        this.jumping = false;
+        this.falling = true;
+      }
       if (this.falling) {
         this.y += this.velY + this.gravity;
       }
+
+      this.velX *= this.slide;
+      this.x += this.velX;
+      this.y += this.velY;
+      this.move();
     }
   }, {
     key: 'render',
     value: function render() {
       var bass = new Image();
       bass.src = 'assets/bass.png';
-      this.ctx.clearRect(0, 0, this.stage.width, this.stage.height);
       this.ctx.drawImage(bass, 0, 0, 50, 58, this.x, this.y, this.width, this.height);
     }
   }]);
@@ -198,6 +222,46 @@ var Player = function () {
 }();
 
 exports.default = Player;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Block = function () {
+  function Block(x, y, width, height, stage) {
+    _classCallCheck(this, Block);
+
+    this.stage = stage;
+    this.ctx = this.stage.getContext('2d');
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+  }
+
+  _createClass(Block, [{
+    key: 'render',
+    value: function render() {
+      this.ctx.fillStyle = 'black';
+      this.ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+  }]);
+
+  return Block;
+}();
+
+exports.default = Block;
 
 /***/ })
 /******/ ]);

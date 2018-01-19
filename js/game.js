@@ -1,18 +1,24 @@
 import Player from './player';
+import Block from './block';
 
 class Game {
   constructor() {
     this.canvas = document.getElementById('main');
     this.ctx = this.canvas.getContext('2d');
     this.canvas.width = 900;
-    this.canvas.height = 670;
+    this.canvas.height = 600;
     this.player = new Player(this.canvas);
   }
 
+  renderBlocks() {
+    for (let i = 0; i <= 1; i++) {
+      new Block(i * 100, i * 10, 100, 20, this.canvas);
+    }
+  }
+
   render() {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.player.render();
-    this.player.x += this.player.velX;
-    this.player.y += this.player.velY;
     this.player.physics();
     requestAnimationFrame(this.render.bind(this));
   }
@@ -23,13 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
   game.render();
 
   document.addEventListener('keydown', (e) => {
-    game.player.moving = true;
-    game.player.move(e.key);
+    game.player.keysPressed[e.key] = true;
   });
 
-  document.addEventListener('keyup', () => {
-    game.player.moving = false;
-    game.player.velX = 0;
-    game.player.velY = 0;
+  document.addEventListener('keyup', (e) => {
+    game.player.keysPressed[e.key] = false;
   });
 });
