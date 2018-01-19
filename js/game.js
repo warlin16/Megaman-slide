@@ -19,7 +19,6 @@ class Game {
   render() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.player.render();
-    this.player.physics();
     requestAnimationFrame(this.render.bind(this));
   }
 }

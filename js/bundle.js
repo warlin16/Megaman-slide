@@ -107,7 +107,6 @@ var Game = function () {
     value: function render() {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.player.render();
-      this.player.physics();
       requestAnimationFrame(this.render.bind(this));
     }
   }]);
@@ -141,6 +140,12 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _sprite = __webpack_require__(3);
+
+var _sprite2 = _interopRequireDefault(_sprite);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Player = function () {
@@ -150,7 +155,7 @@ var Player = function () {
     this.stage = stage;
     this.ctx = this.stage.getContext('2d');
     this.x = 0;
-    this.y = 0;
+    this.y = this.stage.height - 70;
     this.width = 50;
     this.height = 50;
     this.speed = 3;
@@ -158,21 +163,54 @@ var Player = function () {
     this.velY = 0;
     this.jumping = false;
     this.grounded = false;
-    this.gravity = 0.2;
+    this.gravity = 0.3;
     this.slide = 0.8;
     this.keysPressed = {};
     this.bass = new Image();
     this.bass.src = 'assets/bass.png';
+    this.movingAnimation = '';
+    this.animation = {
+      idleAnim: new _sprite2.default(this.bass, 0, 0, 50, 58, this.width, this.height),
+      leftAnim1: new _sprite2.default(this.bass, 302, 130, 50, 58, this.width, this.height),
+      leftAnim2: new _sprite2.default(this.bass, 245, 130, 50, 58, this.width, this.height),
+      leftAnim3: new _sprite2.default(this.bass, 188, 130, 50, 58, this.width, this.height),
+      rightAnim1: new _sprite2.default(this.bass, 0, 130, 50, 58, this.width, this.height),
+      rightAnim2: new _sprite2.default(this.bass, 60, 130, 50, 58, this.width, this.height),
+      rightAnim3: new _sprite2.default(this.bass, 120, 130, 50, 58, this.width, this.height)
+    };
+    this.currImg = this.animation.idleAnim;
+    this.frames = 0;
   }
 
   _createClass(Player, [{
     key: 'move',
     value: function move() {
+      this.frames++;
       if (this.keysPressed.ArrowRight) {
         if (this.velX < this.speed) this.velX++;
+        this.movingAnimation = 'right';
+        if (this.frames === 10) {
+          this.currImg = this.animation.rightAnim1;
+        }
+        if (this.frames === 20) {
+          this.currImg = this.animation.rightAnim3;
+        }
+        if (this.frames === 30) {
+          this.currImg = this.animation.rightAnim2;
+        }
       }
       if (this.keysPressed.ArrowLeft) {
         if (this.velX > -this.speed) this.velX--;
+        this.movingAnimation = 'left';
+        if (this.frames === 10) {
+          this.currImg = this.animation.leftAnim1;
+        }
+        if (this.frames === 20) {
+          this.currImg = this.animation.leftAnim3;
+        }
+        if (this.frames === 30) {
+          this.currImg = this.animation.leftAnim2;
+        }
       }
       if (this.keysPressed.ArrowUp) {
         if (this.grounded) {
@@ -181,7 +219,12 @@ var Player = function () {
           this.grounded = false;
         }
       }
-      this.ctx.drawImage(this.bass, 0, 370, 50, 58, this.x, this.y, this.width, this.height);
+      if (!this.keysPressed.ArrowRight && !this.keysPressed.ArrowLeft) {
+        this.movingAnimation = '';
+        this.frames = 0;
+        this.currImg = this.animation.idleAnim;
+      }
+      this.ctx.drawImage(this.currImg.img, this.currImg.sX, this.currImg.sY, this.currImg.sWidth, this.currImg.sHeight, this.x, this.y, this.currImg.width, this.currImg.height);
     }
   }, {
     key: 'physics',
@@ -204,7 +247,6 @@ var Player = function () {
 
       if (!this.grounded) this.velY += this.gravity;
 
-      console.log();
       this.velX *= this.slide;
       this.x += this.velX;
       this.y += this.velY;
@@ -261,6 +303,33 @@ var Block = function () {
 }();
 
 exports.default = Block;
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var CharImg = function CharImg(img, sX, sY, sWidth, sHeight, width, height) {
+  _classCallCheck(this, CharImg);
+
+  this.img = img;
+  this.sX = sX;
+  this.sY = sY;
+  this.sWidth = sWidth;
+  this.sHeight = sHeight;
+  this.width = width;
+  this.height = height;
+};
+
+exports.default = CharImg;
 
 /***/ })
 /******/ ]);
