@@ -18,3 +18,11 @@ body > h3 {
   background-image: url('../assets/stage.png');
   background-size: 100%;
 }
+
+.game-info {
+  color: white;
+}
+
+.my-info {
+  color: white;
+}

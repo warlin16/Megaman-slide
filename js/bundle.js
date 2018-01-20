@@ -76,7 +76,7 @@ var _player = __webpack_require__(1);
 
 var _player2 = _interopRequireDefault(_player);
 
-var _block = __webpack_require__(3);
+var _block = __webpack_require__(4);
 
 var _block2 = _interopRequireDefault(_block);
 
@@ -103,7 +103,7 @@ var Game = function () {
       for (var i = 0; i < 18; i++) {
         this.blocks.push(new _block2.default(i * 50, 500, 50, 50, this.canvas));
       }
-      this.blocks.push(new _block2.default(600, 400, 50, 50, this.canvas));
+      this.blocks.push(new _block2.default(600, 440, 50, 50, this.canvas));
       this.blocks.push(new _block2.default(400, 350, 50, 50, this.canvas));
     }
   }, {
@@ -134,6 +134,7 @@ document.addEventListener('DOMContentLoaded', function () {
   game.render();
 
   document.addEventListener('keydown', function (e) {
+    console.log(e.code);
     game.player.keysPressed[e.code] = true;
   });
 
@@ -163,6 +164,10 @@ var _sprite = __webpack_require__(2);
 
 var _sprite2 = _interopRequireDefault(_sprite);
 
+var _bass = __webpack_require__(3);
+
+var _bass2 = _interopRequireDefault(_bass);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -185,60 +190,82 @@ var Player = function () {
     this.gravity = 0.3;
     this.slide = 0.8;
     this.keysPressed = {};
-    this.bass = new Image();
-    this.bass.src = 'assets/bass.png';
-    this.bass_sword = new Image();
-    this.bass_sword.src = 'assets/bass_sword.png';
-    this.movingAnimation = '';
-    this.animation = {
-      idleAnim: new _sprite2.default(this.bass, 0, 0, 50, 58),
-      leftAnim1: new _sprite2.default(this.bass, 302, 130, 50, 58),
-      leftAnim2: new _sprite2.default(this.bass, 245, 130, 50, 58),
-      leftAnim3: new _sprite2.default(this.bass, 188, 130, 50, 58),
-      rightAnim1: new _sprite2.default(this.bass, 0, 130, 50, 58),
-      rightAnim2: new _sprite2.default(this.bass, 60, 130, 50, 58),
-      rightAnim3: new _sprite2.default(this.bass, 120, 130, 50, 58),
-      jumpAnim1: new _sprite2.default(this.bass, 180, 65, 50, 58),
-      jumpAnim2: new _sprite2.default(this.bass, 120, 65, 50, 58),
-      jumpAnim3: new _sprite2.default(this.bass, 60, 65, 50, 58),
-      shootAnim1: new _sprite2.default(this.bass, 180, 246, 50, 58),
-      shootAnim2: new _sprite2.default(this.bass, 180, 490, 50, 58),
-      shootAnim3: new _sprite2.default(this.bass, 120, 490, 50, 58),
-      shootAnim4: new _sprite2.default(this.bass, 120, 435, 50, 58)
-    };
+    this.animation = new _bass2.default().animation;
     this.currImg = this.animation.idleAnim;
     this.frames = 0;
+    this.direction = 'right';
     this.isColliding = this.isColliding.bind(this);
   }
 
   _createClass(Player, [{
-    key: 'animate',
-    value: function animate() {
-      this.frames++;
+    key: 'changeDirection',
+    value: function changeDirection() {
+      if (this.keysPressed.Comma) {
+        this.direction = 'left';
+      }
+      if (this.keysPressed.Period) {
+        this.direction = 'right';
+      }
+    }
+  }, {
+    key: 'moveRight',
+    value: function moveRight() {
       if (this.keysPressed.ArrowRight) {
         if (this.velX < this.speed) this.velX++;
         if (this.frames === 7) {
-          this.currImg = this.animation.rightAnim1;
+          if (this.direction === 'right') {
+            this.currImg = this.animation.rightAnim1;
+          } else if (this.direction === 'left') {
+            this.currImg = this.animation.rightMoveAnim1;
+          }
         }
         if (this.frames === 17) {
-          this.currImg = this.animation.rightAnim3;
+          if (this.direction === 'right') {
+            this.currImg = this.animation.rightAnim3;
+          } else if (this.direction === 'left') {
+            this.currImg = this.animation.rightMoveAnim3;
+          }
         }
         if (this.frames === 27) {
-          this.currImg = this.animation.rightAnim2;
+          if (this.direction === 'right') {
+            this.currImg = this.animation.rightAnim2;
+          } else if (this.direction === 'left') {
+            this.currImg = this.animation.rightMoveAnim2;
+          }
         }
       }
+    }
+  }, {
+    key: 'moveLeft',
+    value: function moveLeft() {
       if (this.keysPressed.ArrowLeft) {
         if (this.velX > -this.speed) this.velX--;
         if (this.frames === 7) {
-          this.currImg = this.animation.leftAnim1;
+          if (this.direction === 'right') {
+            this.currImg = this.animation.leftAnim1;
+          } else if (this.direction === 'left') {
+            this.currImg = this.animation.leftMoveAnim1;
+          }
         }
         if (this.frames === 17) {
-          this.currImg = this.animation.leftAnim3;
+          if (this.direction === 'right') {
+            this.currImg = this.animation.leftAnim3;
+          } else if (this.direction === 'left') {
+            this.currImg = this.animation.leftMoveAnim3;
+          }
         }
         if (this.frames === 27) {
-          this.currImg = this.animation.leftAnim2;
+          if (this.direction === 'right') {
+            this.currImg = this.animation.leftAnim2;
+          } else if (this.direction === 'left') {
+            this.currImg = this.animation.leftMoveAnim2;
+          }
         }
       }
+    }
+  }, {
+    key: 'jump',
+    value: function jump() {
       if (this.keysPressed.ArrowUp) {
         if (this.grounded) {
           this.jumping = true;
@@ -257,6 +284,10 @@ var Player = function () {
           }
         }
       }
+    }
+  }, {
+    key: 'shoot',
+    value: function shoot() {
       if (this.keysPressed.Space) {
         if (this.frames === 4) {
           this.currImg = this.animation.shootAnim1;
@@ -272,14 +303,31 @@ var Player = function () {
         }
         if (this.frames === 40) this.frames = 0;
       }
+    }
+  }, {
+    key: 'idle',
+    value: function idle() {
       if (!this.keysPressed.ArrowRight && !this.keysPressed.ArrowLeft && !this.keysPressed.ArrowUp && !this.keysPressed.Space) {
         this.frames = 0;
-        this.currImg = this.animation.idleAnim;
+        if (this.direction === 'right') {
+          this.currImg = this.animation.idleAnim;
+        }
+        if (this.direction === 'left') {
+          this.currImg = this.animation.leftIdleAnim;
+        }
       }
+    }
+  }, {
+    key: 'animate',
+    value: function animate() {
+      this.frames++;
+      this.changeDirection();
+      this.moveRight();
+      this.moveLeft();
+      this.jump();
+      this.shoot();
+      this.idle();
       this.ctx.drawImage(this.currImg.img, this.currImg.sX, this.currImg.sY, this.currImg.sWidth, this.currImg.sHeight, this.x, this.y, this.width, this.height);
-      // this.ctx.drawImage(this.bass_sword, 108, 0,
-      //   50, 58, this.x,
-      //   this.y, this.width, this.height);
     }
   }, {
     key: 'physics',
@@ -316,17 +364,23 @@ var Player = function () {
       // this.x + this.width > obj.x &&
       // this.y < obj.y + obj.height &&
       // this.height + this.y > obj.y) {
-      //   this.velX = 0;
-      //   // console.log('collidng on the x brooooo');
+      //   this.velX -= 1;
+      //   console.log(obj.x);
       // }
 
       if (this.y < obj.y + obj.height && this.y + this.height > obj.y && this.x < obj.x + obj.width && this.width + this.x > obj.x) {
+        console.log(obj.y);
         if (this.velY > 0) {
           this.y = obj.y - this.height;
           this.grounded = true;
         } else if (this.velY < 0) {
           this.y = obj.y + obj.height;
           this.grounded = false;
+        }
+        if (this.velX > 0) {
+          this.x -= 1;
+        } else if (this.velX < 0) {
+          this.x += 1;
         }
         this.frames = 0;
         this.velY = 0;
@@ -377,6 +431,61 @@ exports.default = CharImg;
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _sprite = __webpack_require__(2);
+
+var _sprite2 = _interopRequireDefault(_sprite);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Bass = function Bass() {
+  _classCallCheck(this, Bass);
+
+  this.bass = new Image();
+  this.bass.src = 'assets/bass.png';
+  this.bass_sword = new Image();
+  this.bass_sword.src = 'assets/bass_sword.png';
+  this.bassLeft = new Image();
+  this.bassLeft.src = 'assets/bass_left.png';
+  this.animation = {
+    idleAnim: new _sprite2.default(this.bass, 0, 0, 50, 58),
+    leftAnim1: new _sprite2.default(this.bass, 302, 130, 50, 58),
+    leftAnim2: new _sprite2.default(this.bass, 245, 130, 50, 58),
+    leftAnim3: new _sprite2.default(this.bass, 188, 130, 50, 58),
+    rightAnim1: new _sprite2.default(this.bass, 0, 130, 50, 58),
+    rightAnim2: new _sprite2.default(this.bass, 60, 130, 50, 58),
+    rightAnim3: new _sprite2.default(this.bass, 120, 130, 50, 58),
+    jumpAnim1: new _sprite2.default(this.bass, 180, 65, 50, 58),
+    jumpAnim2: new _sprite2.default(this.bass, 120, 65, 50, 58),
+    jumpAnim3: new _sprite2.default(this.bass, 60, 65, 50, 58),
+    shootAnim1: new _sprite2.default(this.bass, 180, 246, 50, 58),
+    shootAnim2: new _sprite2.default(this.bass, 180, 490, 50, 58),
+    shootAnim3: new _sprite2.default(this.bass, 120, 490, 50, 58),
+    shootAnim4: new _sprite2.default(this.bass, 120, 435, 50, 58),
+    leftIdleAnim: new _sprite2.default(this.bassLeft, 300, 0, 50, 58),
+    leftMoveAnim1: new _sprite2.default(this.bassLeft, 302, 130, 50, 58),
+    leftMoveAnim2: new _sprite2.default(this.bassLeft, 245, 130, 50, 58),
+    leftMoveAnim3: new _sprite2.default(this.bassLeft, 188, 130, 50, 58),
+    rightMoveAnim1: new _sprite2.default(this.bassLeft, 0, 130, 50, 58),
+    rightMoveAnim2: new _sprite2.default(this.bassLeft, 60, 130, 50, 58),
+    rightMoveAnim3: new _sprite2.default(this.bassLeft, 120, 130, 50, 58)
+  };
+};
+
+exports.default = Bass;
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

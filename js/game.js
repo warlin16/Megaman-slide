@@ -16,7 +16,7 @@ class Game {
     for (let i = 0; i < 18; i++) {
       this.blocks.push(new Block(i * 50, 500, 50, 50, this.canvas));
     }
-    this.blocks.push(new Block(600, 400, 50, 50, this.canvas));
+    this.blocks.push(new Block(600, 440, 50, 50, this.canvas));
     this.blocks.push(new Block(400, 350, 50, 50, this.canvas));
   }
 
@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
   game.render();
 
   document.addEventListener('keydown', (e) => {
+    console.log(e.code);
     game.player.keysPressed[e.code] = true;
   });
 
