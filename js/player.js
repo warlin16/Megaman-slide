@@ -5,9 +5,9 @@ class Player {
     this.stage = stage;
     this.ctx = this.stage.getContext('2d');
     this.x = 0;
-    this.y = this.stage.height - 70;
-    this.width = 50;
-    this.height = 50;
+    this.y = 200;
+    this.width = 60;
+    this.height = 75;
     this.speed = 3;
     this.velX = 0;
     this.velY = 0;
@@ -39,7 +39,7 @@ class Player {
     };
     this.currImg = this.animation.idleAnim;
     this.frames = 0;
-
+    this.isColliding = this.isColliding.bind(this);
   }
 
   animate() {
@@ -75,7 +75,6 @@ class Player {
         this.grounded = false;
       }
       if (this.jumping) {
-        console.log(this.frames);
         if (this.frames === 1) {
           this.currImg = this.animation.jumpAnim1;
         }
@@ -117,7 +116,7 @@ class Player {
   }
 
   physics() {
-   if (this.x > this.stage.width - this.width) {
+   if (this.x + this.width > this.stage.width) {
      this.x = this.stage.width - this.width;
    }
    if (this.x < 0) {
@@ -127,13 +126,13 @@ class Player {
      this.velY = 0;
      this.y = 0;
    }
-   if (this.y > this.stage.height - this.height) {
-     this.y = this.stage.height - this.height;
-     this.grounded = true;
-     this.frames = 0;
-     this.velY = 0;
-     this.keysPressed.ArrowUp = false;
-   }
+   // if (this.y > this.stage.height - this.height) {
+   //   this.y = this.stage.height - this.height;
+   //   this.grounded = true;
+   //   this.frames = 0;
+   //   this.velY = 0;
+   //   this.keysPressed.ArrowUp = false;
+   // }
 
    if (!this.grounded) this.velY += this.gravity;
 
@@ -141,6 +140,36 @@ class Player {
    this.x += this.velX;
    this.y += this.velY;
    this.animate();
+ }
+
+ isColliding(obj) {
+     // if (this.x < obj.x + obj.width &&
+     // this.x + this.width > obj.x &&
+     // this.y < obj.y + obj.height &&
+     // this.height + this.y > obj.y) {
+     //   this.velX = 0;
+     //   // console.log('collidng on the x brooooo');
+     // }
+
+     if (this.y < obj.y + obj.height &&
+     this.y + this.height > obj.y &&
+     this.x < obj.x + obj.width &&
+     this.width + this.x > obj.x) {
+       if (this.velY > 0) {
+         this.y = obj.y - this.height;
+         this.grounded = true;
+       } else if (this.velY < 0) {
+         this.y = obj.y + obj.height;
+         this.grounded = false;
+       }
+       this.frames = 0;
+       this.velY = 0;
+       this.keysPressed.ArrowUp = false;
+       // console.log('Im colliding bro on the y');
+     } else {
+       // this.grounded = false;
+     }
+
  }
 
   render() {

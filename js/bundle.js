@@ -93,13 +93,28 @@ var Game = function () {
     this.canvas.width = 900;
     this.canvas.height = 600;
     this.player = new _player2.default(this.canvas);
+    this.blocks = [];
+    this.makeBlocks();
   }
 
   _createClass(Game, [{
+    key: 'makeBlocks',
+    value: function makeBlocks() {
+      for (var i = 0; i < 18; i++) {
+        this.blocks.push(new _block2.default(i * 50, 500, 50, 50, this.canvas));
+      }
+      this.blocks.push(new _block2.default(600, 400, 50, 50, this.canvas));
+      this.blocks.push(new _block2.default(400, 350, 50, 50, this.canvas));
+    }
+  }, {
     key: 'renderBlocks',
     value: function renderBlocks() {
-      var block = new _block2.default(850, 550, 50, 50, this.canvas);
-      block.render();
+      var _this = this;
+
+      this.blocks.forEach(function (block) {
+        block.render();
+        _this.player.isColliding(block);
+      });
     }
   }, {
     key: 'render',
@@ -119,7 +134,6 @@ document.addEventListener('DOMContentLoaded', function () {
   game.render();
 
   document.addEventListener('keydown', function (e) {
-    console.log(e.key);
     game.player.keysPressed[e.code] = true;
   });
 
@@ -160,9 +174,9 @@ var Player = function () {
     this.stage = stage;
     this.ctx = this.stage.getContext('2d');
     this.x = 0;
-    this.y = this.stage.height - 70;
-    this.width = 50;
-    this.height = 50;
+    this.y = 200;
+    this.width = 60;
+    this.height = 75;
     this.speed = 3;
     this.velX = 0;
     this.velY = 0;
@@ -194,6 +208,7 @@ var Player = function () {
     };
     this.currImg = this.animation.idleAnim;
     this.frames = 0;
+    this.isColliding = this.isColliding.bind(this);
   }
 
   _createClass(Player, [{
@@ -231,7 +246,6 @@ var Player = function () {
           this.grounded = false;
         }
         if (this.jumping) {
-          console.log(this.frames);
           if (this.frames === 1) {
             this.currImg = this.animation.jumpAnim1;
           }
@@ -270,7 +284,7 @@ var Player = function () {
   }, {
     key: 'physics',
     value: function physics() {
-      if (this.x > this.stage.width - this.width) {
+      if (this.x + this.width > this.stage.width) {
         this.x = this.stage.width - this.width;
       }
       if (this.x < 0) {
@@ -280,13 +294,13 @@ var Player = function () {
         this.velY = 0;
         this.y = 0;
       }
-      if (this.y > this.stage.height - this.height) {
-        this.y = this.stage.height - this.height;
-        this.grounded = true;
-        this.frames = 0;
-        this.velY = 0;
-        this.keysPressed.ArrowUp = false;
-      }
+      // if (this.y > this.stage.height - this.height) {
+      //   this.y = this.stage.height - this.height;
+      //   this.grounded = true;
+      //   this.frames = 0;
+      //   this.velY = 0;
+      //   this.keysPressed.ArrowUp = false;
+      // }
 
       if (!this.grounded) this.velY += this.gravity;
 
@@ -294,6 +308,33 @@ var Player = function () {
       this.x += this.velX;
       this.y += this.velY;
       this.animate();
+    }
+  }, {
+    key: 'isColliding',
+    value: function isColliding(obj) {
+      // if (this.x < obj.x + obj.width &&
+      // this.x + this.width > obj.x &&
+      // this.y < obj.y + obj.height &&
+      // this.height + this.y > obj.y) {
+      //   this.velX = 0;
+      //   // console.log('collidng on the x brooooo');
+      // }
+
+      if (this.y < obj.y + obj.height && this.y + this.height > obj.y && this.x < obj.x + obj.width && this.width + this.x > obj.x) {
+        if (this.velY > 0) {
+          this.y = obj.y - this.height;
+          this.grounded = true;
+        } else if (this.velY < 0) {
+          this.y = obj.y + obj.height;
+          this.grounded = false;
+        }
+        this.frames = 0;
+        this.velY = 0;
+        this.keysPressed.ArrowUp = false;
+        // console.log('Im colliding bro on the y');
+      } else {
+          // this.grounded = false;
+        }
     }
   }, {
     key: 'render',

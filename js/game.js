@@ -8,11 +8,23 @@ class Game {
     this.canvas.width = 900;
     this.canvas.height = 600;
     this.player = new Player(this.canvas);
+    this.blocks = [];
+    this.makeBlocks();
+  }
+
+  makeBlocks() {
+    for (let i = 0; i < 18; i++) {
+      this.blocks.push(new Block(i * 50, 500, 50, 50, this.canvas));
+    }
+    this.blocks.push(new Block(600, 400, 50, 50, this.canvas));
+    this.blocks.push(new Block(400, 350, 50, 50, this.canvas));
   }
 
   renderBlocks() {
-    const block = new Block(850, 550, 50, 50, this.canvas);
-    block.render();
+    this.blocks.forEach(block => {
+      block.render();
+      this.player.isColliding(block);
+    });
   }
 
   render() {
@@ -28,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
   game.render();
 
   document.addEventListener('keydown', (e) => {
-    console.log(e.key);
     game.player.keysPressed[e.code] = true;
   });
 
