@@ -9,7 +9,7 @@ class Block {
   }
 
   render() {
-    this.ctx.fillStyle = 'black';
+    this.ctx.fillStyle = 'red';
     this.ctx.fillRect(this.x, this.y, this.width, this.height);
   }
 }

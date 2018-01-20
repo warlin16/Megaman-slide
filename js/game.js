@@ -11,14 +11,14 @@ class Game {
   }
 
   renderBlocks() {
-    for (let i = 0; i <= 1; i++) {
-      new Block(i * 100, i * 10, 100, 20, this.canvas);
-    }
+    const block = new Block(850, 550, 50, 50, this.canvas);
+    block.render();
   }
 
   render() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.player.render();
+    this.renderBlocks();
     requestAnimationFrame(this.render.bind(this));
   }
 }
@@ -28,10 +28,15 @@ document.addEventListener('DOMContentLoaded', () => {
   game.render();
 
   document.addEventListener('keydown', (e) => {
+    console.log(e.key);
     game.player.keysPressed[e.code] = true;
   });
 
   document.addEventListener('keyup', (e) => {
-    game.player.keysPressed[e.code] = false;
+    if (e.code === 'ArrowUp') {
+      game.player.keysPressed[e.code] = true;
+    } else {
+      game.player.keysPressed[e.code] = false;
+    }
   });
 });
