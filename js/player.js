@@ -6,15 +6,15 @@ class Player {
     this.stage = stage;
     this.ctx = this.stage.getContext('2d');
     this.x = 0;
-    this.y = 200;
-    this.width = 60;
-    this.height = 75;
-    this.speed = 3;
+    this.y = 650;
+    this.width = 35;
+    this.height = 45;
+    this.speed = 4.5;
     this.velX = 0;
     this.velY = 0;
     this.jumping = false;
     this.grounded = false;
-    this.gravity = 0.3;
+    this.gravity = 0.8;
     this.slide = 0.8;
     this.keysPressed = {};
     this.animation = new Bass().animation;
@@ -22,6 +22,7 @@ class Player {
     this.frames = 0;
     this.direction = 'right';
     this.isColliding = this.isColliding.bind(this);
+
   }
 
   changeDirection() {
@@ -36,7 +37,7 @@ class Player {
   moveRight() {
     if (this.keysPressed.ArrowRight) {
       if (this.velX < this.speed) this.velX++;
-      if (this.frames === 7) {
+      if (this.frames === 1) {
         if (this.direction === 'right') {
           this.currImg = this.animation.rightAnim1;
         } else if (this.direction === 'left') {
@@ -61,9 +62,9 @@ class Player {
   }
 
   moveLeft() {
-    if (this.keysPressed.ArrowLeft) {
+    if (this.keysPressed.ArrowLeft && !this.keysPressed.ArrowRight) {
       if (this.velX > -this.speed) this.velX--;
-      if (this.frames === 7) {
+      if (this.frames === 1) {
         if (this.direction === 'right') {
           this.currImg = this.animation.leftAnim1;
         } else if (this.direction === 'left') {
@@ -96,13 +97,25 @@ class Player {
       }
       if (this.jumping) {
         if (this.frames === 1) {
-          this.currImg = this.animation.jumpAnim1;
+          if (this.direction === 'right') {
+            this.currImg = this.animation.jumpAnim1;
+          } else if (this.direction === 'left') {
+            this.currImg = this.animation.leftJumpAnim1;
+          }
         }
         if (this.frames === 5) {
-          this.currImg = this.animation.jumpAnim2;
+          if (this.direction === 'right') {
+            this.currImg = this.animation.jumpAnim2;
+          } else if (this.direction === 'left') {
+            this.currImg = this.animation.leftJumpAnim2;
+          }
         }
         if (this.frames === 10) {
-          this.currImg = this.animation.jumpAnim3;
+          if (this.direction === 'right') {
+            this.currImg = this.animation.jumpAnim3;
+          } else if (this.direction === 'left') {
+            this.currImg = this.animation.leftJumpAnim3;
+          }
         }
       }
     }
@@ -110,26 +123,73 @@ class Player {
 
   shoot() {
     if (this.keysPressed.Space) {
-      if (this.frames === 4) {
-        this.currImg = this.animation.shootAnim1;
+      if (this.frames === 2) {
+        if (this.direction === 'right') {
+          this.currImg = this.animation.shootAnim1;
+        } else if (this.direction === 'left') {
+          this.currImg = this.animation.leftShootAnim1;
+        }
+      }
+      if (this.frames === 5) {
+        if (this.direction === 'right') {
+          this.currImg = this.animation.shootAnim2;
+        } else if (this.direction === 'left') {
+          this.currImg = this.animation.leftShootAnim2;
+        }
+      }
+      if (this.frames === 13) {
+        if (this.direction === 'right') {
+          this.currImg = this.animation.shootAnim3;
+        } else if (this.direction === 'left') {
+          this.currImg = this.animation.leftShootAnim3;
+        }
+      }
+      if (this.frames === 20) {
+        if (this.direction === 'right') {
+          this.currImg = this.animation.shootAnim4;
+        } else if (this.direction === 'left') {
+          this.currImg = this.animation.leftShootAnim4;
+        }
+      }
+      if (this.frames === 35) this.frames = 0;
+    }
+  }
+
+  slash() {
+    if (this.keysPressed.Slash) {
+      if (this.frames === 2) {
+        this.currImg = this.animation.jumpAnim1;
       }
       if (this.frames === 8) {
-        this.currImg = this.animation.shootAnim2;
+        this.currImg = this.animation.slashAnim1;
       }
-      if (this.frames === 16) {
-        this.currImg = this.animation.shootAnim3;
+      if (this.frames === 12) {
+        this.currImg = this.animation.slashAnim2;
+      }
+      if (this.frames === 15) {
+        this.currImg = this.animation.slashAnim3;
+      }
+      if (this.frames === 18) {
+        this.currImg = this.animation.slashAnim4;
+      }
+      if (this.frames === 21) {
+        this.currImg = this.animation.slashAnim5;
       }
       if (this.frames === 24) {
-        this.currImg = this.animation.shootAnim4;
+        this.currImg = this.animation.slashAnim6;
       }
-      if (this.frames === 40) this.frames = 0;
+      if (this.frames === 27) {
+        this.currImg = this.animation.jumpAnim1;
+      }
+      if (this.frames === 30) this.frames = 0;
     }
   }
 
   idle() {
     if (!this.keysPressed.ArrowRight
       && !this.keysPressed.ArrowLeft &&
-      !this.keysPressed.ArrowUp && !this.keysPressed.Space) {
+      !this.keysPressed.ArrowUp && !this.keysPressed.Space
+      && !this.keysPressed.Slash) {
       this.frames = 0;
       if (this.direction === 'right') {
         this.currImg = this.animation.idleAnim;
@@ -147,10 +207,18 @@ class Player {
     this.moveLeft();
     this.jump();
     this.shoot();
+    this.slash();
     this.idle();
     this.ctx.drawImage(this.currImg.img, this.currImg.sX, this.currImg.sY,
       this.currImg.sWidth, this.currImg.sHeight, this.x,
       this.y, this.width, this.height);
+  }
+
+  renderFace() {
+    this.ctx.drawImage(this.animation.face.img,
+      this.animation.face.sX, this.animation.face.sY,
+      this.animation.face.sWidth,
+      this.animation.face.sHeight, 0, 0, 50, 50);
   }
 
   physics() {
@@ -164,19 +232,13 @@ class Player {
      this.velY = 0;
      this.y = 0;
    }
-   // if (this.y > this.stage.height - this.height) {
-   //   this.y = this.stage.height - this.height;
-   //   this.grounded = true;
-   //   this.frames = 0;
-   //   this.velY = 0;
-   //   this.keysPressed.ArrowUp = false;
-   // }
 
    if (!this.grounded) this.velY += this.gravity;
 
    this.velX *= this.slide;
    this.x += this.velX;
    this.y += this.velY;
+   this.renderFace();
    this.animate();
  }
 
@@ -186,14 +248,12 @@ class Player {
      // this.y < obj.y + obj.height &&
      // this.height + this.y > obj.y) {
      //   this.velX -= 1;
-     //   console.log(obj.x);
      // }
 
      if (this.y < obj.y + obj.height &&
      this.y + this.height > obj.y &&
      this.x < obj.x + obj.width &&
      this.width + this.x > obj.x) {
-       console.log(obj.y);
        if (this.velY > 0) {
          this.y = obj.y - this.height;
          this.grounded = true;
@@ -209,7 +269,7 @@ class Player {
        this.frames = 0;
        this.velY = 0;
        this.keysPressed.ArrowUp = false;
-       // console.log('Im colliding bro on the y');
+       console.log('Im colliding bro on the y');
      } else {
        // this.grounded = false;
      }

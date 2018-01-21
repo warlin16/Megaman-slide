@@ -5,13 +5,8 @@ html {
 
 body {
   display: flex;
-  flex-direction: column;
-  align-items: center;
 }
-body > h3 {
-  color: #563c5c;
-  font-size: 50px;
-}
+
 #main {
   border: 1px solid;
   margin: auto;
@@ -20,7 +15,8 @@ body > h3 {
 }
 
 .game-info {
-  color: white;
+  color: #563c5c;
+  font-size: 30px;
 }
 
 .my-info {
