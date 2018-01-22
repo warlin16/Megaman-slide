@@ -124,15 +124,15 @@ var Game = function () {
       this.blocks.push(new _block2.default(855, 385, 40, 8, this.canvas));
       // => Third platform
       this.blocks.push(new _block2.default(700, 355, 75, 8, this.canvas));
-      this.blocks.push(new _block2.default(600, 355, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(500, 355, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(400, 355, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(300, 355, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(200, 355, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(100, 355, 30, 8, this.canvas));
+      this.blocks.push(new _block2.default(600, 395, 30, 8, this.canvas));
+      this.blocks.push(new _block2.default(500, 395, 30, 8, this.canvas));
+      this.blocks.push(new _block2.default(400, 395, 30, 8, this.canvas));
+      this.blocks.push(new _block2.default(300, 395, 30, 8, this.canvas));
+      this.blocks.push(new _block2.default(200, 385, 30, 8, this.canvas));
+      this.blocks.push(new _block2.default(70, 355, 60, 8, this.canvas));
       // => Fourth Platform
-      this.blocks.push(new _block2.default(0, 320, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(70, 260, 30, 8, this.canvas));
+      this.blocks.push(new _block2.default(0, 330, 30, 8, this.canvas));
+      this.blocks.push(new _block2.default(84, 294, 30, 8, this.canvas));
       this.blocks.push(new _block2.default(170, 260, 30, 8, this.canvas));
       this.blocks.push(new _block2.default(270, 260, 30, 8, this.canvas));
       this.blocks.push(new _block2.default(370, 260, 30, 8, this.canvas));
@@ -141,6 +141,8 @@ var Game = function () {
       this.blocks.push(new _block2.default(670, 260, 30, 8, this.canvas));
       this.blocks.push(new _block2.default(730, 230, 2, 40, this.canvas));
       this.blocks.push(new _block2.default(770, 260, 30, 8, this.canvas));
+      // => Fifth Platform
+      this.blocks.push(new _block2.default(20, 200, 30, 8, this.canvas));
     }
   }, {
     key: 'renderBlocks',
@@ -156,8 +158,8 @@ var Game = function () {
     key: 'render',
     value: function render() {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.player.render();
       this.renderBlocks();
+      this.player.physics();
       requestAnimationFrame(this.render.bind(this));
     }
   }]);
@@ -350,21 +352,21 @@ var Player = function () {
             this.currImg = this.animation.leftShootAnim2;
           }
         }
-        if (this.frames === 13) {
+        if (this.frames === 10) {
           if (this.direction === 'right') {
             this.currImg = this.animation.shootAnim3;
           } else if (this.direction === 'left') {
             this.currImg = this.animation.leftShootAnim3;
           }
         }
-        if (this.frames === 20) {
+        if (this.frames === 15) {
           if (this.direction === 'right') {
             this.currImg = this.animation.shootAnim4;
           } else if (this.direction === 'left') {
             this.currImg = this.animation.leftShootAnim4;
           }
         }
-        if (this.frames === 35) this.frames = 0;
+        if (this.frames === 45) this.frames = 0;
       }
     }
   }, {
@@ -412,19 +414,6 @@ var Player = function () {
       }
     }
   }, {
-    key: 'animate',
-    value: function animate() {
-      this.frames++;
-      this.changeDirection();
-      this.moveRight();
-      this.moveLeft();
-      this.jump();
-      this.shoot();
-      this.slash();
-      this.idle();
-      this.ctx.drawImage(this.currImg.img, this.currImg.sX, this.currImg.sY, this.currImg.sWidth, this.currImg.sHeight, this.x, this.y, this.width, this.height);
-    }
-  }, {
     key: 'renderFace',
     value: function renderFace() {
       this.ctx.drawImage(this.animation.face.img, this.animation.face.sX, this.animation.face.sY, this.animation.face.sWidth, this.animation.face.sHeight, 0, 0, 50, 50);
@@ -442,50 +431,61 @@ var Player = function () {
         this.velY = 0;
         this.y = 0;
       }
-
-      if (!this.grounded) this.velY += this.gravity;
-
+      this.velY += this.gravity;
+      if (this.grounded) this.velY = 0;
       this.velX *= this.slide;
       this.x += this.velX;
       this.y += this.velY;
+      this.frames++;
+      this.changeDirection();
+      this.moveRight();
+      this.moveLeft();
+      this.jump();
+      this.shoot();
+      this.slash();
+      this.idle();
       this.renderFace();
-      this.animate();
+      this.ctx.drawImage(this.currImg.img, this.currImg.sX, this.currImg.sY, this.currImg.sWidth, this.currImg.sHeight, this.x, this.y, this.width, this.height);
     }
   }, {
     key: 'isColliding',
     value: function isColliding(obj) {
-      // if (this.x < obj.x + obj.width &&
-      // this.x + this.width > obj.x &&
-      // this.y < obj.y + obj.height &&
-      // this.height + this.y > obj.y) {
-      //   this.velX -= 1;
-      // }
-
-      if (this.y < obj.y + obj.height && this.y + this.height > obj.y && this.x < obj.x + obj.width && this.width + this.x > obj.x) {
-        if (this.velY > 0) {
-          this.y = obj.y - this.height;
-          this.grounded = true;
-        } else if (this.velY < 0) {
-          this.y = obj.y + obj.height;
+      var vX = this.x + this.width / 2 - (obj.x + obj.width / 2),
+          vY = this.y + this.height / 2 - (obj.y + obj.height / 2),
+          hWidth = this.width / 2 + obj.width / 2,
+          hHeight = this.height / 2 + obj.height / 2;
+      var falling = true;
+      if (Math.abs(vX) < hWidth && Math.abs(vY) < hHeight) {
+        var oX = hWidth - Math.abs(vX),
+            oY = hHeight - Math.abs(vY);
+        var direction = void 0;
+        if (oX >= oY) {
+          if (vY < 0) {
+            this.y -= oY;
+            this.grounded = true;
+            this.keysPressed.ArrowUp = false;
+            falling = false;
+            console.log('im under you');
+          } else if (vY > 0) {
+            this.y += oY + 5;
+            this.velY = 0;
+          }
+        } else {
+          if (vX > 0) {
+            this.x += oX;
+            this.velX = 0;
+          } else {
+            this.x -= oX;
+            this.velX = 0;
+          }
+        }
+        if (falling) {
           this.grounded = false;
         }
-        if (this.velX > 0) {
-          this.x -= 1;
-        } else if (this.velX < 0) {
-          this.x += 1;
-        }
-        this.frames = 0;
-        this.velY = 0;
-        this.keysPressed.ArrowUp = false;
-        console.log('Im colliding bro on the y');
+        return true;
       } else {
-        // this.grounded = false;
+        return false;
       }
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      this.physics();
     }
   }]);
 

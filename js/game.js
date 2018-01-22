@@ -37,15 +37,15 @@ class Game {
     this.blocks.push(new Block(855, 385, 40, 8, this.canvas));
     // => Third platform
     this.blocks.push(new Block(700, 355, 75, 8, this.canvas));
-    this.blocks.push(new Block(600, 355, 30, 8, this.canvas));
-    this.blocks.push(new Block(500, 355, 30, 8, this.canvas));
-    this.blocks.push(new Block(400, 355, 30, 8, this.canvas));
-    this.blocks.push(new Block(300, 355, 30, 8, this.canvas));
-    this.blocks.push(new Block(200, 355, 30, 8, this.canvas));
-    this.blocks.push(new Block(100, 355, 30, 8, this.canvas));
+    this.blocks.push(new Block(600, 395, 30, 8, this.canvas));
+    this.blocks.push(new Block(500, 395, 30, 8, this.canvas));
+    this.blocks.push(new Block(400, 395, 30, 8, this.canvas));
+    this.blocks.push(new Block(300, 395, 30, 8, this.canvas));
+    this.blocks.push(new Block(200, 385, 30, 8, this.canvas));
+    this.blocks.push(new Block(70, 355, 60, 8, this.canvas));
     // => Fourth Platform
-    this.blocks.push(new Block(0, 320, 30, 8, this.canvas));
-    this.blocks.push(new Block(70, 260, 30, 8, this.canvas));
+    this.blocks.push(new Block(0, 330, 30, 8, this.canvas));
+    this.blocks.push(new Block(84, 294, 30, 8, this.canvas));
     this.blocks.push(new Block(170, 260, 30, 8, this.canvas));
     this.blocks.push(new Block(270, 260, 30, 8, this.canvas));
     this.blocks.push(new Block(370, 260, 30, 8, this.canvas));
@@ -54,6 +54,8 @@ class Game {
     this.blocks.push(new Block(670, 260, 30, 8, this.canvas));
     this.blocks.push(new Block(730, 230, 2, 40, this.canvas));
     this.blocks.push(new Block(770, 260, 30, 8, this.canvas));
+    // => Fifth Platform
+    this.blocks.push(new Block(20, 200, 30, 8, this.canvas));
   }
 
   renderBlocks() {
@@ -65,8 +67,8 @@ class Game {
 
   render() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.player.render();
     this.renderBlocks();
+    this.player.physics();
     requestAnimationFrame(this.render.bind(this));
   }
 }

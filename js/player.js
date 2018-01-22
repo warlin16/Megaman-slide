@@ -113,6 +113,7 @@ class Player {
         if (this.frames === 10) {
           if (this.direction === 'right') {
             this.currImg = this.animation.jumpAnim3;
+
           } else if (this.direction === 'left') {
             this.currImg = this.animation.leftJumpAnim3;
           }
@@ -137,21 +138,21 @@ class Player {
           this.currImg = this.animation.leftShootAnim2;
         }
       }
-      if (this.frames === 13) {
+      if (this.frames === 10) {
         if (this.direction === 'right') {
           this.currImg = this.animation.shootAnim3;
         } else if (this.direction === 'left') {
           this.currImg = this.animation.leftShootAnim3;
         }
       }
-      if (this.frames === 20) {
+      if (this.frames === 15) {
         if (this.direction === 'right') {
           this.currImg = this.animation.shootAnim4;
         } else if (this.direction === 'left') {
           this.currImg = this.animation.leftShootAnim4;
         }
       }
-      if (this.frames === 35) this.frames = 0;
+      if (this.frames === 45) this.frames = 0;
     }
   }
 
@@ -200,20 +201,6 @@ class Player {
     }
   }
 
-  animate() {
-    this.frames++;
-    this.changeDirection();
-    this.moveRight();
-    this.moveLeft();
-    this.jump();
-    this.shoot();
-    this.slash();
-    this.idle();
-    this.ctx.drawImage(this.currImg.img, this.currImg.sX, this.currImg.sY,
-      this.currImg.sWidth, this.currImg.sHeight, this.x,
-      this.y, this.width, this.height);
-  }
-
   renderFace() {
     this.ctx.drawImage(this.animation.face.img,
       this.animation.face.sX, this.animation.face.sY,
@@ -232,53 +219,63 @@ class Player {
      this.velY = 0;
      this.y = 0;
    }
-
-   if (!this.grounded) this.velY += this.gravity;
-
+   this.velY += this.gravity;
+   if (this.grounded) this.velY = 0;
    this.velX *= this.slide;
    this.x += this.velX;
    this.y += this.velY;
+   this.frames++;
+   this.changeDirection();
+   this.moveRight();
+   this.moveLeft();
+   this.jump();
+   this.shoot();
+   this.slash();
+   this.idle();
    this.renderFace();
-   this.animate();
+   this.ctx.drawImage(this.currImg.img, this.currImg.sX, this.currImg.sY,
+     this.currImg.sWidth, this.currImg.sHeight, this.x,
+     this.y, this.width, this.height);
  }
 
  isColliding(obj) {
-     // if (this.x < obj.x + obj.width &&
-     // this.x + this.width > obj.x &&
-     // this.y < obj.y + obj.height &&
-     // this.height + this.y > obj.y) {
-     //   this.velX -= 1;
-     // }
-
-     if (this.y < obj.y + obj.height &&
-     this.y + this.height > obj.y &&
-     this.x < obj.x + obj.width &&
-     this.width + this.x > obj.x) {
-       if (this.velY > 0) {
-         this.y = obj.y - this.height;
+   const vX = (this.x + (this.width / 2)) - (obj.x + (obj.width / 2)),
+         vY = (this.y + (this.height / 2)) - (obj.y + (obj.height / 2)),
+         hWidth = (this.width / 2) + (obj.width / 2),
+         hHeight = (this.height / 2) + (obj.height / 2);
+   let falling = true;
+   if (Math.abs(vX) < hWidth && Math.abs(vY) < hHeight) {
+     const oX = hWidth - Math.abs(vX),
+           oY = hHeight - Math.abs(vY);
+     let direction;
+     if (oX >= oY) {
+       if (vY < 0) {
+         this.y -= oY;
          this.grounded = true;
-       } else if (this.velY < 0) {
-         this.y = obj.y + obj.height;
-         this.grounded = false;
+         this.keysPressed.ArrowUp = false;
+         falling = false;
+         console.log('im under you');
+       } else if (vY > 0) {
+         this.y += oY + 5;
+         this.velY = 0;
        }
-       if (this.velX > 0) {
-         this.x -= 1;
-       } else if (this.velX < 0) {
-         this.x += 1;
-       }
-       this.frames = 0;
-       this.velY = 0;
-       this.keysPressed.ArrowUp = false;
-       console.log('Im colliding bro on the y');
      } else {
-       // this.grounded = false;
+       if (vX > 0) {
+         this.x += oX;
+         this.velX = 0;
+       } else {
+         this.x -= oX;
+         this.velX = 0;
+       }
      }
-
+     if (falling) {
+       this.grounded = false;
+     }
+     return true;
+   } else {
+     return false;
+   }
  }
-
-  render() {
-    this.physics();
-  }
 }
 
 
