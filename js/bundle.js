@@ -72,7 +72,7 @@
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _player = __webpack_require__(1);
+var _player = __webpack_require__(2);
 
 var _player2 = _interopRequireDefault(_player);
 
@@ -93,7 +93,7 @@ var Game = function () {
     this.canvas.width = 900;
     this.canvas.height = 700;
     this.player = new _player2.default(this.canvas);
-    this.blocks = [];
+    this.blocks = {};
     this.makeBlocks();
   }
 
@@ -101,56 +101,56 @@ var Game = function () {
     key: 'makeBlocks',
     value: function makeBlocks() {
       // => main platform
-      this.blocks.push(new _block2.default(0, 676, 900, 50, this.canvas));
+      this.blocks['main'] = new _block2.default(0, 676, 900, 50, this.canvas);
       // => Boss platform
-      this.blocks.push(new _block2.default(600, 120, 450, 5, this.canvas));
+      this.blocks['boss'] = new _block2.default(600, 120, 450, 5, this.canvas);
       // => Platform above player
-      this.blocks.push(new _block2.default(0, 580, 20, 8, this.canvas));
-      this.blocks.push(new _block2.default(150, 580, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(216, 550, 1, 40, this.canvas));
-      this.blocks.push(new _block2.default(253, 580, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(350, 580, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(450, 580, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(550, 580, 30, 8, this.canvas));
+      this.blocks['1st'] = new _block2.default(0, 580, 20, 8, this.canvas);
+      this.blocks['2nd'] = new _block2.default(150, 580, 30, 8, this.canvas);
+      this.blocks['3rd'] = new _block2.default(216, 550, 1, 40, this.canvas);
+      this.blocks['4th'] = new _block2.default(253, 580, 30, 8, this.canvas);
+      this.blocks['5th'] = new _block2.default(350, 580, 30, 8, this.canvas);
+      this.blocks['6th'] = new _block2.default(450, 580, 30, 8, this.canvas);
+      this.blocks['7th'] = new _block2.default(550, 580, 30, 8, this.canvas);
       // this.blocks.push(new Block(580, 550, 2, 38, this.canvas));
-      this.blocks.push(new _block2.default(620, 625, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(657, 530, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(720, 620, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(850, 650, 55, 30, this.canvas));
+      this.blocks['8th'] = new _block2.default(620, 625, 30, 8, this.canvas);
+      this.blocks['9th'] = new _block2.default(657, 530, 30, 8, this.canvas);
+      this.blocks['10th'] = new _block2.default(720, 620, 30, 8, this.canvas);
+      this.blocks['11th'] = new _block2.default(850, 650, 55, 30, this.canvas);
       // => Second platform
-      this.blocks.push(new _block2.default(800, 495, 100, 8, this.canvas));
-      this.blocks.push(new _block2.default(750, 530, 40, 8, this.canvas));
-      this.blocks.push(new _block2.default(845, 465, 50, 14, this.canvas));
-      this.blocks.push(new _block2.default(750, 425, 40, 8, this.canvas));
-      this.blocks.push(new _block2.default(855, 385, 40, 8, this.canvas));
+      this.blocks['12th'] = new _block2.default(800, 495, 100, 8, this.canvas);
+      this.blocks['13th'] = new _block2.default(750, 530, 40, 8, this.canvas);
+      this.blocks['14th'] = new _block2.default(845, 465, 50, 14, this.canvas);
+      this.blocks['15th'] = new _block2.default(750, 425, 40, 8, this.canvas);
+      this.blocks['16th'] = new _block2.default(855, 385, 40, 8, this.canvas);
       // => Third platform
-      this.blocks.push(new _block2.default(700, 355, 75, 8, this.canvas));
-      this.blocks.push(new _block2.default(600, 395, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(500, 395, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(400, 395, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(300, 395, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(200, 385, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(70, 355, 60, 8, this.canvas));
+      this.blocks['17th'] = new _block2.default(700, 355, 75, 8, this.canvas);
+      this.blocks['18th'] = new _block2.default(600, 395, 30, 8, this.canvas);
+      this.blocks['19th'] = new _block2.default(500, 395, 30, 8, this.canvas);
+      this.blocks['20th'] = new _block2.default(400, 395, 30, 8, this.canvas);
+      this.blocks['21st'] = new _block2.default(300, 395, 30, 8, this.canvas);
+      this.blocks['22nd'] = new _block2.default(200, 385, 30, 8, this.canvas);
+      this.blocks['23rd'] = new _block2.default(70, 355, 60, 8, this.canvas);
       // => Fourth Platform
-      this.blocks.push(new _block2.default(0, 330, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(84, 294, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(170, 260, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(270, 260, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(370, 260, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(470, 260, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(570, 260, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(670, 260, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(730, 230, 2, 40, this.canvas));
-      this.blocks.push(new _block2.default(770, 260, 30, 8, this.canvas));
+      this.blocks['24th'] = new _block2.default(0, 330, 30, 8, this.canvas);
+      this.blocks['25th'] = new _block2.default(84, 294, 30, 8, this.canvas);
+      this.blocks['26th'] = new _block2.default(170, 260, 30, 8, this.canvas);
+      this.blocks['27th'] = new _block2.default(270, 260, 30, 8, this.canvas);
+      this.blocks['28th'] = new _block2.default(370, 260, 30, 8, this.canvas);
+      this.blocks['29th'] = new _block2.default(470, 260, 30, 8, this.canvas);
+      this.blocks['30th'] = new _block2.default(570, 260, 30, 8, this.canvas);
+      this.blocks['31st'] = new _block2.default(670, 260, 30, 8, this.canvas);
+      this.blocks['32nd'] = new _block2.default(730, 230, 2, 40, this.canvas);
+      this.blocks['33rd'] = new _block2.default(770, 260, 30, 8, this.canvas);
       // => Fifth Platform
-      this.blocks.push(new _block2.default(20, 200, 30, 8, this.canvas));
+      this.blocks['34th'] = new _block2.default(20, 200, 30, 8, this.canvas);
     }
   }, {
     key: 'renderBlocks',
     value: function renderBlocks() {
       var _this = this;
 
-      this.blocks.forEach(function (block) {
+      Object.values(this.blocks).forEach(function (block) {
         block.render();
         _this.player.isColliding(block);
       });
@@ -196,9 +196,36 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var CharImg = function CharImg(img, sX, sY, sWidth, sHeight, width, height) {
+  _classCallCheck(this, CharImg);
+
+  this.img = img;
+  this.sX = sX;
+  this.sY = sY;
+  this.sWidth = sWidth;
+  this.sHeight = sHeight;
+  this.width = width;
+  this.height = height;
+};
+
+exports.default = CharImg;
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _sprite = __webpack_require__(2);
+var _sprite = __webpack_require__(1);
 
 var _sprite2 = _interopRequireDefault(_sprite);
 
@@ -499,33 +526,6 @@ var Player = function () {
 exports.default = Player;
 
 /***/ }),
-/* 2 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var CharImg = function CharImg(img, sX, sY, sWidth, sHeight, width, height) {
-  _classCallCheck(this, CharImg);
-
-  this.img = img;
-  this.sX = sX;
-  this.sY = sY;
-  this.sWidth = sWidth;
-  this.sHeight = sHeight;
-  this.width = width;
-  this.height = height;
-};
-
-exports.default = CharImg;
-
-/***/ }),
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -536,7 +536,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _sprite = __webpack_require__(2);
+var _sprite = __webpack_require__(1);
 
 var _sprite2 = _interopRequireDefault(_sprite);
 
