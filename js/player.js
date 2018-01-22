@@ -227,10 +227,9 @@ class Player {
      this.velY = 0;
      this.y = 0;
    }
-   if (this.x > 500) this.stepped = true;
-   this.velY += this.gravity;
+   if (this.x > 864 && this.y > 604) this.stepped = true;
    this.velX *= this.slide;
-
+   this.velY += this.gravity;
    if (this.grounded) this.velY = 0;
 
    this.x += this.velX;
@@ -251,14 +250,13 @@ class Player {
  }
 
  isColliding(obj) {
-   const vX = (this.x + (this.width / 2)) - (obj.x + (obj.width / 2)),
-         vY = (this.y + (this.height / 2)) - (obj.y + (obj.height / 2)),
-         hWidth = (this.width / 2) + (obj.width / 2),
-         hHeight = (this.height / 2) + (obj.height / 2);
+   const vX = (this.x + (this.width / 2)) - (obj.x + (obj.width / 2));
+   const vY = (this.y + (this.height / 2)) - (obj.y + (obj.height / 2));
+   const hWidth = (this.width / 2) + (obj.width / 2);
+   const hHeight = (this.height / 2) + (obj.height / 2);
    if (Math.abs(vX) < hWidth && Math.abs(vY) < hHeight) {
-     const oX = hWidth - Math.abs(vX),
-           oY = hHeight - Math.abs(vY);
-           this.grounded = false
+     const oX = hWidth - Math.abs(vX);
+     const oY = hHeight - Math.abs(vY);
      if (oX >= oY) {
        if (vY < 0) {
          this.y -= oY;

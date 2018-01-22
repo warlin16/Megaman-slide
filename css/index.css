@@ -1,6 +1,7 @@
 html {
   background: black;
   z-index: -1;
+  font-family: 'Press Start 2P', cursive;
 }
 
 body {
@@ -17,8 +18,38 @@ body {
 .game-info {
   color: #563c5c;
   font-size: 30px;
+  margin: auto;
+  padding-bottom: 250px;
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .my-info {
   color: white;
+}
+
+.up {
+  width: 30px;
+}
+
+.left {
+  width: 30px;
+}
+
+.right {
+  width: 30px;
+}
+
+.my-info {
+  margin: auto;
+  width: 300px;
+}
+
+.game-title {
+  color: #563c5c;
+  font-size: 40px;
+  padding-left: 175px;
 }

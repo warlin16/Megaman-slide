@@ -6,14 +6,23 @@
     <script src="./js/bundle.js"></script>
     <link rel="stylesheet" href="./css/index.css">
     <link rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link
+    href="https://fonts.googleapis.com/css?family=Press+Start+2P"
+    rel="stylesheet">
   </head>
   <body>
     <div class='game-info'>
-      <h3>Return of Bass</h3>
-      Some info about the game
+      <div><img src="assets/up.png" class='up'>  Up</img></div>
+      <div><img src="assets/left.png" class='left'>  Left</img></div>
+      <div><img src="assets/right.png" class='right'>  Right</img></div>
+      hold space to shoot
+      hold slash to slash
     </div>
-    <canvas id='main' class='animated fadeIn'></canvas>
+    <div>
+      <h3 class='game-title'>Return of Bass</h3>
+      <canvas id='main' class='animated fadeIn'></canvas>
+    </div>
     <div class='my-info'> some info about me</div>
   </body>
 </html>

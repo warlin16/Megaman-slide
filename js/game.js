@@ -25,7 +25,7 @@ class Game {
     this.blocks['5th'] = new Block(350, 580, 30, 8, this.canvas);
     this.blocks['6th'] = new Block(450, 580, 30, 8, this.canvas);
     this.blocks['7th'] = new Block(550, 580, 30, 8, this.canvas);
-    // this.blocks.push(new Block(580, 550, 2, 38, this.canvas));
+    this.blocks['1stDoor'] = new Block(580, 550, 2, 38, this.canvas);
     this.blocks['8th'] = new Block(620, 625, 30, 8, this.canvas);
     this.blocks['9th'] = new Block(657, 530, 30, 8, this.canvas);
     this.blocks['10th'] = new Block(720, 620, 30, 8, this.canvas);
@@ -60,16 +60,20 @@ class Game {
   }
 
   renderBlocks() {
+    this.player.grounded = false;
     Object.values(this.blocks).forEach(block => {
       block.render();
       this.player.isColliding(block);
+      if (this.player.stepped) {
+        delete this.blocks['1stDoor'];
+      }
     });
   }
 
   render() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.renderBlocks();
     this.player.physics();
+    this.renderBlocks();
     requestAnimationFrame(this.render.bind(this));
   }
 }

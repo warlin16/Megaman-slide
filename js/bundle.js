@@ -112,7 +112,7 @@ var Game = function () {
       this.blocks['5th'] = new _block2.default(350, 580, 30, 8, this.canvas);
       this.blocks['6th'] = new _block2.default(450, 580, 30, 8, this.canvas);
       this.blocks['7th'] = new _block2.default(550, 580, 30, 8, this.canvas);
-      // this.blocks.push(new Block(580, 550, 2, 38, this.canvas));
+      this.blocks['1stDoor'] = new _block2.default(580, 550, 2, 38, this.canvas);
       this.blocks['8th'] = new _block2.default(620, 625, 30, 8, this.canvas);
       this.blocks['9th'] = new _block2.default(657, 530, 30, 8, this.canvas);
       this.blocks['10th'] = new _block2.default(720, 620, 30, 8, this.canvas);
@@ -150,17 +150,21 @@ var Game = function () {
     value: function renderBlocks() {
       var _this = this;
 
+      this.player.grounded = false;
       Object.values(this.blocks).forEach(function (block) {
         block.render();
         _this.player.isColliding(block);
+        if (_this.player.stepped) {
+          delete _this.blocks['1stDoor'];
+        }
       });
     }
   }, {
     key: 'render',
     value: function render() {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.renderBlocks();
       this.player.physics();
+      this.renderBlocks();
       requestAnimationFrame(this.render.bind(this));
     }
   }]);
@@ -467,10 +471,9 @@ var Player = function () {
         this.velY = 0;
         this.y = 0;
       }
-      if (this.x > 500) this.stepped = true;
-      this.velY += this.gravity;
+      if (this.x > 864 && this.y > 604) this.stepped = true;
       this.velX *= this.slide;
-
+      this.velY += this.gravity;
       if (this.grounded) this.velY = 0;
 
       this.x += this.velX;
@@ -490,14 +493,13 @@ var Player = function () {
   }, {
     key: 'isColliding',
     value: function isColliding(obj) {
-      var vX = this.x + this.width / 2 - (obj.x + obj.width / 2),
-          vY = this.y + this.height / 2 - (obj.y + obj.height / 2),
-          hWidth = this.width / 2 + obj.width / 2,
-          hHeight = this.height / 2 + obj.height / 2;
+      var vX = this.x + this.width / 2 - (obj.x + obj.width / 2);
+      var vY = this.y + this.height / 2 - (obj.y + obj.height / 2);
+      var hWidth = this.width / 2 + obj.width / 2;
+      var hHeight = this.height / 2 + obj.height / 2;
       if (Math.abs(vX) < hWidth && Math.abs(vY) < hHeight) {
-        var oX = hWidth - Math.abs(vX),
-            oY = hHeight - Math.abs(vY);
-        this.grounded = false;
+        var oX = hWidth - Math.abs(vX);
+        var oY = hHeight - Math.abs(vY);
         if (oX >= oY) {
           if (vY < 0) {
             this.y -= oY;
