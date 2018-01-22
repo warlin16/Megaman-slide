@@ -14,18 +14,19 @@ class Game {
 
   makeBlocks() {
     // => main platform
-    this.blocks.push(new Block(0, 675, 900, 50, this.canvas));
+    this.blocks.push(new Block(0, 676, 900, 50, this.canvas));
     // => Boss platform
     this.blocks.push(new Block(600, 120, 450, 5, this.canvas));
     // => Platform above player
     this.blocks.push(new Block(0, 580, 20, 8, this.canvas));
     this.blocks.push(new Block(150, 580, 30, 8, this.canvas));
-    this.blocks.push(new Block(210, 550, 2, 40, this.canvas));
-    this.blocks.push(new Block(250, 580, 30, 8, this.canvas));
+    this.blocks.push(new Block(216, 550, 1, 40, this.canvas));
+    this.blocks.push(new Block(253, 580, 30, 8, this.canvas));
     this.blocks.push(new Block(350, 580, 30, 8, this.canvas));
     this.blocks.push(new Block(450, 580, 30, 8, this.canvas));
     this.blocks.push(new Block(550, 580, 30, 8, this.canvas));
-    this.blocks.push(new Block(620, 610, 30, 8, this.canvas));
+    // this.blocks.push(new Block(580, 550, 2, 38, this.canvas));
+    this.blocks.push(new Block(620, 625, 30, 8, this.canvas));
     this.blocks.push(new Block(657, 530, 30, 8, this.canvas));
     this.blocks.push(new Block(720, 620, 30, 8, this.canvas));
     this.blocks.push(new Block(850, 650, 55, 30, this.canvas));

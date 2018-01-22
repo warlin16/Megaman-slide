@@ -6,7 +6,7 @@ class Player {
     this.stage = stage;
     this.ctx = this.stage.getContext('2d');
     this.x = 0;
-    this.y = 650;
+    this.y = 600;
     this.width = 35;
     this.height = 45;
     this.speed = 4.5;
@@ -14,8 +14,10 @@ class Player {
     this.velY = 0;
     this.jumping = false;
     this.grounded = false;
-    this.gravity = 0.8;
+    this.falling = true;
+    this.gravity = 0.7;
     this.slide = 0.8;
+    this.stepped = false;
     this.keysPressed = {};
     this.animation = new Bass().animation;
     this.currImg = this.animation.idleAnim;
@@ -96,6 +98,7 @@ class Player {
         this.grounded = false;
       }
       if (this.jumping) {
+        this.falling = true;
         if (this.frames === 1) {
           if (this.direction === 'right') {
             this.currImg = this.animation.jumpAnim1;
@@ -212,6 +215,11 @@ class Player {
    if (this.x + this.width > this.stage.width) {
      this.x = this.stage.width - this.width;
    }
+   if (this.y + this.height > this.stage.height) {
+     this.y = this.stage.height - this.height;
+     this.grounded = true;
+     this.keysPressed.ArrowUp = false;
+   }
    if (this.x < 0) {
      this.x = 0;
    }
@@ -219,11 +227,15 @@ class Player {
      this.velY = 0;
      this.y = 0;
    }
+   if (this.x > 500) this.stepped = true;
    this.velY += this.gravity;
-   if (this.grounded) this.velY = 0;
    this.velX *= this.slide;
+
+   if (this.grounded) this.velY = 0;
+
    this.x += this.velX;
    this.y += this.velY;
+
    this.frames++;
    this.changeDirection();
    this.moveRight();
@@ -243,18 +255,15 @@ class Player {
          vY = (this.y + (this.height / 2)) - (obj.y + (obj.height / 2)),
          hWidth = (this.width / 2) + (obj.width / 2),
          hHeight = (this.height / 2) + (obj.height / 2);
-   let falling = true;
    if (Math.abs(vX) < hWidth && Math.abs(vY) < hHeight) {
      const oX = hWidth - Math.abs(vX),
            oY = hHeight - Math.abs(vY);
-     let direction;
+           this.grounded = false
      if (oX >= oY) {
        if (vY < 0) {
          this.y -= oY;
          this.grounded = true;
          this.keysPressed.ArrowUp = false;
-         falling = false;
-         console.log('im under you');
        } else if (vY > 0) {
          this.y += oY + 5;
          this.velY = 0;
@@ -268,12 +277,6 @@ class Player {
          this.velX = 0;
        }
      }
-     if (falling) {
-       this.grounded = false;
-     }
-     return true;
-   } else {
-     return false;
    }
  }
 }

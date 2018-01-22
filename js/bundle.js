@@ -101,18 +101,19 @@ var Game = function () {
     key: 'makeBlocks',
     value: function makeBlocks() {
       // => main platform
-      this.blocks.push(new _block2.default(0, 675, 900, 50, this.canvas));
+      this.blocks.push(new _block2.default(0, 676, 900, 50, this.canvas));
       // => Boss platform
       this.blocks.push(new _block2.default(600, 120, 450, 5, this.canvas));
       // => Platform above player
       this.blocks.push(new _block2.default(0, 580, 20, 8, this.canvas));
       this.blocks.push(new _block2.default(150, 580, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(210, 550, 2, 40, this.canvas));
-      this.blocks.push(new _block2.default(250, 580, 30, 8, this.canvas));
+      this.blocks.push(new _block2.default(216, 550, 1, 40, this.canvas));
+      this.blocks.push(new _block2.default(253, 580, 30, 8, this.canvas));
       this.blocks.push(new _block2.default(350, 580, 30, 8, this.canvas));
       this.blocks.push(new _block2.default(450, 580, 30, 8, this.canvas));
       this.blocks.push(new _block2.default(550, 580, 30, 8, this.canvas));
-      this.blocks.push(new _block2.default(620, 610, 30, 8, this.canvas));
+      // this.blocks.push(new Block(580, 550, 2, 38, this.canvas));
+      this.blocks.push(new _block2.default(620, 625, 30, 8, this.canvas));
       this.blocks.push(new _block2.default(657, 530, 30, 8, this.canvas));
       this.blocks.push(new _block2.default(720, 620, 30, 8, this.canvas));
       this.blocks.push(new _block2.default(850, 650, 55, 30, this.canvas));
@@ -216,7 +217,7 @@ var Player = function () {
     this.stage = stage;
     this.ctx = this.stage.getContext('2d');
     this.x = 0;
-    this.y = 650;
+    this.y = 600;
     this.width = 35;
     this.height = 45;
     this.speed = 4.5;
@@ -224,8 +225,10 @@ var Player = function () {
     this.velY = 0;
     this.jumping = false;
     this.grounded = false;
-    this.gravity = 0.8;
+    this.falling = true;
+    this.gravity = 0.7;
     this.slide = 0.8;
+    this.stepped = false;
     this.keysPressed = {};
     this.animation = new _bass2.default().animation;
     this.currImg = this.animation.idleAnim;
@@ -310,6 +313,7 @@ var Player = function () {
           this.grounded = false;
         }
         if (this.jumping) {
+          this.falling = true;
           if (this.frames === 1) {
             if (this.direction === 'right') {
               this.currImg = this.animation.jumpAnim1;
@@ -424,6 +428,11 @@ var Player = function () {
       if (this.x + this.width > this.stage.width) {
         this.x = this.stage.width - this.width;
       }
+      if (this.y + this.height > this.stage.height) {
+        this.y = this.stage.height - this.height;
+        this.grounded = true;
+        this.keysPressed.ArrowUp = false;
+      }
       if (this.x < 0) {
         this.x = 0;
       }
@@ -431,11 +440,15 @@ var Player = function () {
         this.velY = 0;
         this.y = 0;
       }
+      if (this.x > 500) this.stepped = true;
       this.velY += this.gravity;
-      if (this.grounded) this.velY = 0;
       this.velX *= this.slide;
+
+      if (this.grounded) this.velY = 0;
+
       this.x += this.velX;
       this.y += this.velY;
+
       this.frames++;
       this.changeDirection();
       this.moveRight();
@@ -454,18 +467,15 @@ var Player = function () {
           vY = this.y + this.height / 2 - (obj.y + obj.height / 2),
           hWidth = this.width / 2 + obj.width / 2,
           hHeight = this.height / 2 + obj.height / 2;
-      var falling = true;
       if (Math.abs(vX) < hWidth && Math.abs(vY) < hHeight) {
         var oX = hWidth - Math.abs(vX),
             oY = hHeight - Math.abs(vY);
-        var direction = void 0;
+        this.grounded = false;
         if (oX >= oY) {
           if (vY < 0) {
             this.y -= oY;
             this.grounded = true;
             this.keysPressed.ArrowUp = false;
-            falling = false;
-            console.log('im under you');
           } else if (vY > 0) {
             this.y += oY + 5;
             this.velY = 0;
@@ -479,12 +489,6 @@ var Player = function () {
             this.velX = 0;
           }
         }
-        if (falling) {
-          this.grounded = false;
-        }
-        return true;
-      } else {
-        return false;
       }
     }
   }]);
