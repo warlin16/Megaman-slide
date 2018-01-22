@@ -60,16 +60,22 @@ class Game {
   }
 
   renderBlocks() {
-    this.player.grounded = false;
+    // this.player.grounded = false;
+    let grounded;
     Object.values(this.blocks).forEach(block => {
       block.render();
       this.player.isColliding(block);
+      if (!grounded) {
+        grounded = this.player.shouldFall(block);
+      }
       if (this.player.stepped) {
         delete this.blocks['1stDoor'];
       }
     });
+    if (!grounded) {
+      this.player.grounded = false;
+    }
   }
-
   render() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.player.physics();

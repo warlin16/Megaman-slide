@@ -150,14 +150,21 @@ var Game = function () {
     value: function renderBlocks() {
       var _this = this;
 
-      this.player.grounded = false;
+      // this.player.grounded = false;
+      var grounded = void 0;
       Object.values(this.blocks).forEach(function (block) {
         block.render();
         _this.player.isColliding(block);
+        if (!grounded) {
+          grounded = _this.player.shouldFall(block);
+        }
         if (_this.player.stepped) {
           delete _this.blocks['1stDoor'];
         }
       });
+      if (!grounded) {
+        this.player.grounded = false;
+      }
     }
   }, {
     key: 'render',
@@ -338,13 +345,12 @@ var Player = function () {
     key: 'jump',
     value: function jump() {
       if (this.keysPressed.ArrowUp) {
-        if (this.grounded) {
+        if (this.grounded || this.velY === 0) {
           this.jumping = true;
           this.velY = -(this.speed * 2);
           this.grounded = false;
         }
         if (this.jumping) {
-          this.falling = true;
           if (this.frames === 1) {
             if (this.direction === 'right') {
               this.currImg = this.animation.jumpAnim1;
@@ -459,11 +465,6 @@ var Player = function () {
       if (this.x + this.width > this.stage.width) {
         this.x = this.stage.width - this.width;
       }
-      if (this.y + this.height > this.stage.height) {
-        this.y = this.stage.height - this.height;
-        this.grounded = true;
-        this.keysPressed.ArrowUp = false;
-      }
       if (this.x < 0) {
         this.x = 0;
       }
@@ -472,6 +473,7 @@ var Player = function () {
         this.y = 0;
       }
       if (this.x > 864 && this.y > 604) this.stepped = true;
+
       this.velX *= this.slide;
       this.velY += this.gravity;
       if (this.grounded) this.velY = 0;
@@ -518,6 +520,17 @@ var Player = function () {
             this.velX = 0;
           }
         }
+      }
+    }
+  }, {
+    key: 'shouldFall',
+    value: function shouldFall(obj) {
+      if (this.x + this.width >= obj.x && this.x < obj.x + obj.width) {
+        if (this.y + this.height === obj.y) {
+          return true;
+        }
+      } else {
+        return false;
       }
     }
   }]);

@@ -92,13 +92,12 @@ class Player {
 
   jump() {
     if (this.keysPressed.ArrowUp) {
-      if (this.grounded) {
+      if (this.grounded || this.velY === 0) {
         this.jumping = true;
         this.velY = -(this.speed * 2);
         this.grounded = false;
       }
       if (this.jumping) {
-        this.falling = true;
         if (this.frames === 1) {
           if (this.direction === 'right') {
             this.currImg = this.animation.jumpAnim1;
@@ -215,11 +214,6 @@ class Player {
    if (this.x + this.width > this.stage.width) {
      this.x = this.stage.width - this.width;
    }
-   if (this.y + this.height > this.stage.height) {
-     this.y = this.stage.height - this.height;
-     this.grounded = true;
-     this.keysPressed.ArrowUp = false;
-   }
    if (this.x < 0) {
      this.x = 0;
    }
@@ -228,6 +222,8 @@ class Player {
      this.y = 0;
    }
    if (this.x > 864 && this.y > 604) this.stepped = true;
+
+
    this.velX *= this.slide;
    this.velY += this.gravity;
    if (this.grounded) this.velY = 0;
@@ -275,6 +271,16 @@ class Player {
          this.velX = 0;
        }
      }
+   }
+ }
+
+ shouldFall(obj) {
+   if (this.x + this.width >= obj.x && this.x < obj.x + obj.width) {
+     if (this.y + this.height === obj.y) {
+       return true;
+     }
+   } else {
+     return false;
    }
  }
 }

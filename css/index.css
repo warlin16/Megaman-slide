@@ -46,10 +46,31 @@ body {
 .my-info {
   margin: auto;
   width: 300px;
+  display: flex;
+  flex-direction: column;
 }
 
 .game-title {
   color: #563c5c;
   font-size: 40px;
   padding-left: 175px;
+}
+.linkedIn {
+  width: 60px;
+}
+
+.linkedin > img {
+  width: 60px;
+}
+
+.github {
+  width: 70px;
+}
+
+.github > img {
+  width: 70px;
+}
+
+.game-info > div {
+  margin-bottom: 30px;
 }
