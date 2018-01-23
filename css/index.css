@@ -12,7 +12,7 @@ body {
   border: 1px solid;
   margin: auto;
   background-image: url('../assets/stage.png');
-  background-size: 100%;
+  background-size: 925px;
 }
 
 .game-info {

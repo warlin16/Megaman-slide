@@ -10,6 +10,8 @@ class Bass {
     this.bassLeft.src = 'assets/bass_left.png';
     this.bassFace = new Image();
     this.bassFace.src = 'assets/bass-face.png';
+    this.button = new Image();
+    this.button.src = 'assets/button.png';
     this.animation = {
       idleAnim: new CharImg(this.bass, 0, 0, 50, 58),
       leftAnim1: new CharImg(this.bass, 302, 130, 50, 58),
@@ -46,6 +48,7 @@ class Bass {
       slashAnim5: new CharImg(this.bassSword, 270, 149, 68, 58),
       slashAnim6: new CharImg(this.bassSword, 342, 149, 57, 58),
       face: new CharImg(this.bassFace, 0, 0, 50, 50),
+      button: new CharImg(this.button, 80, 0, 100, 100),
     };
   }
 }
