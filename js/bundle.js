@@ -60,11 +60,38 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var CharImg = function CharImg(img, sX, sY, sWidth, sHeight, width, height) {
+  _classCallCheck(this, CharImg);
+
+  this.img = img;
+  this.sX = sX;
+  this.sY = sY;
+  this.sWidth = sWidth;
+  this.sHeight = sHeight;
+  this.width = width;
+  this.height = height;
+};
+
+exports.default = CharImg;
+
+/***/ }),
+/* 1 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -105,15 +132,14 @@ var Game = function () {
       // => Boss platform
       this.blocks['boss'] = new _block2.default(600, 120, 450, 5, this.canvas);
       // => Platform above player
-      this.blocks['1st'] = new _block2.default(0, 580, 20, 8, this.canvas);
+      this.blocks['1st'] = new _block2.default(0, 580, 30, 8, this.canvas);
       this.blocks['2nd'] = new _block2.default(150, 580, 30, 8, this.canvas);
       this.blocks['3rd'] = new _block2.default(216, 550, 1, 40, this.canvas);
       this.blocks['4th'] = new _block2.default(253, 580, 30, 8, this.canvas);
       this.blocks['5th'] = new _block2.default(350, 580, 30, 8, this.canvas);
       this.blocks['6th'] = new _block2.default(450, 580, 30, 8, this.canvas);
       this.blocks['7th'] = new _block2.default(550, 580, 30, 8, this.canvas);
-      this.blocks['1stDoor'] = new _block2.default(580, 550, 2, 38, this.canvas);
-      this.blocks['8th'] = new _block2.default(620, 625, 30, 8, this.canvas);
+      this.blocks['8th'] = new _block2.default(620, 630, 30, 8, this.canvas);
       this.blocks['9th'] = new _block2.default(657, 530, 30, 8, this.canvas);
       this.blocks['10th'] = new _block2.default(720, 620, 30, 8, this.canvas);
       this.blocks['11th'] = new _block2.default(850, 650, 55, 30, this.canvas);
@@ -130,10 +156,10 @@ var Game = function () {
       this.blocks['20th'] = new _block2.default(400, 395, 30, 8, this.canvas);
       this.blocks['21st'] = new _block2.default(300, 395, 30, 8, this.canvas);
       this.blocks['22nd'] = new _block2.default(200, 385, 30, 8, this.canvas);
-      this.blocks['23rd'] = new _block2.default(70, 355, 60, 8, this.canvas);
+      this.blocks['23rd'] = new _block2.default(75, 368, 50, 8, this.canvas);
       // => Fourth Platform
       this.blocks['24th'] = new _block2.default(0, 330, 30, 8, this.canvas);
-      this.blocks['25th'] = new _block2.default(84, 294, 30, 8, this.canvas);
+      this.blocks['25th'] = new _block2.default(90, 300, 30, 8, this.canvas);
       this.blocks['26th'] = new _block2.default(170, 260, 30, 8, this.canvas);
       this.blocks['27th'] = new _block2.default(270, 260, 30, 8, this.canvas);
       this.blocks['28th'] = new _block2.default(370, 260, 30, 8, this.canvas);
@@ -142,15 +168,23 @@ var Game = function () {
       this.blocks['31st'] = new _block2.default(670, 260, 30, 8, this.canvas);
       this.blocks['32nd'] = new _block2.default(730, 230, 2, 40, this.canvas);
       this.blocks['33rd'] = new _block2.default(770, 260, 30, 8, this.canvas);
+      this.blocks['34th'] = new _block2.default(880, 260, 30, 8, this.canvas);
       // => Fifth Platform
-      this.blocks['34th'] = new _block2.default(20, 200, 30, 8, this.canvas);
+      this.blocks['35th'] = new _block2.default(10, 200, 30, 8, this.canvas);
+      this.blocks['36th'] = new _block2.default(88, 225, 30, 8, this.canvas);
+      this.blocks['37th'] = new _block2.default(100, 160, 30, 8, this.canvas);
+      this.blocks['38th'] = new _block2.default(160, 130, 30, 8, this.canvas);
+      this.blocks['39th'] = new _block2.default(20, 105, 30, 8, this.canvas);
+      // => secret doors
+      this.blocks['1stDoor'] = new _block2.default(580, 550, 2, 38, this.canvas);
+      this.blocks['2ndDoor'] = new _block2.default(655, 500, 2, 38, this.canvas);
+      this.blocks['3rdDoor'] = new _block2.default(100, 125, 2, 38, this.canvas);
     }
   }, {
     key: 'renderBlocks',
     value: function renderBlocks() {
       var _this = this;
 
-      // this.player.grounded = false;
       var grounded = void 0;
       Object.values(this.blocks).forEach(function (block) {
         block.render();
@@ -158,8 +192,14 @@ var Game = function () {
         if (!grounded) {
           grounded = _this.player.shouldFall(block);
         }
-        if (_this.player.stepped) {
+        if (_this.player.first) {
           delete _this.blocks['1stDoor'];
+        }
+        if (_this.player.second) {
+          delete _this.blocks['2ndDoor'];
+        }
+        if (_this.player.third) {
+          delete _this.blocks['3rdDoor'];
         }
       });
       if (!grounded) {
@@ -197,33 +237,6 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 /***/ }),
-/* 1 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var CharImg = function CharImg(img, sX, sY, sWidth, sHeight, width, height) {
-  _classCallCheck(this, CharImg);
-
-  this.img = img;
-  this.sX = sX;
-  this.sY = sY;
-  this.sWidth = sWidth;
-  this.sHeight = sHeight;
-  this.width = width;
-  this.height = height;
-};
-
-exports.default = CharImg;
-
-/***/ }),
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -236,7 +249,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _sprite = __webpack_require__(1);
+var _sprite = __webpack_require__(0);
 
 var _sprite2 = _interopRequireDefault(_sprite);
 
@@ -266,7 +279,6 @@ var Player = function () {
     this.falling = true;
     this.gravity = 0.7;
     this.slide = 0.8;
-    this.stepped = false;
     this.keysPressed = {};
     this.animation = new _bass2.default().animation;
     this.currImg = this.animation.idleAnim;
@@ -472,7 +484,9 @@ var Player = function () {
         this.velY = 0;
         this.y = 0;
       }
-      if (this.x > 864 && this.y > 604) this.stepped = true;
+      if (this.x > 864 && this.y > 604) this.first = true;
+      if (this.x > 8 && this.x < 15 && this.y === 535) this.second = true;
+      if (this.x === 865 && this.y === 215) this.third = true;
 
       this.velX *= this.slide;
       this.velY += this.gravity;
@@ -551,7 +565,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _sprite = __webpack_require__(1);
+var _sprite = __webpack_require__(0);
 
 var _sprite2 = _interopRequireDefault(_sprite);
 

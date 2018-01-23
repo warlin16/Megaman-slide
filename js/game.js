@@ -18,15 +18,14 @@ class Game {
     // => Boss platform
     this.blocks['boss'] = new Block(600, 120, 450, 5, this.canvas);
     // => Platform above player
-    this.blocks['1st'] = new Block(0, 580, 20, 8, this.canvas);
+    this.blocks['1st'] = new Block(0, 580, 30, 8, this.canvas);
     this.blocks['2nd'] = new Block(150, 580, 30, 8, this.canvas);
     this.blocks['3rd'] = new Block(216, 550, 1, 40, this.canvas);
     this.blocks['4th'] = new Block(253, 580, 30, 8, this.canvas);
     this.blocks['5th'] = new Block(350, 580, 30, 8, this.canvas);
     this.blocks['6th'] = new Block(450, 580, 30, 8, this.canvas);
     this.blocks['7th'] = new Block(550, 580, 30, 8, this.canvas);
-    this.blocks['1stDoor'] = new Block(580, 550, 2, 38, this.canvas);
-    this.blocks['8th'] = new Block(620, 625, 30, 8, this.canvas);
+    this.blocks['8th'] = new Block(620, 630, 30, 8, this.canvas);
     this.blocks['9th'] = new Block(657, 530, 30, 8, this.canvas);
     this.blocks['10th'] = new Block(720, 620, 30, 8, this.canvas);
     this.blocks['11th'] = new Block(850, 650, 55, 30, this.canvas);
@@ -43,10 +42,10 @@ class Game {
     this.blocks['20th'] = new Block(400, 395, 30, 8, this.canvas);
     this.blocks['21st'] = new Block(300, 395, 30, 8, this.canvas);
     this.blocks['22nd'] = new Block(200, 385, 30, 8, this.canvas);
-    this.blocks['23rd'] = new Block(70, 355, 60, 8, this.canvas);
+    this.blocks['23rd'] = new Block(75, 368, 50, 8, this.canvas);
     // => Fourth Platform
     this.blocks['24th'] = new Block(0, 330, 30, 8, this.canvas);
-    this.blocks['25th'] = new Block(84, 294, 30, 8, this.canvas);
+    this.blocks['25th'] = new Block(90, 300, 30, 8, this.canvas);
     this.blocks['26th'] = new Block(170, 260, 30, 8, this.canvas);
     this.blocks['27th'] = new Block(270, 260, 30, 8, this.canvas);
     this.blocks['28th'] = new Block(370, 260, 30, 8, this.canvas);
@@ -55,12 +54,20 @@ class Game {
     this.blocks['31st'] = new Block(670, 260, 30, 8, this.canvas);
     this.blocks['32nd'] = new Block(730, 230, 2, 40, this.canvas);
     this.blocks['33rd'] = new Block(770, 260, 30, 8, this.canvas);
+    this.blocks['34th'] = new Block(880, 260, 30, 8, this.canvas);
     // => Fifth Platform
-    this.blocks['34th'] = new Block(20, 200, 30, 8, this.canvas);
+    this.blocks['35th'] = new Block(10, 200, 30, 8, this.canvas);
+    this.blocks['36th'] = new Block(88, 225, 30, 8, this.canvas);
+    this.blocks['37th'] = new Block(100, 160, 30, 8, this.canvas);
+    this.blocks['38th'] = new Block(160, 130, 30, 8, this.canvas);
+    this.blocks['39th'] = new Block(20, 105, 30, 8, this.canvas);
+    // => secret doors
+    this.blocks['1stDoor'] = new Block(580, 550, 2, 38, this.canvas);
+    this.blocks['2ndDoor'] = new Block(655, 500, 2, 38, this.canvas);
+    this.blocks['3rdDoor'] = new Block(100, 125, 2, 38, this.canvas);
   }
 
   renderBlocks() {
-    // this.player.grounded = false;
     let grounded;
     Object.values(this.blocks).forEach(block => {
       block.render();
@@ -68,8 +75,14 @@ class Game {
       if (!grounded) {
         grounded = this.player.shouldFall(block);
       }
-      if (this.player.stepped) {
+      if (this.player.first) {
         delete this.blocks['1stDoor'];
+      }
+      if (this.player.second) {
+        delete this.blocks['2ndDoor'];
+      }
+      if (this.player.third) {
+        delete this.blocks['3rdDoor'];
       }
     });
     if (!grounded) {

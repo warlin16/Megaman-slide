@@ -17,7 +17,6 @@ class Player {
     this.falling = true;
     this.gravity = 0.7;
     this.slide = 0.8;
-    this.stepped = false;
     this.keysPressed = {};
     this.animation = new Bass().animation;
     this.currImg = this.animation.idleAnim;
@@ -221,8 +220,9 @@ class Player {
      this.velY = 0;
      this.y = 0;
    }
-   if (this.x > 864 && this.y > 604) this.stepped = true;
-
+   if (this.x > 864 && this.y > 604) this.first = true;
+   if (this.x > 8 && this.x < 15 && this.y === 535) this.second = true;
+   if (this.x === 865 && this.y === 215) this.third = true;
 
    this.velX *= this.slide;
    this.velY += this.gravity;

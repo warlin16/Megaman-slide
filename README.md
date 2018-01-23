@@ -1,13 +1,16 @@
-Megaman slide is a platform based run and gun game
+Return of Bass is a platform based jumping game
 
-Functionality and MVP With Megaman Slide players will be able to
+Functionality and MVP With Return of Bass players will be able to
 
 Start pause and reset the game
-jump over enemies with up or space
-slide under incoming obstacles
+jump over platforms with up or space
+shoot obstacles to open locked doors or slash them with a sword
 Music to accompany the game
 
-Wireframes This app will consist of a single screen with game board, game controls, and links to my Github, my LinkedIn. The controls for the game will be jumping up with space sliding down with the down arrow, start, pause, and reset (maybe also projectile shooting).
+Players will be tasked with getting to the top platform of the stage in under 2 minutes, and be surprised with a boss block the entrance, players can lose either by losing all their heath points or time running out. Players can win by defeating the boss and crossing the flag to clear the game.
+
+Wireframes
+This app will consist of a single screen with game board, game controls, and links to my Github, my LinkedIn. The controls for the game will be jumping up with with the up arrow, space shooting a projectile, start, pause, and reset slashing.
 
 Technologies This project will implement the following technologies
 
