@@ -15,7 +15,7 @@ class Player {
     this.jumping = false;
     this.grounded = false;
     this.falling = true;
-    this.gravity = 0.7;
+    this.gravity = 0.65;
     this.slide = 0.8;
     this.keysPressed = {};
     this.animation = new Bass().animation;
