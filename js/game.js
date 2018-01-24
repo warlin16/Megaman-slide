@@ -12,6 +12,7 @@ class Game {
     this.blocks = {
       moving: new Block(-60, 500, 60, 20, this.canvas),
       floating: new Block(200, 770, 80, 20, this.canvas),
+      floating2: new Block(0, 770, 50, 20, this.canvas),
     };
     this.buttons = {};
     this.makeBlocks();
@@ -27,9 +28,6 @@ class Game {
     this.blocks['main3'] = new Block(150, 676, 40, 50, this.canvas);
     this.blocks['main4'] = new Block(200, 676, 40, 50, this.canvas);
     this.blocks['main5'] = new Block(250, 676, 40, 50, this.canvas);
-
-    // => Boss platform
-    this.blocks['boss'] = new Block(600, 120, 450, 5, this.canvas);
     // => Platform above player or ap
     this.blocks['ap1'] = new Block(0, 566, 40, 20, this.canvas);
     this.blocks['ap2'] = new Block(50, 566, 40, 50, this.canvas);
@@ -145,14 +143,42 @@ class Game {
     if (this.player.seventh) {
       delete this.buttons['7'];
       delete this.blocks['5th'];
+      delete this.blocks['sr2'];
       this.blocks.floating.y -= 2;
       this.blocks['6th'] = new Block(140, 200, 40, 20, this.canvas);
-      if (this.blocks.floating.y < -10) {
+      if (this.blocks.floating && this.blocks.floating.y < -10) {
         this.blocks.floating.y = 770;
       }
     }
     if (this.player.boss) {
+      delete this.buttons['7'];
       delete this.buttons['8'];
+      delete this.blocks['1st'];
+      delete this.blocks['2nd'];
+      delete this.blocks['3rd'];
+      delete this.blocks['4th'];
+      delete this.blocks['5th'];
+      delete this.blocks['floating'];
+      delete this.blocks['sr1'];
+      delete this.blocks['tr1'];
+      delete this.blocks['main'];
+      delete this.blocks['ap3'];
+      delete this.blocks['ap4'];
+      delete this.blocks['6th'];
+      delete this.blocks['6thPlat'];
+      this.blocks.floating2.y -= 2;
+      this.blocks['boss'] = new Block(350, 120, 50, 50, this.canvas);
+      this.blocks['boss2'] = new Block(400, 120, 50, 50, this.canvas);
+      this.blocks['boss3'] = new Block(450, 120, 50, 50, this.canvas);
+      this.blocks['boss4'] = new Block(500, 120, 50, 50, this.canvas);
+      this.blocks['boss5'] = new Block(550, 120, 50, 50, this.canvas);
+      this.blocks['boss6'] = new Block(600, 120, 50, 50, this.canvas);
+      this.blocks['boss7'] = new Block(650, 120, 50, 50, this.canvas);
+      this.blocks['1st'] = new Block(50, 350, 50, 50, this.canvas);
+      this.blocks['2nd'] = new Block(100, 300, 50, 50, this.canvas);
+      this.blocks['3rd'] = new Block(150, 250, 50, 50, this.canvas);
+      this.blocks['4th'] = new Block(200, 200, 50, 50, this.canvas);
+      this.blocks['5th'] = new Block(250, 150, 50, 50, this.canvas);
     }
   }
 

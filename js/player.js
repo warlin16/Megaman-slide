@@ -207,12 +207,20 @@ class Player {
    }
    if (this.x >= 650 && this.y === 405) {
      this.sixth = true;
+   }
+   if (this.x <= 220 && this.y === 310) {
+     this.seventh = true;
      this.checkpoint.x = 566;
      this.checkpoint.y = 390;
    }
-   if (this.x <= 220 && this.y === 310) this.seventh = true;
-   if (this.x <= 10 && (this.y <= 225 && this.y >= 223)) this.boss = true;
-
+   if (this.x <= 10 && (this.y <= 225 && this.y >= 223)) {
+     this.seventh = false;
+     this.boss = true;
+   }
+   if (this.boss) {
+     this.checkpoint.x = 55;
+     this.checkpoint.y = 290;
+   }
    this.velX *= this.slide;
    this.velY += this.gravity;
    if (this.grounded) this.velY = 0;
