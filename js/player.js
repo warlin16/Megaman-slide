@@ -23,7 +23,8 @@ class Player {
     this.frames = 0;
     this.direction = 'right';
     this.isColliding = this.isColliding.bind(this);
-
+    this.lives = 2;
+    this.checkpoint = {x: 20, y: 620};
   }
 
   changeDirection() {
@@ -191,12 +192,24 @@ class Player {
      this.velY = 0;
      this.y = 0;
    }
-   if (this.x >= 244 && this.y === 631) this.first = true;
-   if (this.x >= 437 && this.y === 521) this.second = true;
+   if (this.x >= 235 && this.y === 631) this.first = true;
+   if (this.x >= 437 && this.y === 521) {
+     this.checkpoint.x = 450;
+     this.checkpoint.y = 470;
+     this.second = true;
+   }
    if (this.x <= 10 && this.y === 521) this.third = true;
    if (this.x >= 650 && this.y === 501) this.fourth = true;
-   if (this.x <= 10 && this.y === 405) this.fifth = true;
-   if (this.x >= 650 && this.y === 405) this.sixth = true;
+   if (this.x <= 10 && this.y === 405) {
+     this.fifth = true;
+     this.checkpoint.x = 9;
+     this.checkpoint.y = 395;
+   }
+   if (this.x >= 650 && this.y === 405) {
+     this.sixth = true;
+     this.checkpoint.x = 566;
+     this.checkpoint.y = 390;
+   }
    if (this.x <= 220 && this.y === 310) this.seventh = true;
    if (this.x <= 10 && (this.y <= 225 && this.y >= 223)) this.boss = true;
 

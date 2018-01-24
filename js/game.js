@@ -11,7 +11,7 @@ class Game {
     this.player = new Player(this.canvas);
     this.blocks = {
       moving: new Block(-60, 500, 60, 20, this.canvas),
-      floating: new Block(200, 730, 80, 20, this.canvas),
+      floating: new Block(200, 770, 80, 20, this.canvas),
     };
     this.buttons = {};
     this.makeBlocks();
@@ -147,13 +147,13 @@ class Game {
       delete this.blocks['5th'];
       this.blocks.floating.y -= 2;
       this.blocks['6th'] = new Block(140, 200, 40, 20, this.canvas);
+      if (this.blocks.floating.y < -10) {
+        this.blocks.floating.y = 770;
+      }
     }
     if (this.player.boss) {
       delete this.buttons['8'];
     }
-  }
-
-  movingPlatform() {
   }
 
   render() {
@@ -162,9 +162,16 @@ class Game {
     this.renderSecrets();
     this.renderButtons();
     this.renderBlocks();
-    this.movingPlatform();
     if (this.player.y > this.canvas.height) {
-      console.log('You lost!');
+      this.player.lives -= 1;
+      this.player.x = this.player.checkpoint.x;
+      this.player.y = this.player.checkpoint.y;
+      if (this.player.fifth && !this.player.sixth) {
+        this.blocks.moving.x = -60;
+      }
+      if (this.player.lives === 0) {
+        console.log('YOU LOST');
+      }
     }
     requestAnimationFrame(this.render.bind(this));
   }

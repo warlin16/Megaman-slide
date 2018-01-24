@@ -107,7 +107,7 @@ var _block = __webpack_require__(4);
 
 var _block2 = _interopRequireDefault(_block);
 
-var _button = __webpack_require__(7);
+var _button = __webpack_require__(6);
 
 var _button2 = _interopRequireDefault(_button);
 
@@ -126,7 +126,7 @@ var Game = function () {
     this.player = new _player2.default(this.canvas);
     this.blocks = {
       moving: new _block2.default(-60, 500, 60, 20, this.canvas),
-      floating: new _block2.default(200, 730, 80, 20, this.canvas)
+      floating: new _block2.default(200, 770, 80, 20, this.canvas)
     };
     this.buttons = {};
     this.makeBlocks();
@@ -269,14 +269,14 @@ var Game = function () {
         delete this.blocks['5th'];
         this.blocks.floating.y -= 2;
         this.blocks['6th'] = new _block2.default(140, 200, 40, 20, this.canvas);
+        if (this.blocks.floating.y < -10) {
+          this.blocks.floating.y = 770;
+        }
       }
       if (this.player.boss) {
         delete this.buttons['8'];
       }
     }
-  }, {
-    key: 'movingPlatform',
-    value: function movingPlatform() {}
   }, {
     key: 'render',
     value: function render() {
@@ -285,9 +285,16 @@ var Game = function () {
       this.renderSecrets();
       this.renderButtons();
       this.renderBlocks();
-      this.movingPlatform();
       if (this.player.y > this.canvas.height) {
-        console.log('You lost!');
+        this.player.lives -= 1;
+        this.player.x = this.player.checkpoint.x;
+        this.player.y = this.player.checkpoint.y;
+        if (this.player.fifth && !this.player.sixth) {
+          this.blocks.moving.x = -60;
+        }
+        if (this.player.lives === 0) {
+          console.log('YOU LOST');
+        }
       }
       requestAnimationFrame(this.render.bind(this));
     }
@@ -330,7 +337,7 @@ var _sprite = __webpack_require__(0);
 
 var _sprite2 = _interopRequireDefault(_sprite);
 
-var _bass = __webpack_require__(5);
+var _bass = __webpack_require__(3);
 
 var _bass2 = _interopRequireDefault(_bass);
 
@@ -362,6 +369,8 @@ var Player = function () {
     this.frames = 0;
     this.direction = 'right';
     this.isColliding = this.isColliding.bind(this);
+    this.lives = 2;
+    this.checkpoint = { x: 20, y: 620 };
   }
 
   _createClass(Player, [{
@@ -532,12 +541,24 @@ var Player = function () {
         this.velY = 0;
         this.y = 0;
       }
-      if (this.x >= 244 && this.y === 631) this.first = true;
-      if (this.x >= 437 && this.y === 521) this.second = true;
+      if (this.x >= 235 && this.y === 631) this.first = true;
+      if (this.x >= 437 && this.y === 521) {
+        this.checkpoint.x = 450;
+        this.checkpoint.y = 470;
+        this.second = true;
+      }
       if (this.x <= 10 && this.y === 521) this.third = true;
       if (this.x >= 650 && this.y === 501) this.fourth = true;
-      if (this.x <= 10 && this.y === 405) this.fifth = true;
-      if (this.x >= 650 && this.y === 405) this.sixth = true;
+      if (this.x <= 10 && this.y === 405) {
+        this.fifth = true;
+        this.checkpoint.x = 9;
+        this.checkpoint.y = 395;
+      }
+      if (this.x >= 650 && this.y === 405) {
+        this.sixth = true;
+        this.checkpoint.x = 566;
+        this.checkpoint.y = 390;
+      }
       if (this.x <= 220 && this.y === 310) this.seventh = true;
       if (this.x <= 10 && this.y <= 225 && this.y >= 223) this.boss = true;
 
@@ -607,54 +628,7 @@ var Player = function () {
 exports.default = Player;
 
 /***/ }),
-/* 3 */,
-/* 4 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _platform = __webpack_require__(6);
-
-var _platform2 = _interopRequireDefault(_platform);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Block = function () {
-  function Block(x, y, width, height, stage) {
-    _classCallCheck(this, Block);
-
-    this.stage = stage;
-    this.ctx = this.stage.getContext('2d');
-    this.x = x;
-    this.y = y;
-    this.width = width;
-    this.height = height;
-    this.platform = new _platform2.default().animation.platform;
-  }
-
-  _createClass(Block, [{
-    key: 'render',
-    value: function render() {
-      this.ctx.drawImage(this.platform.img, this.platform.sX, this.platform.sY, this.platform.sWidth, this.platform.sHeight, this.x, this.y, this.width, this.height);
-    }
-  }]);
-
-  return Block;
-}();
-
-exports.default = Block;
-
-/***/ }),
-/* 5 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -725,7 +699,53 @@ var Bass = function Bass() {
 exports.default = Bass;
 
 /***/ }),
-/* 6 */
+/* 4 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _platform = __webpack_require__(5);
+
+var _platform2 = _interopRequireDefault(_platform);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Block = function () {
+  function Block(x, y, width, height, stage) {
+    _classCallCheck(this, Block);
+
+    this.stage = stage;
+    this.ctx = this.stage.getContext('2d');
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.platform = new _platform2.default().animation.platform;
+  }
+
+  _createClass(Block, [{
+    key: 'render',
+    value: function render() {
+      this.ctx.drawImage(this.platform.img, this.platform.sX, this.platform.sY, this.platform.sWidth, this.platform.sHeight, this.x, this.y, this.width, this.height);
+    }
+  }]);
+
+  return Block;
+}();
+
+exports.default = Block;
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -756,7 +776,7 @@ var Platform = function Platform() {
 exports.default = Platform;
 
 /***/ }),
-/* 7 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
