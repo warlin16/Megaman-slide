@@ -124,8 +124,11 @@ var Game = function () {
     this.canvas.width = 700;
     this.canvas.height = 700;
     this.player = new _player2.default(this.canvas);
-    this.blocks = {};
+    this.blocks = {
+      moving: new _block2.default(-40, 500, 40, 20, this.canvas)
+    };
     this.buttons = {};
+    this.veloctiy = 1;
     this.makeBlocks();
     this.makeButtons();
   }
@@ -151,6 +154,7 @@ var Game = function () {
       this.blocks['ap4'] = new _block2.default(620, 566, 40, 50, this.canvas);
       // => second row or sr
       this.blocks['sr1'] = new _block2.default(670, 546, 40, 20, this.canvas);
+      this.blocks['sr2'] = new _block2.default(0, 450, 40, 20, this.canvas);
       // => secret doors
       this.blocks['1stDoor'] = new _block2.default(580, 500, 3, 88, this.canvas);
     }
@@ -158,8 +162,9 @@ var Game = function () {
     key: 'makeButtons',
     value: function makeButtons() {
       this.buttons['1'] = new _button2.default(248, 650, 20, 30, this.canvas);
-      this.buttons['3'] = new _button2.default(8, 540, 20, 30, this.canvas);
+      this.buttons['3'] = new _button2.default(8, 538, 20, 30, this.canvas);
       this.buttons['4'] = new _button2.default(675, 520, 20, 30, this.canvas);
+      this.buttons['5'] = new _button2.default(8, 419, 20, 30, this.canvas);
     }
   }, {
     key: 'renderBlocks',
@@ -200,6 +205,11 @@ var Game = function () {
         this.blocks['Sap1'] = new _block2.default(350, 566, 40, 50, this.canvas);
         this.blocks['Sap2'] = new _block2.default(250, 566, 40, 50, this.canvas);
         this.blocks['Sap3'] = new _block2.default(150, 566, 40, 50, this.canvas);
+        delete this.blocks['main1'];
+        delete this.blocks['main2'];
+        delete this.blocks['main3'];
+        delete this.blocks['main4'];
+        delete this.blocks['main5'];
       }
       if (this.player.third) {
         delete this.blocks['1stDoor'];
@@ -215,8 +225,25 @@ var Game = function () {
         delete this.blocks['Sap3'];
         this.blocks['Ssr1'] = new _block2.default(450, 546, 40, 20, this.canvas);
         this.blocks['Ssr2'] = new _block2.default(350, 546, 40, 20, this.canvas);
+        this.blocks['Ssr3'] = new _block2.default(250, 546, 40, 20, this.canvas);
+        this.blocks['Ssr4'] = new _block2.default(200, 500, 40, 20, this.canvas);
+        this.blocks['Ssr5'] = new _block2.default(150, 450, 40, 20, this.canvas);
+        this.blocks['Ssr6'] = new _block2.default(100, 400, 40, 20, this.canvas);
+      }
+      if (this.player.fifth) {
+        delete this.buttons['5'];
+        delete this.blocks['Ssr1'];
+        delete this.blocks['Ssr2'];
+        delete this.blocks['Ssr3'];
+        delete this.blocks['Ssr4'];
+        delete this.blocks['Ssr5'];
+        delete this.blocks['Ssr6'];
+        this.blocks.moving.x += 1;
       }
     }
+  }, {
+    key: 'movingPlatform',
+    value: function movingPlatform() {}
   }, {
     key: 'render',
     value: function render() {
@@ -225,6 +252,7 @@ var Game = function () {
       this.renderSecrets();
       this.renderButtons();
       this.renderBlocks();
+      this.movingPlatform();
       if (this.player.y > this.canvas.height) {
         console.log('You lost!');
       }
@@ -504,6 +532,7 @@ var Player = function () {
       if (this.x >= 437 && this.y === 521) this.second = true;
       if (this.x <= 10 && this.y === 521) this.third = true;
       if (this.x >= 650 && this.y === 501) this.fourth = true;
+      if (this.x <= 10 && this.y === 405) this.fifth = true;
 
       this.velX *= this.slide;
       this.velY += this.gravity;
@@ -522,7 +551,7 @@ var Player = function () {
       this.idle();
       this.renderFace();
       this.ctx.drawImage(this.currImg.img, this.currImg.sX, this.currImg.sY, this.currImg.sWidth, this.currImg.sHeight, this.x, this.y, this.width, this.height);
-      console.log(this.x, this.y);
+      // console.log(this.x, this.y);
     }
   }, {
     key: 'isColliding',

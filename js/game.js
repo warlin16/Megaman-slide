@@ -9,8 +9,11 @@ class Game {
     this.canvas.width = 700;
     this.canvas.height = 700;
     this.player = new Player(this.canvas);
-    this.blocks = {};
+    this.blocks = {
+      moving: new Block(-40, 500, 40, 20, this.canvas),
+    };
     this.buttons = {};
+    this.veloctiy = 1;
     this.makeBlocks();
     this.makeButtons();
   }
@@ -34,14 +37,16 @@ class Game {
     this.blocks['ap4'] = new Block(620, 566, 40, 50, this.canvas);
     // => second row or sr
     this.blocks['sr1'] = new Block(670, 546, 40, 20, this.canvas);
+    this.blocks['sr2'] = new Block(0, 450, 40, 20, this.canvas);
     // => secret doors
     this.blocks['1stDoor'] = new Block(580, 500, 3, 88, this.canvas);
   }
 
   makeButtons() {
     this.buttons['1'] = new Button(248, 650, 20, 30, this.canvas);
-    this.buttons['3'] = new Button(8, 540, 20, 30, this.canvas);
+    this.buttons['3'] = new Button(8, 538, 20, 30, this.canvas);
     this.buttons['4'] = new Button(675, 520, 20, 30, this.canvas);
+    this.buttons['5'] = new Button(8, 419, 20, 30, this.canvas);
   }
 
 
@@ -78,6 +83,11 @@ class Game {
       this.blocks['Sap1'] = new Block(350, 566, 40, 50, this.canvas);
       this.blocks['Sap2'] = new Block(250, 566, 40, 50, this.canvas);
       this.blocks['Sap3'] = new Block(150, 566, 40, 50, this.canvas);
+      delete this.blocks['main1'];
+      delete this.blocks['main2'];
+      delete this.blocks['main3'];
+      delete this.blocks['main4'];
+      delete this.blocks['main5'];
     }
     if (this.player.third) {
       delete this.blocks['1stDoor'];
@@ -93,14 +103,33 @@ class Game {
       delete this.blocks['Sap3'];
       this.blocks['Ssr1'] = new Block(450, 546, 40, 20, this.canvas);
       this.blocks['Ssr2'] = new Block(350, 546, 40, 20, this.canvas);
+      this.blocks['Ssr3'] = new Block(250, 546, 40, 20, this.canvas);
+      this.blocks['Ssr4'] = new Block(200, 500, 40, 20, this.canvas);
+      this.blocks['Ssr5'] = new Block(150, 450, 40, 20, this.canvas);
+      this.blocks['Ssr6'] = new Block(100, 400, 40, 20, this.canvas);
+    }
+    if (this.player.fifth) {
+      delete this.buttons['5'];
+      delete this.blocks['Ssr1'];
+      delete this.blocks['Ssr2'];
+      delete this.blocks['Ssr3'];
+      delete this.blocks['Ssr4'];
+      delete this.blocks['Ssr5'];
+      delete this.blocks['Ssr6'];
+      this.blocks.moving.x += 1;
     }
   }
+
+  movingPlatform() {
+  }
+
   render() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.player.physics();
     this.renderSecrets();
     this.renderButtons();
     this.renderBlocks();
+    this.movingPlatform();
     if (this.player.y > this.canvas.height) {
       console.log('You lost!');
     }

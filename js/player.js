@@ -224,6 +224,7 @@ class Player {
    if (this.x >= 437 && this.y === 521) this.second = true;
    if (this.x <= 10 && this.y === 521) this.third = true;
    if (this.x >= 650 && this.y === 501) this.fourth = true;
+   if (this.x <= 10 && this.y === 405) this.fifth = true;
 
    this.velX *= this.slide;
    this.velY += this.gravity;
@@ -244,7 +245,7 @@ class Player {
    this.ctx.drawImage(this.currImg.img, this.currImg.sX, this.currImg.sY,
      this.currImg.sWidth, this.currImg.sHeight, this.x,
      this.y, this.width, this.height);
-     console.log(this.x, this.y);
+     // console.log(this.x, this.y);
  }
 
  isColliding(obj) {
