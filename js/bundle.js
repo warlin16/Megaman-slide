@@ -125,10 +125,9 @@ var Game = function () {
     this.canvas.height = 700;
     this.player = new _player2.default(this.canvas);
     this.blocks = {
-      moving: new _block2.default(-40, 500, 40, 20, this.canvas)
+      moving: new _block2.default(-60, 500, 60, 20, this.canvas)
     };
     this.buttons = {};
-    this.veloctiy = 1;
     this.makeBlocks();
     this.makeButtons();
   }
@@ -239,6 +238,9 @@ var Game = function () {
         delete this.blocks['Ssr5'];
         delete this.blocks['Ssr6'];
         this.blocks.moving.x += 1;
+        this.blocks['1stDoor'] = new _block2.default(550, 450, 3, 50, this.canvas);
+        this.blocks['2ndDoor'] = new _block2.default(300, 450, 3, 50, this.canvas);
+        this.blocks['3rdDoor'] = new _block2.default(150, 450, 3, 50, this.canvas);
       }
     }
   }, {

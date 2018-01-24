@@ -10,10 +10,9 @@ class Game {
     this.canvas.height = 700;
     this.player = new Player(this.canvas);
     this.blocks = {
-      moving: new Block(-40, 500, 40, 20, this.canvas),
+      moving: new Block(-60, 500, 60, 20, this.canvas),
     };
     this.buttons = {};
-    this.veloctiy = 1;
     this.makeBlocks();
     this.makeButtons();
   }
@@ -117,6 +116,9 @@ class Game {
       delete this.blocks['Ssr5'];
       delete this.blocks['Ssr6'];
       this.blocks.moving.x += 1;
+      this.blocks['1stDoor'] = new Block(550, 450, 3, 50, this.canvas);
+      this.blocks['2ndDoor'] = new Block(300, 450, 3, 50, this.canvas);
+      this.blocks['3rdDoor'] = new Block(150, 450, 3, 50, this.canvas);
     }
   }
 
