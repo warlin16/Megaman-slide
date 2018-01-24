@@ -19,12 +19,15 @@
         <div><img src="assets/right.png" class='right'>  → for right</img></div>
         <div></div>
       </div>
+      <audio controls loop id="theme">
+        <source src="./assets/theme.mp3" type="audio/mp3">
+      </audio>
       <div class='canvas-container'>
         <h3 class='game-title'>Return of Bass</h3>
-        <p>
+        <p class='animated bounce'>
           Collect the orbs to make platforms appear!
           Be careful Bass slides quite a bit!
-          Make it to the top before the time runs out!
+          Press Q to queue the music!
           Good luck!
         </p>
         <canvas id='main' class='animated fadeIn'></canvas>

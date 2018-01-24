@@ -10,7 +10,7 @@ html {
 
 #main {
   border: 1px solid;
-  margin: auto;
+  margin-left: 65px;
   background-image: url('../assets/stage.png');
   background-size: 925px;
 }
@@ -20,7 +20,7 @@ html {
 }
 
 .canvas-container > p {
-  color: #563c5c;
+  color: white;
   font-size: 20px;
 }
 
@@ -82,4 +82,8 @@ html {
 
 .game-info > div {
   margin-bottom: 30px;
+}
+
+audio {
+  display: none;
 }

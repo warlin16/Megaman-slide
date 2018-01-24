@@ -253,7 +253,7 @@ class Player {
        if (vY < 0) {
          this.y -= oY;
          this.grounded = true;
-         this.keysPressed.ArrowUp = false;
+         // this.keysPressed.ArrowUp = false;
        } else if (vY > 0) {
          this.y += oY + 5;
          this.velY = 0;

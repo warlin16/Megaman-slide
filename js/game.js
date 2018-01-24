@@ -9,6 +9,7 @@ class Game {
     this.canvas.width = 700;
     this.canvas.height = 700;
     this.player = new Player(this.canvas);
+    this.status = '';
     this.blocks = {
       moving: new Block(-60, 500, 60, 20, this.canvas),
       floating: new Block(200, 770, 80, 20, this.canvas),
@@ -17,6 +18,7 @@ class Game {
     this.buttons = {};
     this.makeBlocks();
     this.makeButtons();
+    this.theme = document.getElementById('theme');
   }
 
   makeBlocks() {
@@ -31,7 +33,6 @@ class Game {
     // => Platform above player or ap
     this.blocks['ap1'] = new Block(0, 566, 40, 20, this.canvas);
     this.blocks['ap2'] = new Block(50, 566, 40, 50, this.canvas);
-    this.blocks['ap3'] = new Block(530, 566, 40, 50, this.canvas);
     this.blocks['ap4'] = new Block(620, 566, 40, 50, this.canvas);
     // => second row or sr
     this.blocks['sr1'] = new Block(670, 546, 40, 20, this.canvas);
@@ -92,6 +93,7 @@ class Game {
     if (this.player.third) {
       delete this.blocks['1stDoor'];
       delete this.buttons['3'];
+      this.blocks['ap3'] = new Block(530, 566, 40, 50, this.canvas);
     }
     if (this.player.fourth) {
       delete this.buttons['4'];
@@ -125,6 +127,8 @@ class Game {
       this.blocks['6thPlat'] = new Block(670, 450, 40, 20, this.canvas);
       delete this.blocks['ap1'];
       delete this.blocks['ap2'];
+      delete this.blocks['ap3'];
+      delete this.blocks['ap4'];
     }
     if (this.player.sixth) {
       delete this.buttons['6'];
@@ -162,8 +166,6 @@ class Game {
       delete this.blocks['sr1'];
       delete this.blocks['tr1'];
       delete this.blocks['main'];
-      delete this.blocks['ap3'];
-      delete this.blocks['ap4'];
       delete this.blocks['6th'];
       delete this.blocks['6thPlat'];
       this.blocks.floating2.y -= 2;
@@ -208,14 +210,12 @@ document.addEventListener('DOMContentLoaded', () => {
   game.render();
 
   document.addEventListener('keydown', (e) => {
+    if (e.code === 'KeyQ') game.theme.play();
+    
     game.player.keysPressed[e.code] = true;
   });
 
   document.addEventListener('keyup', (e) => {
-    if (e.code === 'ArrowUp') {
-      game.player.keysPressed[e.code] = true;
-    } else {
       game.player.keysPressed[e.code] = false;
-    }
   });
 });

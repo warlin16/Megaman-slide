@@ -4,12 +4,10 @@ class Bass {
   constructor() {
     this.bass = new Image();
     this.bass.src = 'assets/bass.png';
-    this.bassSword = new Image();
-    this.bassSword.src = 'assets/bass_sword.png';
     this.bassLeft = new Image();
     this.bassLeft.src = 'assets/bass_left.png';
     this.bassFace = new Image();
-    this.bassFace.src = 'assets/bass-face.png';
+    this.bassFace.src = 'assets/bass-face.gif';
     this.animation = {
       idleAnim: new CharImg(this.bass, 0, 0, 50, 58),
       leftAnim1: new CharImg(this.bass, 302, 130, 50, 58),
@@ -39,13 +37,7 @@ class Bass {
       leftShootAnim2: new CharImg(this.bassLeft, 120, 495, 50, 58),
       leftShootAnim3: new CharImg(this.bassLeft, 240, 495, 50, 58),
       leftShootAnim4: new CharImg(this.bassLeft, 240, 435, 50, 58),
-      slashAnim1: new CharImg(this.bassSword, 0, 149, 57, 58),
-      slashAnim2: new CharImg(this.bassSword, 59, 149, 57, 58),
-      slashAnim3: new CharImg(this.bassSword, 115, 149, 59, 58),
-      slashAnim4: new CharImg(this.bassSword, 200, 149, 68, 58),
-      slashAnim5: new CharImg(this.bassSword, 270, 149, 68, 58),
-      slashAnim6: new CharImg(this.bassSword, 342, 149, 57, 58),
-      face: new CharImg(this.bassFace, 0, 0, 50, 50),
+      face: new CharImg(this.bassFace, 0, 0, 46, 54),
     };
   }
 }

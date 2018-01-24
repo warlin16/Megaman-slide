@@ -124,6 +124,7 @@ var Game = function () {
     this.canvas.width = 700;
     this.canvas.height = 700;
     this.player = new _player2.default(this.canvas);
+    this.status = '';
     this.blocks = {
       moving: new _block2.default(-60, 500, 60, 20, this.canvas),
       floating: new _block2.default(200, 770, 80, 20, this.canvas),
@@ -132,6 +133,7 @@ var Game = function () {
     this.buttons = {};
     this.makeBlocks();
     this.makeButtons();
+    this.theme = document.getElementById('theme');
   }
 
   _createClass(Game, [{
@@ -148,7 +150,6 @@ var Game = function () {
       // => Platform above player or ap
       this.blocks['ap1'] = new _block2.default(0, 566, 40, 20, this.canvas);
       this.blocks['ap2'] = new _block2.default(50, 566, 40, 50, this.canvas);
-      this.blocks['ap3'] = new _block2.default(530, 566, 40, 50, this.canvas);
       this.blocks['ap4'] = new _block2.default(620, 566, 40, 50, this.canvas);
       // => second row or sr
       this.blocks['sr1'] = new _block2.default(670, 546, 40, 20, this.canvas);
@@ -214,6 +215,7 @@ var Game = function () {
       if (this.player.third) {
         delete this.blocks['1stDoor'];
         delete this.buttons['3'];
+        this.blocks['ap3'] = new _block2.default(530, 566, 40, 50, this.canvas);
       }
       if (this.player.fourth) {
         delete this.buttons['4'];
@@ -247,6 +249,8 @@ var Game = function () {
         this.blocks['6thPlat'] = new _block2.default(670, 450, 40, 20, this.canvas);
         delete this.blocks['ap1'];
         delete this.blocks['ap2'];
+        delete this.blocks['ap3'];
+        delete this.blocks['ap4'];
       }
       if (this.player.sixth) {
         delete this.buttons['6'];
@@ -284,8 +288,6 @@ var Game = function () {
         delete this.blocks['sr1'];
         delete this.blocks['tr1'];
         delete this.blocks['main'];
-        delete this.blocks['ap3'];
-        delete this.blocks['ap4'];
         delete this.blocks['6th'];
         delete this.blocks['6thPlat'];
         this.blocks.floating2.y -= 2;
@@ -334,15 +336,13 @@ document.addEventListener('DOMContentLoaded', function () {
   game.render();
 
   document.addEventListener('keydown', function (e) {
+    if (e.code === 'KeyQ') game.theme.play();
+
     game.player.keysPressed[e.code] = true;
   });
 
   document.addEventListener('keyup', function (e) {
-    if (e.code === 'ArrowUp') {
-      game.player.keysPressed[e.code] = true;
-    } else {
-      game.player.keysPressed[e.code] = false;
-    }
+    game.player.keysPressed[e.code] = false;
   });
 });
 
@@ -627,7 +627,7 @@ var Player = function () {
           if (vY < 0) {
             this.y -= oY;
             this.grounded = true;
-            this.keysPressed.ArrowUp = false;
+            // this.keysPressed.ArrowUp = false;
           } else if (vY > 0) {
             this.y += oY + 5;
             this.velY = 0;
@@ -685,12 +685,10 @@ var Bass = function Bass() {
 
   this.bass = new Image();
   this.bass.src = 'assets/bass.png';
-  this.bassSword = new Image();
-  this.bassSword.src = 'assets/bass_sword.png';
   this.bassLeft = new Image();
   this.bassLeft.src = 'assets/bass_left.png';
   this.bassFace = new Image();
-  this.bassFace.src = 'assets/bass-face.png';
+  this.bassFace.src = 'assets/bass-face.gif';
   this.animation = {
     idleAnim: new _sprite2.default(this.bass, 0, 0, 50, 58),
     leftAnim1: new _sprite2.default(this.bass, 302, 130, 50, 58),
@@ -720,13 +718,7 @@ var Bass = function Bass() {
     leftShootAnim2: new _sprite2.default(this.bassLeft, 120, 495, 50, 58),
     leftShootAnim3: new _sprite2.default(this.bassLeft, 240, 495, 50, 58),
     leftShootAnim4: new _sprite2.default(this.bassLeft, 240, 435, 50, 58),
-    slashAnim1: new _sprite2.default(this.bassSword, 0, 149, 57, 58),
-    slashAnim2: new _sprite2.default(this.bassSword, 59, 149, 57, 58),
-    slashAnim3: new _sprite2.default(this.bassSword, 115, 149, 59, 58),
-    slashAnim4: new _sprite2.default(this.bassSword, 200, 149, 68, 58),
-    slashAnim5: new _sprite2.default(this.bassSword, 270, 149, 68, 58),
-    slashAnim6: new _sprite2.default(this.bassSword, 342, 149, 57, 58),
-    face: new _sprite2.default(this.bassFace, 0, 0, 50, 50)
+    face: new _sprite2.default(this.bassFace, 0, 0, 46, 54)
   };
 };
 
@@ -803,7 +795,7 @@ var Platform = function Platform() {
   this.platform = new Image();
   this.platform.src = 'assets/platform.png';
   this.animation = {
-    platform: new _sprite2.default(this.platform, 0, 10, 71, 36)
+    platform: new _sprite2.default(this.platform, 0, 10, 71, 30)
   };
 };
 
