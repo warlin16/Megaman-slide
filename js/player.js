@@ -37,6 +37,7 @@ class Player {
 
   moveRight() {
     if (this.keysPressed.ArrowRight) {
+      this.direction = 'right';
       if (this.velX < this.speed) this.velX++;
       if (this.frames === 1) {
         if (this.direction === 'right') {
@@ -64,6 +65,7 @@ class Player {
 
   moveLeft() {
     if (this.keysPressed.ArrowLeft && !this.keysPressed.ArrowRight) {
+      this.direction = 'left';
       if (this.velX > -this.speed) this.velX--;
       if (this.frames === 1) {
         if (this.direction === 'right') {
@@ -157,41 +159,10 @@ class Player {
     }
   }
 
-  slash() {
-    if (this.keysPressed.Slash) {
-      if (this.frames === 2) {
-        this.currImg = this.animation.jumpAnim1;
-      }
-      if (this.frames === 8) {
-        this.currImg = this.animation.slashAnim1;
-      }
-      if (this.frames === 12) {
-        this.currImg = this.animation.slashAnim2;
-      }
-      if (this.frames === 15) {
-        this.currImg = this.animation.slashAnim3;
-      }
-      if (this.frames === 18) {
-        this.currImg = this.animation.slashAnim4;
-      }
-      if (this.frames === 21) {
-        this.currImg = this.animation.slashAnim5;
-      }
-      if (this.frames === 24) {
-        this.currImg = this.animation.slashAnim6;
-      }
-      if (this.frames === 27) {
-        this.currImg = this.animation.jumpAnim1;
-      }
-      if (this.frames === 30) this.frames = 0;
-    }
-  }
-
   idle() {
     if (!this.keysPressed.ArrowRight
       && !this.keysPressed.ArrowLeft &&
-      !this.keysPressed.ArrowUp && !this.keysPressed.Space
-      && !this.keysPressed.Slash) {
+      !this.keysPressed.ArrowUp && !this.keysPressed.Space) {
       this.frames = 0;
       if (this.direction === 'right') {
         this.currImg = this.animation.idleAnim;
@@ -225,6 +196,9 @@ class Player {
    if (this.x <= 10 && this.y === 521) this.third = true;
    if (this.x >= 650 && this.y === 501) this.fourth = true;
    if (this.x <= 10 && this.y === 405) this.fifth = true;
+   if (this.x >= 650 && this.y === 405) this.sixth = true;
+   if (this.x <= 220 && this.y === 310) this.seventh = true;
+   if (this.x <= 10 && (this.y <= 225 && this.y >= 223)) this.boss = true;
 
    this.velX *= this.slide;
    this.velY += this.gravity;
@@ -239,13 +213,11 @@ class Player {
    this.moveLeft();
    this.jump();
    this.shoot();
-   this.slash();
    this.idle();
    this.renderFace();
    this.ctx.drawImage(this.currImg.img, this.currImg.sX, this.currImg.sY,
      this.currImg.sWidth, this.currImg.sHeight, this.x,
      this.y, this.width, this.height);
-     // console.log(this.x, this.y);
  }
 
  isColliding(obj) {

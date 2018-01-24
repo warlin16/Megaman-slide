@@ -11,6 +11,7 @@ class Game {
     this.player = new Player(this.canvas);
     this.blocks = {
       moving: new Block(-60, 500, 60, 20, this.canvas),
+      floating: new Block(200, 730, 80, 20, this.canvas),
     };
     this.buttons = {};
     this.makeBlocks();
@@ -37,8 +38,10 @@ class Game {
     // => second row or sr
     this.blocks['sr1'] = new Block(670, 546, 40, 20, this.canvas);
     this.blocks['sr2'] = new Block(0, 450, 40, 20, this.canvas);
+    // => third row or tr
+    this.blocks['tr1'] = new Block(0, 270, 40, 20, this.canvas);
     // => secret doors
-    this.blocks['1stDoor'] = new Block(580, 500, 3, 88, this.canvas);
+    this.blocks['1stDoor'] = new Block(580, 500, 15, 88, this.canvas);
   }
 
   makeButtons() {
@@ -116,9 +119,37 @@ class Game {
       delete this.blocks['Ssr5'];
       delete this.blocks['Ssr6'];
       this.blocks.moving.x += 1;
-      this.blocks['1stDoor'] = new Block(550, 450, 3, 50, this.canvas);
-      this.blocks['2ndDoor'] = new Block(300, 450, 3, 50, this.canvas);
-      this.blocks['3rdDoor'] = new Block(150, 450, 3, 50, this.canvas);
+      this.blocks['1stDoor'] = new Block(550, 450, 15, 50, this.canvas);
+      this.blocks['2ndDoor'] = new Block(400, 450, 15, 50, this.canvas);
+      this.blocks['3rdDoor'] = new Block(300, 450, 15, 50, this.canvas);
+      this.blocks['4thDoor'] = new Block(150, 450, 15, 50, this.canvas);
+      this.buttons['6'] = new Button(675, 420, 20, 30, this.canvas);
+      this.blocks['6thPlat'] = new Block(670, 450, 40, 20, this.canvas);
+      delete this.blocks['ap1'];
+      delete this.blocks['ap2'];
+    }
+    if (this.player.sixth) {
+      delete this.buttons['6'];
+      delete this.blocks['1stDoor'];
+      delete this.blocks['2ndDoor'];
+      delete this.blocks['3rdDoor'];
+      delete this.blocks['4thDoor'];
+      this.buttons['8'] = new Button(8, 239, 20, 30, this.canvas);
+      this.buttons['7'] = new Button(205, 324, 20, 30, this.canvas);
+      this.blocks['1st'] = new Block(570, 450, 40, 20, this.canvas);
+      this.blocks['2nd'] = new Block(470, 440, 40, 20, this.canvas);
+      this.blocks['3rd'] = new Block(380, 410, 40, 20, this.canvas);
+      this.blocks['4th'] = new Block(290, 380, 40, 20, this.canvas);
+      this.blocks['5th'] = new Block(200, 355, 40, 20, this.canvas);
+    }
+    if (this.player.seventh) {
+      delete this.buttons['7'];
+      delete this.blocks['5th'];
+      this.blocks.floating.y -= 2;
+      this.blocks['6th'] = new Block(140, 200, 40, 20, this.canvas);
+    }
+    if (this.player.boss) {
+      delete this.buttons['8'];
     }
   }
 

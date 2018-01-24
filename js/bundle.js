@@ -125,7 +125,8 @@ var Game = function () {
     this.canvas.height = 700;
     this.player = new _player2.default(this.canvas);
     this.blocks = {
-      moving: new _block2.default(-60, 500, 60, 20, this.canvas)
+      moving: new _block2.default(-60, 500, 60, 20, this.canvas),
+      floating: new _block2.default(200, 730, 80, 20, this.canvas)
     };
     this.buttons = {};
     this.makeBlocks();
@@ -154,8 +155,10 @@ var Game = function () {
       // => second row or sr
       this.blocks['sr1'] = new _block2.default(670, 546, 40, 20, this.canvas);
       this.blocks['sr2'] = new _block2.default(0, 450, 40, 20, this.canvas);
+      // => third row or tr
+      this.blocks['tr1'] = new _block2.default(0, 270, 40, 20, this.canvas);
       // => secret doors
-      this.blocks['1stDoor'] = new _block2.default(580, 500, 3, 88, this.canvas);
+      this.blocks['1stDoor'] = new _block2.default(580, 500, 15, 88, this.canvas);
     }
   }, {
     key: 'makeButtons',
@@ -238,9 +241,37 @@ var Game = function () {
         delete this.blocks['Ssr5'];
         delete this.blocks['Ssr6'];
         this.blocks.moving.x += 1;
-        this.blocks['1stDoor'] = new _block2.default(550, 450, 3, 50, this.canvas);
-        this.blocks['2ndDoor'] = new _block2.default(300, 450, 3, 50, this.canvas);
-        this.blocks['3rdDoor'] = new _block2.default(150, 450, 3, 50, this.canvas);
+        this.blocks['1stDoor'] = new _block2.default(550, 450, 15, 50, this.canvas);
+        this.blocks['2ndDoor'] = new _block2.default(400, 450, 15, 50, this.canvas);
+        this.blocks['3rdDoor'] = new _block2.default(300, 450, 15, 50, this.canvas);
+        this.blocks['4thDoor'] = new _block2.default(150, 450, 15, 50, this.canvas);
+        this.buttons['6'] = new _button2.default(675, 420, 20, 30, this.canvas);
+        this.blocks['6thPlat'] = new _block2.default(670, 450, 40, 20, this.canvas);
+        delete this.blocks['ap1'];
+        delete this.blocks['ap2'];
+      }
+      if (this.player.sixth) {
+        delete this.buttons['6'];
+        delete this.blocks['1stDoor'];
+        delete this.blocks['2ndDoor'];
+        delete this.blocks['3rdDoor'];
+        delete this.blocks['4thDoor'];
+        this.buttons['8'] = new _button2.default(8, 239, 20, 30, this.canvas);
+        this.buttons['7'] = new _button2.default(205, 324, 20, 30, this.canvas);
+        this.blocks['1st'] = new _block2.default(570, 450, 40, 20, this.canvas);
+        this.blocks['2nd'] = new _block2.default(470, 440, 40, 20, this.canvas);
+        this.blocks['3rd'] = new _block2.default(380, 410, 40, 20, this.canvas);
+        this.blocks['4th'] = new _block2.default(290, 380, 40, 20, this.canvas);
+        this.blocks['5th'] = new _block2.default(200, 355, 40, 20, this.canvas);
+      }
+      if (this.player.seventh) {
+        delete this.buttons['7'];
+        delete this.blocks['5th'];
+        this.blocks.floating.y -= 2;
+        this.blocks['6th'] = new _block2.default(140, 200, 40, 20, this.canvas);
+      }
+      if (this.player.boss) {
+        delete this.buttons['8'];
       }
     }
   }, {
@@ -347,6 +378,7 @@ var Player = function () {
     key: 'moveRight',
     value: function moveRight() {
       if (this.keysPressed.ArrowRight) {
+        this.direction = 'right';
         if (this.velX < this.speed) this.velX++;
         if (this.frames === 1) {
           if (this.direction === 'right') {
@@ -375,6 +407,7 @@ var Player = function () {
     key: 'moveLeft',
     value: function moveLeft() {
       if (this.keysPressed.ArrowLeft && !this.keysPressed.ArrowRight) {
+        this.direction = 'left';
         if (this.velX > -this.speed) this.velX--;
         if (this.frames === 1) {
           if (this.direction === 'right') {
@@ -469,40 +502,9 @@ var Player = function () {
       }
     }
   }, {
-    key: 'slash',
-    value: function slash() {
-      if (this.keysPressed.Slash) {
-        if (this.frames === 2) {
-          this.currImg = this.animation.jumpAnim1;
-        }
-        if (this.frames === 8) {
-          this.currImg = this.animation.slashAnim1;
-        }
-        if (this.frames === 12) {
-          this.currImg = this.animation.slashAnim2;
-        }
-        if (this.frames === 15) {
-          this.currImg = this.animation.slashAnim3;
-        }
-        if (this.frames === 18) {
-          this.currImg = this.animation.slashAnim4;
-        }
-        if (this.frames === 21) {
-          this.currImg = this.animation.slashAnim5;
-        }
-        if (this.frames === 24) {
-          this.currImg = this.animation.slashAnim6;
-        }
-        if (this.frames === 27) {
-          this.currImg = this.animation.jumpAnim1;
-        }
-        if (this.frames === 30) this.frames = 0;
-      }
-    }
-  }, {
     key: 'idle',
     value: function idle() {
-      if (!this.keysPressed.ArrowRight && !this.keysPressed.ArrowLeft && !this.keysPressed.ArrowUp && !this.keysPressed.Space && !this.keysPressed.Slash) {
+      if (!this.keysPressed.ArrowRight && !this.keysPressed.ArrowLeft && !this.keysPressed.ArrowUp && !this.keysPressed.Space) {
         this.frames = 0;
         if (this.direction === 'right') {
           this.currImg = this.animation.idleAnim;
@@ -535,6 +537,9 @@ var Player = function () {
       if (this.x <= 10 && this.y === 521) this.third = true;
       if (this.x >= 650 && this.y === 501) this.fourth = true;
       if (this.x <= 10 && this.y === 405) this.fifth = true;
+      if (this.x >= 650 && this.y === 405) this.sixth = true;
+      if (this.x <= 220 && this.y === 310) this.seventh = true;
+      if (this.x <= 10 && this.y <= 225 && this.y >= 223) this.boss = true;
 
       this.velX *= this.slide;
       this.velY += this.gravity;
@@ -549,11 +554,9 @@ var Player = function () {
       this.moveLeft();
       this.jump();
       this.shoot();
-      this.slash();
       this.idle();
       this.renderFace();
       this.ctx.drawImage(this.currImg.img, this.currImg.sX, this.currImg.sY, this.currImg.sWidth, this.currImg.sHeight, this.x, this.y, this.width, this.height);
-      // console.log(this.x, this.y);
     }
   }, {
     key: 'isColliding',
