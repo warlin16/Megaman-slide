@@ -107,6 +107,10 @@ var _block = __webpack_require__(4);
 
 var _block2 = _interopRequireDefault(_block);
 
+var _button = __webpack_require__(7);
+
+var _button2 = _interopRequireDefault(_button);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -117,84 +121,45 @@ var Game = function () {
 
     this.canvas = document.getElementById('main');
     this.ctx = this.canvas.getContext('2d');
-    this.canvas.width = 900;
+    this.canvas.width = 700;
     this.canvas.height = 700;
     this.player = new _player2.default(this.canvas);
     this.blocks = {};
+    this.buttons = {};
     this.makeBlocks();
+    this.makeButtons();
   }
 
   _createClass(Game, [{
     key: 'makeBlocks',
     value: function makeBlocks() {
-      // => main platform
+      // => main platforn
+      // => S stands for secret
       this.blocks['main'] = new _block2.default(0, 676, 40, 50, this.canvas);
-      this.blocks['Dmain'] = new _block2.default(50, 676, 40, 50, this.canvas);
+      this.blocks['main1'] = new _block2.default(50, 676, 40, 50, this.canvas);
       this.blocks['main2'] = new _block2.default(100, 676, 40, 50, this.canvas);
-      this.blocks['Dmain2'] = new _block2.default(150, 676, 40, 50, this.canvas);
+      this.blocks['main3'] = new _block2.default(150, 676, 40, 50, this.canvas);
       this.blocks['main4'] = new _block2.default(200, 676, 40, 50, this.canvas);
-      this.blocks['Dmain4'] = new _block2.default(250, 676, 40, 50, this.canvas);
-      this.blocks['main6'] = new _block2.default(300, 676, 40, 50, this.canvas);
-      this.blocks['Dmain6'] = new _block2.default(350, 676, 40, 50, this.canvas);
-      this.blocks['main8'] = new _block2.default(400, 676, 40, 50, this.canvas);
-      this.blocks['Dmain8'] = new _block2.default(450, 676, 40, 50, this.canvas);
-      this.blocks['1main'] = new _block2.default(500, 676, 40, 50, this.canvas);
-      this.blocks['D1main'] = new _block2.default(550, 676, 40, 50, this.canvas);
-      this.blocks['3main'] = new _block2.default(600, 676, 40, 50, this.canvas);
-      this.blocks['D3main'] = new _block2.default(650, 676, 40, 50, this.canvas);
-      this.blocks['5main'] = new _block2.default(700, 676, 40, 50, this.canvas);
-      this.blocks['D5main'] = new _block2.default(750, 676, 40, 50, this.canvas);
-      this.blocks['7main'] = new _block2.default(800, 676, 40, 50, this.canvas);
-      this.blocks['8main'] = new _block2.default(900, 676, 40, 50, this.canvas);
+      this.blocks['main5'] = new _block2.default(250, 676, 40, 50, this.canvas);
+
       // => Boss platform
       this.blocks['boss'] = new _block2.default(600, 120, 450, 5, this.canvas);
-      // => Platform above player
-      this.blocks['1st'] = new _block2.default(0, 560, 60, 8, this.canvas);
-      this.blocks['2nd'] = new _block2.default(140, 560, 40, 8, this.canvas);
-      this.blocks['3rd'] = new _block2.default(216, 530, 5, 40, this.canvas);
-      this.blocks['4th'] = new _block2.default(253, 560, 30, 8, this.canvas);
-      this.blocks['5th'] = new _block2.default(350, 560, 30, 8, this.canvas);
-      this.blocks['6th'] = new _block2.default(450, 560, 30, 8, this.canvas);
-      this.blocks['7th'] = new _block2.default(550, 560, 30, 8, this.canvas);
-      this.blocks['9th'] = new _block2.default(657, 515, 30, 8, this.canvas);
-      this.blocks['11th'] = new _block2.default(840, 650, 55, 30, this.canvas);
-      // => Second platform
-      this.blocks['12th'] = new _block2.default(800, 495, 100, 8, this.canvas);
-      this.blocks['13th'] = new _block2.default(750, 530, 40, 8, this.canvas);
-      this.blocks['14th'] = new _block2.default(845, 465, 50, 14, this.canvas);
-      this.blocks['15th'] = new _block2.default(750, 425, 40, 8, this.canvas);
-      this.blocks['16th'] = new _block2.default(855, 385, 40, 8, this.canvas);
-      // => Third platform
-      this.blocks['17th'] = new _block2.default(700, 355, 75, 8, this.canvas);
-      this.blocks['18th'] = new _block2.default(600, 395, 30, 8, this.canvas);
-      this.blocks['19th'] = new _block2.default(500, 395, 30, 8, this.canvas);
-      this.blocks['20th'] = new _block2.default(400, 395, 30, 8, this.canvas);
-      this.blocks['21st'] = new _block2.default(300, 395, 30, 8, this.canvas);
-      this.blocks['22nd'] = new _block2.default(200, 385, 30, 8, this.canvas);
-      this.blocks['23rd'] = new _block2.default(75, 430, 50, 8, this.canvas);
-      this.blocks['24'] = new _block2.default(35, 380, 30, 8, this.canvas);
-      // => Fourth Platform
-      this.blocks['24th'] = new _block2.default(0, 330, 30, 8, this.canvas);
-      this.blocks['25th'] = new _block2.default(90, 300, 30, 8, this.canvas);
-      this.blocks['26th'] = new _block2.default(170, 260, 30, 8, this.canvas);
-      this.blocks['27th'] = new _block2.default(270, 260, 30, 8, this.canvas);
-      this.blocks['28th'] = new _block2.default(370, 260, 30, 8, this.canvas);
-      this.blocks['29th'] = new _block2.default(470, 260, 30, 8, this.canvas);
-      this.blocks['30th'] = new _block2.default(570, 260, 30, 8, this.canvas);
-      this.blocks['31st'] = new _block2.default(670, 260, 30, 8, this.canvas);
-      this.blocks['32nd'] = new _block2.default(730, 230, 10, 40, this.canvas);
-      this.blocks['33rd'] = new _block2.default(770, 260, 30, 8, this.canvas);
-      this.blocks['34th'] = new _block2.default(880, 260, 30, 8, this.canvas);
-      // => Fifth Platform
-      this.blocks['35th'] = new _block2.default(10, 200, 30, 8, this.canvas);
-      this.blocks['36th'] = new _block2.default(84, 225, 30, 8, this.canvas);
-      this.blocks['37th'] = new _block2.default(100, 160, 30, 8, this.canvas);
-      this.blocks['38th'] = new _block2.default(160, 130, 30, 8, this.canvas);
-      this.blocks['39th'] = new _block2.default(20, 105, 30, 8, this.canvas);
+      // => Platform above player or ap
+      this.blocks['ap1'] = new _block2.default(0, 566, 40, 20, this.canvas);
+      this.blocks['ap2'] = new _block2.default(50, 566, 40, 50, this.canvas);
+      this.blocks['ap3'] = new _block2.default(530, 566, 40, 50, this.canvas);
+      this.blocks['ap4'] = new _block2.default(620, 566, 40, 50, this.canvas);
+      // => second row or sr
+      this.blocks['sr1'] = new _block2.default(670, 546, 40, 20, this.canvas);
       // => secret doors
-      this.blocks['1stDoor'] = new _block2.default(580, 530, 5, 38, this.canvas);
-      this.blocks['2ndDoor'] = new _block2.default(655, 500, 5, 38, this.canvas);
-      this.blocks['3rdDoor'] = new _block2.default(100, 125, 5, 38, this.canvas);
+      this.blocks['1stDoor'] = new _block2.default(580, 500, 3, 88, this.canvas);
+    }
+  }, {
+    key: 'makeButtons',
+    value: function makeButtons() {
+      this.buttons['1'] = new _button2.default(248, 650, 20, 30, this.canvas);
+      this.buttons['3'] = new _button2.default(8, 540, 20, 30, this.canvas);
+      this.buttons['4'] = new _button2.default(675, 520, 20, 30, this.canvas);
     }
   }, {
     key: 'renderBlocks',
@@ -208,29 +173,48 @@ var Game = function () {
         if (!grounded) {
           grounded = _this.player.shouldFall(block);
         }
-        if (_this.player.first) {
-          delete _this.blocks['1stDoor'];
-          delete _this.blocks['Dmain'];
-          delete _this.blocks['Dmain2'];
-          delete _this.blocks['Dmain4'];
-          delete _this.blocks['Dmain6'];
-          delete _this.blocks['Dmain8'];
-          delete _this.blocks['D1main'];
-          delete _this.blocks['D3main'];
-          delete _this.blocks['D5main'];
-          _this.blocks['8th'] = new _block2.default(620, 600, 40, 8, _this.canvas);
-          _this.blocks['10th'] = new _block2.default(730, 630, 50, 8, _this.canvas);
-        }
-        if (_this.player.second) {
-          delete _this.blocks['2ndDoor'];
-          _this.blocks['9'] = new _block2.default(627, 535, 30, 8, _this.canvas);
-        }
-        if (_this.player.third) {
-          delete _this.blocks['3rdDoor'];
-        }
       });
       if (!grounded) {
         this.player.grounded = false;
+      }
+    }
+  }, {
+    key: 'renderButtons',
+    value: function renderButtons() {
+      Object.values(this.buttons).forEach(function (button) {
+        button.render();
+      });
+    }
+  }, {
+    key: 'renderSecrets',
+    value: function renderSecrets() {
+      if (this.player.first) {
+        this.blocks['Smain'] = new _block2.default(350, 646, 40, 50, this.canvas);
+        this.blocks['Smain2'] = new _block2.default(400, 606, 40, 50, this.canvas);
+        this.blocks['Smain3'] = new _block2.default(450, 566, 40, 50, this.canvas);
+        this.buttons['2'] = new _button2.default(455, 540, 20, 30, this.canvas);
+        delete this.buttons['1'];
+      }
+      if (this.player.second) {
+        delete this.buttons['2'];
+        this.blocks['Sap1'] = new _block2.default(350, 566, 40, 50, this.canvas);
+        this.blocks['Sap2'] = new _block2.default(250, 566, 40, 50, this.canvas);
+        this.blocks['Sap3'] = new _block2.default(150, 566, 40, 50, this.canvas);
+      }
+      if (this.player.third) {
+        delete this.blocks['1stDoor'];
+        delete this.buttons['3'];
+      }
+      if (this.player.fourth) {
+        delete this.buttons['4'];
+        delete this.blocks['Smain'];
+        delete this.blocks['Smain2'];
+        delete this.blocks['Smain3'];
+        delete this.blocks['Sap1'];
+        delete this.blocks['Sap2'];
+        delete this.blocks['Sap3'];
+        this.blocks['Ssr1'] = new _block2.default(450, 546, 40, 20, this.canvas);
+        this.blocks['Ssr2'] = new _block2.default(350, 546, 40, 20, this.canvas);
       }
     }
   }, {
@@ -238,6 +222,8 @@ var Game = function () {
     value: function render() {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.player.physics();
+      this.renderSecrets();
+      this.renderButtons();
       this.renderBlocks();
       if (this.player.y > this.canvas.height) {
         console.log('You lost!');
@@ -298,10 +284,10 @@ var Player = function () {
     this.stage = stage;
     this.ctx = this.stage.getContext('2d');
     this.x = 0;
-    this.y = 600;
+    this.y = 620;
     this.width = 35;
     this.height = 45;
-    this.speed = 4.5;
+    this.speed = 5;
     this.velX = 0;
     this.velY = 0;
     this.jumping = false;
@@ -389,7 +375,7 @@ var Player = function () {
       if (this.keysPressed.ArrowUp) {
         if (this.grounded || this.velY === 0) {
           this.jumping = true;
-          this.velY = -(this.speed * 2);
+          this.velY = -9;
           this.grounded = false;
         }
         if (this.jumping) {
@@ -514,11 +500,10 @@ var Player = function () {
         this.velY = 0;
         this.y = 0;
       }
-      if (this.x > 864 && this.y > 604) {
-        this.first = true;
-      }
-      if (this.x > 8 && this.x < 15 && this.y === 515) this.second = true;
-      if (this.x === 865 && this.y === 215) this.third = true;
+      if (this.x >= 244 && this.y === 631) this.first = true;
+      if (this.x >= 437 && this.y === 521) this.second = true;
+      if (this.x <= 10 && this.y === 521) this.third = true;
+      if (this.x >= 650 && this.y === 501) this.fourth = true;
 
       this.velX *= this.slide;
       this.velY += this.gravity;
@@ -537,6 +522,7 @@ var Player = function () {
       this.idle();
       this.renderFace();
       this.ctx.drawImage(this.currImg.img, this.currImg.sX, this.currImg.sY, this.currImg.sWidth, this.currImg.sHeight, this.x, this.y, this.width, this.height);
+      console.log(this.x, this.y);
     }
   }, {
     key: 'isColliding',
@@ -663,8 +649,6 @@ var Bass = function Bass() {
   this.bassLeft.src = 'assets/bass_left.png';
   this.bassFace = new Image();
   this.bassFace.src = 'assets/bass-face.png';
-  this.button = new Image();
-  this.button.src = 'assets/button.png';
   this.animation = {
     idleAnim: new _sprite2.default(this.bass, 0, 0, 50, 58),
     leftAnim1: new _sprite2.default(this.bass, 302, 130, 50, 58),
@@ -700,8 +684,7 @@ var Bass = function Bass() {
     slashAnim4: new _sprite2.default(this.bassSword, 200, 149, 68, 58),
     slashAnim5: new _sprite2.default(this.bassSword, 270, 149, 68, 58),
     slashAnim6: new _sprite2.default(this.bassSword, 342, 149, 57, 58),
-    face: new _sprite2.default(this.bassFace, 0, 0, 50, 50),
-    button: new _sprite2.default(this.button, 80, 0, 100, 100)
+    face: new _sprite2.default(this.bassFace, 0, 0, 50, 50)
   };
 };
 
@@ -737,6 +720,52 @@ var Platform = function Platform() {
 };
 
 exports.default = Platform;
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _sprite = __webpack_require__(0);
+
+var _sprite2 = _interopRequireDefault(_sprite);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Button = function () {
+  function Button(x, y, width, height, stage) {
+    _classCallCheck(this, Button);
+
+    this.animate = new Image();
+    this.animate.src = 'assets/orb.gif';
+    this.x = x;
+    this.y = y;
+    this.height = height;
+    this.width = width;
+    this.ctx = stage.getContext('2d');
+  }
+
+  _createClass(Button, [{
+    key: 'render',
+    value: function render() {
+      this.ctx.drawImage(this.animate, 0, 0, 25, 38, this.x, this.y, this.width, this.height);
+    }
+  }]);
+
+  return Button;
+}();
+
+exports.default = Button;
 
 /***/ })
 /******/ ]);

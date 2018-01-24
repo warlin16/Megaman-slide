@@ -6,10 +6,10 @@ class Player {
     this.stage = stage;
     this.ctx = this.stage.getContext('2d');
     this.x = 0;
-    this.y = 600;
+    this.y = 620;
     this.width = 35;
     this.height = 45;
-    this.speed = 4.5;
+    this.speed = 5;
     this.velX = 0;
     this.velY = 0;
     this.jumping = false;
@@ -93,7 +93,7 @@ class Player {
     if (this.keysPressed.ArrowUp) {
       if (this.grounded || this.velY === 0) {
         this.jumping = true;
-        this.velY = -(this.speed * 2);
+        this.velY = -(9);
         this.grounded = false;
       }
       if (this.jumping) {
@@ -220,11 +220,10 @@ class Player {
      this.velY = 0;
      this.y = 0;
    }
-   if (this.x > 864 && this.y > 604) {
-     this.first = true;
-   }
-   if (this.x > 8 && this.x < 15 && this.y === 515) this.second = true;
-   if (this.x === 865 && this.y === 215) this.third = true;
+   if (this.x >= 244 && this.y === 631) this.first = true;
+   if (this.x >= 437 && this.y === 521) this.second = true;
+   if (this.x <= 10 && this.y === 521) this.third = true;
+   if (this.x >= 650 && this.y === 501) this.fourth = true;
 
    this.velX *= this.slide;
    this.velY += this.gravity;
@@ -245,6 +244,7 @@ class Player {
    this.ctx.drawImage(this.currImg.img, this.currImg.sX, this.currImg.sY,
      this.currImg.sWidth, this.currImg.sHeight, this.x,
      this.y, this.width, this.height);
+     console.log(this.x, this.y);
  }
 
  isColliding(obj) {
