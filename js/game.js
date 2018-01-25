@@ -245,7 +245,7 @@ class Game {
     delete this.blocks['3rd'];
     delete this.blocks['4th'];
     delete this.blocks['5th'];
-    this.checkpoint = {x: 20, y: 620};
+    this.player.checkpoint = {x: 20, y: 620};
     this.player.x = 0;
     this.player.y = 620;
     this.start = true;
