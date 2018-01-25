@@ -124,9 +124,10 @@ var Game = function () {
     this.canvas.width = 700;
     this.canvas.height = 700;
     this.player = new _player2.default(this.canvas);
-    this.status = '';
+    this.start = false;
     this.blocks = {
       moving: new _block2.default(-60, 500, 60, 20, this.canvas),
+      tutorial: new _block2.default(-60, 350, 60, 20, this.canvas),
       floating: new _block2.default(200, 770, 80, 20, this.canvas),
       floating2: new _block2.default(0, 770, 50, 20, this.canvas)
     };
@@ -134,6 +135,7 @@ var Game = function () {
     this.makeBlocks();
     this.makeButtons();
     this.theme = document.getElementById('theme');
+    this.playSong = false;
   }
 
   _createClass(Game, [{
@@ -291,38 +293,72 @@ var Game = function () {
         delete this.blocks['6th'];
         delete this.blocks['6thPlat'];
         this.blocks.floating2.y -= 2;
-        this.blocks['boss'] = new _block2.default(350, 120, 50, 50, this.canvas);
-        this.blocks['boss2'] = new _block2.default(400, 120, 50, 50, this.canvas);
-        this.blocks['boss3'] = new _block2.default(450, 120, 50, 50, this.canvas);
-        this.blocks['boss4'] = new _block2.default(500, 120, 50, 50, this.canvas);
-        this.blocks['boss5'] = new _block2.default(550, 120, 50, 50, this.canvas);
-        this.blocks['boss6'] = new _block2.default(600, 120, 50, 50, this.canvas);
-        this.blocks['boss7'] = new _block2.default(650, 120, 50, 50, this.canvas);
-        this.blocks['1st'] = new _block2.default(50, 350, 50, 50, this.canvas);
-        this.blocks['2nd'] = new _block2.default(100, 300, 50, 50, this.canvas);
-        this.blocks['3rd'] = new _block2.default(150, 250, 50, 50, this.canvas);
-        this.blocks['4th'] = new _block2.default(200, 200, 50, 50, this.canvas);
-        this.blocks['5th'] = new _block2.default(250, 150, 50, 50, this.canvas);
+        this.buttons['win'] = new _button2.default(670, 92, 20, 30, this.canvas);
+        this.blocks['boss'] = new _block2.default(355, 120, 40, 20, this.canvas);
+        this.blocks['boss3'] = new _block2.default(465, 120, 40, 20, this.canvas);
+        this.blocks['boss5'] = new _block2.default(565, 120, 40, 20, this.canvas);
+        this.blocks['boss7'] = new _block2.default(665, 120, 40, 20, this.canvas);
+        this.blocks['1st'] = new _block2.default(50, 350, 40, 50, this.canvas);
+        this.blocks['2nd'] = new _block2.default(100, 300, 40, 50, this.canvas);
+        this.blocks['3rd'] = new _block2.default(150, 250, 40, 50, this.canvas);
+        this.blocks['4th'] = new _block2.default(200, 200, 40, 50, this.canvas);
+        this.blocks['5th'] = new _block2.default(250, 150, 40, 50, this.canvas);
       }
+
+      if (this.player.won) {
+        delete this.buttons['win'];
+        console.log('You won!');
+      }
+    }
+  }, {
+    key: 'renderText',
+    value: function renderText() {
+      this.ctx.font = '20px "Press Start 2P"';
+      this.ctx.fillStyle = 'white';
+      this.ctx.fillText('Read above && press N to start a new game!', 100, 250, 500);
+    }
+  }, {
+    key: 'renderWinMessage',
+    value: function renderWinMessage() {
+      this.ctx.font = '20px "Press Start 2P"';
+      this.ctx.fillStyle = 'white';
+      this.ctx.fillText('Read above && press N to start a new game!', 100, 250, 500);
     }
   }, {
     key: 'render',
     value: function render() {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.player.physics();
-      this.renderSecrets();
-      this.renderButtons();
-      this.renderBlocks();
-      if (this.player.y > this.canvas.height) {
-        this.player.lives -= 1;
-        this.player.x = this.player.checkpoint.x;
-        this.player.y = this.player.checkpoint.y;
-        if (this.player.fifth && !this.player.sixth) {
-          this.blocks.moving.x = -60;
+      if (this.start && !this.player.won) {
+        delete this.blocks.tutorial;
+        this.playSong = true;
+        if (this.playSong) {
+          this.theme.play();
+        } else {
+          this.theme.pause();
         }
-        if (this.player.lives === 0) {
-          console.log('YOU LOST');
+        this.player.physics();
+        this.renderSecrets();
+        this.renderButtons();
+        this.renderBlocks();
+        if (this.player.y > this.canvas.height) {
+          this.player.lives -= 1;
+          this.player.x = this.player.checkpoint.x;
+          this.player.y = this.player.checkpoint.y;
+          if (this.player.fifth && !this.player.sixth) {
+            this.blocks.moving.x = -60;
+          }
+          if (this.player.lives === 0) {
+            console.log('YOU LOST');
+          }
         }
+      } else if (this.player.won) {
+        this.start = false;
+        this.theme.pause();
+        this.renderText();
+      } else {
+        this.renderWinMessage();
+        this.blocks.tutorial.render();
+        this.blocks.tutorial.x += 1;
       }
       requestAnimationFrame(this.render.bind(this));
     }
@@ -336,7 +372,8 @@ document.addEventListener('DOMContentLoaded', function () {
   game.render();
 
   document.addEventListener('keydown', function (e) {
-    if (e.code === 'KeyQ') game.theme.play();
+    if (e.code === 'KeyQ') game.playSong = !game.playSong;
+    if (e.code === 'KeyN') game.start = true;
 
     game.player.keysPressed[e.code] = true;
   });
@@ -595,6 +632,9 @@ var Player = function () {
       if (this.boss) {
         this.checkpoint.x = 55;
         this.checkpoint.y = 290;
+      }
+      if (this.x >= 655 && this.y === 75) {
+        this.won = true;
       }
       this.velX *= this.slide;
       this.velY += this.gravity;

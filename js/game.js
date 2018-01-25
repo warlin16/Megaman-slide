@@ -9,9 +9,10 @@ class Game {
     this.canvas.width = 700;
     this.canvas.height = 700;
     this.player = new Player(this.canvas);
-    this.status = '';
+    this.start = false;
     this.blocks = {
       moving: new Block(-60, 500, 60, 20, this.canvas),
+      tutorial: new Block(-60, 350, 60, 20, this.canvas),
       floating: new Block(200, 770, 80, 20, this.canvas),
       floating2: new Block(0, 770, 50, 20, this.canvas),
     };
@@ -19,6 +20,7 @@ class Game {
     this.makeBlocks();
     this.makeButtons();
     this.theme = document.getElementById('theme');
+    this.playSong = false;
   }
 
   makeBlocks() {
@@ -169,37 +171,71 @@ class Game {
       delete this.blocks['6th'];
       delete this.blocks['6thPlat'];
       this.blocks.floating2.y -= 2;
-      this.blocks['boss'] = new Block(350, 120, 50, 50, this.canvas);
-      this.blocks['boss2'] = new Block(400, 120, 50, 50, this.canvas);
-      this.blocks['boss3'] = new Block(450, 120, 50, 50, this.canvas);
-      this.blocks['boss4'] = new Block(500, 120, 50, 50, this.canvas);
-      this.blocks['boss5'] = new Block(550, 120, 50, 50, this.canvas);
-      this.blocks['boss6'] = new Block(600, 120, 50, 50, this.canvas);
-      this.blocks['boss7'] = new Block(650, 120, 50, 50, this.canvas);
-      this.blocks['1st'] = new Block(50, 350, 50, 50, this.canvas);
-      this.blocks['2nd'] = new Block(100, 300, 50, 50, this.canvas);
-      this.blocks['3rd'] = new Block(150, 250, 50, 50, this.canvas);
-      this.blocks['4th'] = new Block(200, 200, 50, 50, this.canvas);
-      this.blocks['5th'] = new Block(250, 150, 50, 50, this.canvas);
+      this.buttons['win'] = new Button(670, 92, 20, 30, this.canvas);
+      this.blocks['boss'] = new Block(355, 120, 40, 20, this.canvas);
+      this.blocks['boss3'] = new Block(465, 120, 40, 20, this.canvas);
+      this.blocks['boss5'] = new Block(565, 120, 40, 20, this.canvas);
+      this.blocks['boss7'] = new Block(665, 120, 40, 20, this.canvas);
+      this.blocks['1st'] = new Block(50, 350, 40, 50, this.canvas);
+      this.blocks['2nd'] = new Block(100, 300, 40, 50, this.canvas);
+      this.blocks['3rd'] = new Block(150, 250, 40, 50, this.canvas);
+      this.blocks['4th'] = new Block(200, 200, 40, 50, this.canvas);
+      this.blocks['5th'] = new Block(250, 150, 40, 50, this.canvas);
     }
+
+    if (this.player.won) {
+      delete this.buttons['win'];
+      console.log('You won!');
+    }
+  }
+
+  renderText() {
+    this.ctx.font = '20px "Press Start 2P"';
+    this.ctx.fillStyle = 'white';
+    this.ctx.fillText(
+      'Read above && press N to start a new game!', 100, 250, 500);
+  }
+
+  renderWinMessage() {
+    this.ctx.font = '20px "Press Start 2P"';
+    this.ctx.fillStyle = 'white';
+    this.ctx.fillText(
+      'Read above && press N to start a new game!', 100, 250, 500);
   }
 
   render() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    this.player.physics();
-    this.renderSecrets();
-    this.renderButtons();
-    this.renderBlocks();
-    if (this.player.y > this.canvas.height) {
-      this.player.lives -= 1;
-      this.player.x = this.player.checkpoint.x;
-      this.player.y = this.player.checkpoint.y;
-      if (this.player.fifth && !this.player.sixth) {
-        this.blocks.moving.x = -60;
+    if (this.start && !this.player.won) {
+      delete this.blocks.tutorial;
+      this.playSong = true;
+      if (this.playSong) {
+        this.theme.play();
+      } else {
+        this.theme.pause();
       }
-      if (this.player.lives === 0) {
-        console.log('YOU LOST');
+      this.player.physics();
+      this.renderSecrets();
+      this.renderButtons();
+      this.renderBlocks();
+      if (this.player.y > this.canvas.height) {
+        this.player.lives -= 1;
+        this.player.x = this.player.checkpoint.x;
+        this.player.y = this.player.checkpoint.y;
+        if (this.player.fifth && !this.player.sixth) {
+          this.blocks.moving.x = -60;
+        }
+        if (this.player.lives === 0) {
+          console.log('YOU LOST');
+        }
       }
+    } else if (this.player.won) {
+      this.start = false;
+      this.theme.pause();
+      this.renderText();
+    } else {
+      this.renderWinMessage();
+      this.blocks.tutorial.render();
+      this.blocks.tutorial.x += 1;
     }
     requestAnimationFrame(this.render.bind(this));
   }
@@ -210,8 +246,9 @@ document.addEventListener('DOMContentLoaded', () => {
   game.render();
 
   document.addEventListener('keydown', (e) => {
-    if (e.code === 'KeyQ') game.theme.play();
-    
+    if (e.code === 'KeyQ') game.playSong = !game.playSong;
+    if (e.code === 'KeyN') game.start = true;
+
     game.player.keysPressed[e.code] = true;
   });
 

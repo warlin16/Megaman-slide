@@ -221,6 +221,9 @@ class Player {
      this.checkpoint.x = 55;
      this.checkpoint.y = 290;
    }
+   if (this.x >= 655 && this.y === 75) {
+     this.won = true;
+   }
    this.velX *= this.slide;
    this.velY += this.gravity;
    if (this.grounded) this.velY = 0;
