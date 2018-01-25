@@ -23,7 +23,7 @@ class Player {
     this.frames = 0;
     this.direction = 'right';
     this.isColliding = this.isColliding.bind(this);
-    this.lives = 2;
+    this.lives = 3;
     this.checkpoint = {x: 20, y: 620};
   }
 
@@ -194,9 +194,9 @@ class Player {
    }
    if (this.x >= 235 && this.y === 631) this.first = true;
    if (this.x >= 437 && this.y === 521) {
+     this.second = true;
      this.checkpoint.x = 450;
      this.checkpoint.y = 470;
-     this.second = true;
    }
    if (this.x <= 10 && this.y === 521) this.third = true;
    if (this.x >= 650 && this.y === 501) this.fourth = true;
