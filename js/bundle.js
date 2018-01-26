@@ -348,6 +348,7 @@ var Game = function () {
         floating: new _block2.default(200, 770, 80, 20, this.canvas),
         floating2: new _block2.default(0, 770, 50, 20, this.canvas)
       };
+      this.player.checkpoint = { x: 20, y: 620 };
       this.makeBlocks();
       this.makeButtons();
       this.player.lives = 3;
@@ -371,7 +372,10 @@ var Game = function () {
       delete this.blocks['3rd'];
       delete this.blocks['4th'];
       delete this.blocks['5th'];
-      this.player.checkpoint = { x: 20, y: 620 };
+      delete this.buttons['2'];
+      delete this.buttons['6'];
+      delete this.buttons['7'];
+      delete this.buttons['8'];
       this.player.x = 0;
       this.player.y = 620;
       this.start = true;
@@ -677,6 +681,8 @@ var Player = function () {
       }
       if (this.x >= 650 && this.y === 405) {
         this.sixth = true;
+        this.checkpoint.x = 655;
+        this.checkpoint.y = 390;
       }
       if (this.x <= 220 && this.y === 310) {
         this.seventh = true;

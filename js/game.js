@@ -246,6 +246,10 @@ class Game {
     delete this.blocks['3rd'];
     delete this.blocks['4th'];
     delete this.blocks['5th'];
+    delete this.buttons['2'];
+    delete this.buttons['6'];
+    delete this.buttons['7'];
+    delete this.buttons['8'];
     this.player.x = 0;
     this.player.y = 620;
     this.start = true;

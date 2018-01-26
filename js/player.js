@@ -207,6 +207,8 @@ class Player {
    }
    if (this.x >= 650 && this.y === 405) {
      this.sixth = true;
+     this.checkpoint.x = 655;
+     this.checkpoint.y = 390;
    }
    if (this.x <= 220 && this.y === 310) {
      this.seventh = true;
