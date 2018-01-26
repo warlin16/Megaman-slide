@@ -222,6 +222,7 @@ class Game {
       floating: new Block(200, 770, 80, 20, this.canvas),
       floating2: new Block(0, 770, 50, 20, this.canvas),
     };
+    this.player.checkpoint = {x: 20, y: 620};
     this.makeBlocks();
     this.makeButtons();
     this.player.lives = 3;
@@ -245,7 +246,6 @@ class Game {
     delete this.blocks['3rd'];
     delete this.blocks['4th'];
     delete this.blocks['5th'];
-    this.player.checkpoint = {x: 20, y: 620};
     this.player.x = 0;
     this.player.y = 620;
     this.start = true;
