@@ -1,16 +1,30 @@
+# README
+
+# [Live](https://warlin16.github.io/Return-Of-Bass/)
+
+
 Return of Bass is a platform based jumping game
 
 Functionality and MVP With Return of Bass players will be able to
 
-Start pause and reset the game
+Start and reset the game
 jump over platforms with up or space
-shoot obstacles to open locked doors or slash them with a sword
 Music to accompany the game
 
-Players will be tasked with getting to the top platform of the stage in under 2 minutes, and be surprised with a boss block the entrance, players can lose either by losing all their heath points or time running out. Players can win by defeating the boss and crossing the flag to clear the game.
+Players will be tasked with getting to the top platform of the stage collecting orbs to make platforms appear and disappear, players can lose by losing their three lives by falling through the holes. Players can win by reaching the very top of the level
 
-Wireframes
-This app will consist of a single screen with game board, game controls, and links to my Github, my LinkedIn. The controls for the game will be jumping up with with the up arrow, space shooting a projectile, start, pause, and reset slashing.
+![](https://media.giphy.com/media/xUOwGjt5Guldtpp0l2/giphy.gif)
+
+The game has a custom built physics engine to replicate the effects of gravity and friction where the players x position and velocity on the x axis is multiplied by a fixed number as well as for gravity, gravity is added to the players y position to decrement their velocity on the Y axis.
+
+```javascript
+    this.velX *= this.slide;
+    this.velY += this.gravity;
+    if (this.grounded) this.velY = 0;
+
+    this.x += this.velX;
+    this.y += this.velY;
+```
 
 Technologies This project will implement the following technologies
 
