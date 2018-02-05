@@ -26,12 +26,12 @@ class Game {
   makeBlocks() {
     // => main platforn
     // => S stands for secret
-    this.blocks["main"] = new Block(0, 676, 40, 50, this.canvas);
-    this.blocks["main1"] = new Block(50, 676, 40, 50, this.canvas);
-    this.blocks["main2"] = new Block(100, 676, 40, 50, this.canvas);
-    this.blocks["main3"] = new Block(150, 676, 40, 50, this.canvas);
-    this.blocks["main4"] = new Block(200, 676, 40, 50, this.canvas);
-    this.blocks["main5"] = new Block(250, 676, 40, 50, this.canvas);
+    this.blocks["main"] = new Block(0, 667, 40, 50, this.canvas);
+    this.blocks["main1"] = new Block(50, 667, 40, 50, this.canvas);
+    this.blocks["main2"] = new Block(100, 667, 40, 50, this.canvas);
+    this.blocks["main3"] = new Block(150, 667, 40, 50, this.canvas);
+    this.blocks["main4"] = new Block(200, 667, 40, 50, this.canvas);
+    this.blocks["main5"] = new Block(250, 667, 40, 50, this.canvas);
     // => Platform above player or ap
     this.blocks["ap1"] = new Block(0, 566, 40, 20, this.canvas);
     this.blocks["ap2"] = new Block(50, 566, 40, 50, this.canvas);
@@ -46,7 +46,7 @@ class Game {
   }
 
   makeButtons() {
-    this.buttons["1"] = new Button(248, 650, 20, 30, this.canvas);
+    this.buttons["1"] = new Button(248, 641, 20, 30, this.canvas);
     this.buttons["3"] = new Button(8, 538, 20, 30, this.canvas);
     this.buttons["4"] = new Button(675, 520, 20, 30, this.canvas);
     this.buttons["5"] = new Button(8, 419, 20, 30, this.canvas);

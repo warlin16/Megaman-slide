@@ -201,7 +201,7 @@ class Player {
       this.velY = 0;
       this.y = 0;
     }
-    if (this.x >= 235 && this.y === 631) this.first = true;
+    if (this.x >= 235 && this.y === 622) this.first = true;
     if (this.x >= 437 && this.y === 521) {
       this.second = true;
       this.checkpoint.x = 450;

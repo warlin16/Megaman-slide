@@ -143,12 +143,12 @@ var Game = function () {
     value: function makeBlocks() {
       // => main platforn
       // => S stands for secret
-      this.blocks["main"] = new _block2.default(0, 676, 40, 50, this.canvas);
-      this.blocks["main1"] = new _block2.default(50, 676, 40, 50, this.canvas);
-      this.blocks["main2"] = new _block2.default(100, 676, 40, 50, this.canvas);
-      this.blocks["main3"] = new _block2.default(150, 676, 40, 50, this.canvas);
-      this.blocks["main4"] = new _block2.default(200, 676, 40, 50, this.canvas);
-      this.blocks["main5"] = new _block2.default(250, 676, 40, 50, this.canvas);
+      this.blocks["main"] = new _block2.default(0, 667, 40, 50, this.canvas);
+      this.blocks["main1"] = new _block2.default(50, 667, 40, 50, this.canvas);
+      this.blocks["main2"] = new _block2.default(100, 667, 40, 50, this.canvas);
+      this.blocks["main3"] = new _block2.default(150, 667, 40, 50, this.canvas);
+      this.blocks["main4"] = new _block2.default(200, 667, 40, 50, this.canvas);
+      this.blocks["main5"] = new _block2.default(250, 667, 40, 50, this.canvas);
       // => Platform above player or ap
       this.blocks["ap1"] = new _block2.default(0, 566, 40, 20, this.canvas);
       this.blocks["ap2"] = new _block2.default(50, 566, 40, 50, this.canvas);
@@ -164,7 +164,7 @@ var Game = function () {
   }, {
     key: "makeButtons",
     value: function makeButtons() {
-      this.buttons["1"] = new _button2.default(248, 650, 20, 30, this.canvas);
+      this.buttons["1"] = new _button2.default(248, 641, 20, 30, this.canvas);
       this.buttons["3"] = new _button2.default(8, 538, 20, 30, this.canvas);
       this.buttons["4"] = new _button2.default(675, 520, 20, 30, this.canvas);
       this.buttons["5"] = new _button2.default(8, 419, 20, 30, this.canvas);
@@ -666,7 +666,7 @@ var Player = function () {
         this.velY = 0;
         this.y = 0;
       }
-      if (this.x >= 235 && this.y === 631) this.first = true;
+      if (this.x >= 235 && this.y === 622) this.first = true;
       if (this.x >= 437 && this.y === 521) {
         this.second = true;
         this.checkpoint.x = 450;
