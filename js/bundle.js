@@ -119,10 +119,10 @@ var Game = function () {
   function Game() {
     _classCallCheck(this, Game);
 
-    this.canvas = document.getElementById('main');
-    this.ctx = this.canvas.getContext('2d');
+    this.canvas = document.getElementById("main");
+    this.ctx = this.canvas.getContext("2d");
     this.canvas.width = 700;
-    this.canvas.height = 700;
+    this.canvas.height = 685;
     this.player = new _player2.default(this.canvas);
     this.start = false;
     this.blocks = {
@@ -134,43 +134,43 @@ var Game = function () {
     this.buttons = {};
     this.makeBlocks();
     this.makeButtons();
-    this.theme = document.getElementById('theme');
+    this.theme = document.getElementById("theme");
     this.playSong = true;
   }
 
   _createClass(Game, [{
-    key: 'makeBlocks',
+    key: "makeBlocks",
     value: function makeBlocks() {
       // => main platforn
       // => S stands for secret
-      this.blocks['main'] = new _block2.default(0, 676, 40, 50, this.canvas);
-      this.blocks['main1'] = new _block2.default(50, 676, 40, 50, this.canvas);
-      this.blocks['main2'] = new _block2.default(100, 676, 40, 50, this.canvas);
-      this.blocks['main3'] = new _block2.default(150, 676, 40, 50, this.canvas);
-      this.blocks['main4'] = new _block2.default(200, 676, 40, 50, this.canvas);
-      this.blocks['main5'] = new _block2.default(250, 676, 40, 50, this.canvas);
+      this.blocks["main"] = new _block2.default(0, 676, 40, 50, this.canvas);
+      this.blocks["main1"] = new _block2.default(50, 676, 40, 50, this.canvas);
+      this.blocks["main2"] = new _block2.default(100, 676, 40, 50, this.canvas);
+      this.blocks["main3"] = new _block2.default(150, 676, 40, 50, this.canvas);
+      this.blocks["main4"] = new _block2.default(200, 676, 40, 50, this.canvas);
+      this.blocks["main5"] = new _block2.default(250, 676, 40, 50, this.canvas);
       // => Platform above player or ap
-      this.blocks['ap1'] = new _block2.default(0, 566, 40, 20, this.canvas);
-      this.blocks['ap2'] = new _block2.default(50, 566, 40, 50, this.canvas);
-      this.blocks['ap4'] = new _block2.default(620, 566, 40, 50, this.canvas);
+      this.blocks["ap1"] = new _block2.default(0, 566, 40, 20, this.canvas);
+      this.blocks["ap2"] = new _block2.default(50, 566, 40, 50, this.canvas);
+      this.blocks["ap4"] = new _block2.default(620, 566, 40, 50, this.canvas);
       // => second row or sr
-      this.blocks['sr1'] = new _block2.default(670, 546, 40, 20, this.canvas);
-      this.blocks['sr2'] = new _block2.default(0, 450, 40, 20, this.canvas);
+      this.blocks["sr1"] = new _block2.default(670, 546, 40, 20, this.canvas);
+      this.blocks["sr2"] = new _block2.default(0, 450, 40, 20, this.canvas);
       // => third row or tr
-      this.blocks['tr1'] = new _block2.default(0, 270, 40, 20, this.canvas);
+      this.blocks["tr1"] = new _block2.default(0, 270, 40, 20, this.canvas);
       // => secret doors
-      this.blocks['1stDoor'] = new _block2.default(580, 500, 15, 88, this.canvas);
+      this.blocks["1stDoor"] = new _block2.default(580, 500, 15, 88, this.canvas);
     }
   }, {
-    key: 'makeButtons',
+    key: "makeButtons",
     value: function makeButtons() {
-      this.buttons['1'] = new _button2.default(248, 650, 20, 30, this.canvas);
-      this.buttons['3'] = new _button2.default(8, 538, 20, 30, this.canvas);
-      this.buttons['4'] = new _button2.default(675, 520, 20, 30, this.canvas);
-      this.buttons['5'] = new _button2.default(8, 419, 20, 30, this.canvas);
+      this.buttons["1"] = new _button2.default(248, 650, 20, 30, this.canvas);
+      this.buttons["3"] = new _button2.default(8, 538, 20, 30, this.canvas);
+      this.buttons["4"] = new _button2.default(675, 520, 20, 30, this.canvas);
+      this.buttons["5"] = new _button2.default(8, 419, 20, 30, this.canvas);
     }
   }, {
-    key: 'renderBlocks',
+    key: "renderBlocks",
     value: function renderBlocks() {
       var _this = this;
 
@@ -187,151 +187,151 @@ var Game = function () {
       }
     }
   }, {
-    key: 'renderButtons',
+    key: "renderButtons",
     value: function renderButtons() {
       Object.values(this.buttons).forEach(function (button) {
         button.render();
       });
     }
   }, {
-    key: 'renderSecrets',
+    key: "renderSecrets",
     value: function renderSecrets() {
       if (this.player.first) {
-        this.blocks['Smain'] = new _block2.default(350, 646, 40, 50, this.canvas);
-        this.blocks['Smain2'] = new _block2.default(400, 606, 40, 50, this.canvas);
-        this.blocks['Smain3'] = new _block2.default(450, 566, 40, 50, this.canvas);
-        this.buttons['2'] = new _button2.default(455, 540, 20, 30, this.canvas);
-        delete this.buttons['1'];
+        this.blocks["Smain"] = new _block2.default(350, 646, 40, 50, this.canvas);
+        this.blocks["Smain2"] = new _block2.default(400, 606, 40, 50, this.canvas);
+        this.blocks["Smain3"] = new _block2.default(450, 566, 40, 50, this.canvas);
+        this.buttons["2"] = new _button2.default(455, 540, 20, 30, this.canvas);
+        delete this.buttons["1"];
       }
       if (this.player.second) {
-        delete this.buttons['2'];
-        this.blocks['Sap1'] = new _block2.default(350, 566, 40, 50, this.canvas);
-        this.blocks['Sap2'] = new _block2.default(250, 566, 40, 50, this.canvas);
-        this.blocks['Sap3'] = new _block2.default(150, 566, 40, 50, this.canvas);
-        delete this.blocks['main1'];
-        delete this.blocks['main2'];
-        delete this.blocks['main3'];
-        delete this.blocks['main4'];
-        delete this.blocks['main5'];
+        delete this.buttons["2"];
+        this.blocks["Sap1"] = new _block2.default(350, 566, 40, 50, this.canvas);
+        this.blocks["Sap2"] = new _block2.default(250, 566, 40, 50, this.canvas);
+        this.blocks["Sap3"] = new _block2.default(150, 566, 40, 50, this.canvas);
+        delete this.blocks["main1"];
+        delete this.blocks["main2"];
+        delete this.blocks["main3"];
+        delete this.blocks["main4"];
+        delete this.blocks["main5"];
       }
       if (this.player.third) {
-        delete this.blocks['1stDoor'];
-        delete this.buttons['3'];
-        this.blocks['ap3'] = new _block2.default(530, 566, 40, 50, this.canvas);
+        delete this.blocks["1stDoor"];
+        delete this.buttons["3"];
+        this.blocks["ap3"] = new _block2.default(530, 566, 40, 50, this.canvas);
       }
       if (this.player.fourth) {
-        delete this.buttons['4'];
-        delete this.blocks['Smain'];
-        delete this.blocks['Smain2'];
-        delete this.blocks['Smain3'];
-        delete this.blocks['Sap1'];
-        delete this.blocks['Sap2'];
-        delete this.blocks['Sap3'];
-        this.blocks['Ssr1'] = new _block2.default(450, 546, 40, 20, this.canvas);
-        this.blocks['Ssr2'] = new _block2.default(350, 546, 40, 20, this.canvas);
-        this.blocks['Ssr3'] = new _block2.default(250, 546, 40, 20, this.canvas);
-        this.blocks['Ssr4'] = new _block2.default(200, 500, 40, 20, this.canvas);
-        this.blocks['Ssr5'] = new _block2.default(150, 450, 40, 20, this.canvas);
-        this.blocks['Ssr6'] = new _block2.default(100, 400, 40, 20, this.canvas);
+        delete this.buttons["4"];
+        delete this.blocks["Smain"];
+        delete this.blocks["Smain2"];
+        delete this.blocks["Smain3"];
+        delete this.blocks["Sap1"];
+        delete this.blocks["Sap2"];
+        delete this.blocks["Sap3"];
+        this.blocks["Ssr1"] = new _block2.default(450, 546, 40, 20, this.canvas);
+        this.blocks["Ssr2"] = new _block2.default(350, 546, 40, 20, this.canvas);
+        this.blocks["Ssr3"] = new _block2.default(250, 546, 40, 20, this.canvas);
+        this.blocks["Ssr4"] = new _block2.default(200, 500, 40, 20, this.canvas);
+        this.blocks["Ssr5"] = new _block2.default(150, 450, 40, 20, this.canvas);
+        this.blocks["Ssr6"] = new _block2.default(100, 400, 40, 20, this.canvas);
       }
       if (this.player.fifth) {
-        delete this.buttons['5'];
-        delete this.blocks['Ssr1'];
-        delete this.blocks['Ssr2'];
-        delete this.blocks['Ssr3'];
-        delete this.blocks['Ssr4'];
-        delete this.blocks['Ssr5'];
-        delete this.blocks['Ssr6'];
+        delete this.buttons["5"];
+        delete this.blocks["Ssr1"];
+        delete this.blocks["Ssr2"];
+        delete this.blocks["Ssr3"];
+        delete this.blocks["Ssr4"];
+        delete this.blocks["Ssr5"];
+        delete this.blocks["Ssr6"];
         this.blocks.moving.x += 1;
-        this.blocks['1stDoor'] = new _block2.default(550, 450, 15, 50, this.canvas);
-        this.blocks['2ndDoor'] = new _block2.default(400, 450, 15, 50, this.canvas);
-        this.blocks['3rdDoor'] = new _block2.default(300, 450, 15, 50, this.canvas);
-        this.blocks['4thDoor'] = new _block2.default(150, 450, 15, 50, this.canvas);
-        this.buttons['6'] = new _button2.default(675, 420, 20, 30, this.canvas);
-        this.blocks['6thPlat'] = new _block2.default(670, 450, 40, 20, this.canvas);
-        delete this.blocks['ap1'];
-        delete this.blocks['ap2'];
-        delete this.blocks['ap3'];
-        delete this.blocks['ap4'];
+        this.blocks["1stDoor"] = new _block2.default(550, 450, 15, 50, this.canvas);
+        this.blocks["2ndDoor"] = new _block2.default(400, 450, 15, 50, this.canvas);
+        this.blocks["3rdDoor"] = new _block2.default(300, 450, 15, 50, this.canvas);
+        this.blocks["4thDoor"] = new _block2.default(150, 450, 15, 50, this.canvas);
+        this.buttons["6"] = new _button2.default(675, 420, 20, 30, this.canvas);
+        this.blocks["6thPlat"] = new _block2.default(670, 450, 40, 20, this.canvas);
+        delete this.blocks["ap1"];
+        delete this.blocks["ap2"];
+        delete this.blocks["ap3"];
+        delete this.blocks["ap4"];
       }
       if (this.player.sixth) {
-        delete this.buttons['6'];
-        delete this.blocks['1stDoor'];
-        delete this.blocks['2ndDoor'];
-        delete this.blocks['3rdDoor'];
-        delete this.blocks['4thDoor'];
-        this.buttons['8'] = new _button2.default(8, 239, 20, 30, this.canvas);
-        this.buttons['7'] = new _button2.default(205, 324, 20, 30, this.canvas);
-        this.blocks['1st'] = new _block2.default(570, 450, 40, 20, this.canvas);
-        this.blocks['2nd'] = new _block2.default(470, 440, 40, 20, this.canvas);
-        this.blocks['3rd'] = new _block2.default(380, 410, 40, 20, this.canvas);
-        this.blocks['4th'] = new _block2.default(290, 380, 40, 20, this.canvas);
-        this.blocks['5th'] = new _block2.default(200, 355, 40, 20, this.canvas);
+        delete this.buttons["6"];
+        delete this.blocks["1stDoor"];
+        delete this.blocks["2ndDoor"];
+        delete this.blocks["3rdDoor"];
+        delete this.blocks["4thDoor"];
+        this.buttons["8"] = new _button2.default(8, 239, 20, 30, this.canvas);
+        this.buttons["7"] = new _button2.default(205, 324, 20, 30, this.canvas);
+        this.blocks["1st"] = new _block2.default(570, 450, 40, 20, this.canvas);
+        this.blocks["2nd"] = new _block2.default(470, 440, 40, 20, this.canvas);
+        this.blocks["3rd"] = new _block2.default(380, 410, 40, 20, this.canvas);
+        this.blocks["4th"] = new _block2.default(290, 380, 40, 20, this.canvas);
+        this.blocks["5th"] = new _block2.default(200, 355, 40, 20, this.canvas);
       }
       if (this.player.seventh) {
-        delete this.buttons['7'];
-        delete this.blocks['5th'];
-        delete this.blocks['sr2'];
+        delete this.buttons["7"];
+        delete this.blocks["5th"];
+        delete this.blocks["sr2"];
         this.blocks.floating.y -= 2;
-        this.blocks['6th'] = new _block2.default(140, 200, 40, 20, this.canvas);
+        this.blocks["6th"] = new _block2.default(140, 200, 40, 20, this.canvas);
         if (this.blocks.floating && this.blocks.floating.y < -10) {
           this.blocks.floating.y = 770;
         }
       }
       if (this.player.boss) {
-        delete this.buttons['7'];
-        delete this.buttons['8'];
-        delete this.blocks['1st'];
-        delete this.blocks['2nd'];
-        delete this.blocks['3rd'];
-        delete this.blocks['4th'];
-        delete this.blocks['5th'];
-        delete this.blocks['floating'];
-        delete this.blocks['sr1'];
-        delete this.blocks['tr1'];
-        delete this.blocks['main'];
-        delete this.blocks['6th'];
-        delete this.blocks['6thPlat'];
+        delete this.buttons["7"];
+        delete this.buttons["8"];
+        delete this.blocks["1st"];
+        delete this.blocks["2nd"];
+        delete this.blocks["3rd"];
+        delete this.blocks["4th"];
+        delete this.blocks["5th"];
+        delete this.blocks["floating"];
+        delete this.blocks["sr1"];
+        delete this.blocks["tr1"];
+        delete this.blocks["main"];
+        delete this.blocks["6th"];
+        delete this.blocks["6thPlat"];
         this.blocks.floating2.y -= 2;
-        this.buttons['win'] = new _button2.default(670, 92, 20, 30, this.canvas);
-        this.blocks['boss'] = new _block2.default(355, 120, 40, 20, this.canvas);
-        this.blocks['boss3'] = new _block2.default(465, 120, 40, 20, this.canvas);
-        this.blocks['boss5'] = new _block2.default(565, 120, 40, 20, this.canvas);
-        this.blocks['boss7'] = new _block2.default(665, 120, 40, 20, this.canvas);
-        this.blocks['1st'] = new _block2.default(50, 350, 40, 50, this.canvas);
-        this.blocks['2nd'] = new _block2.default(100, 300, 40, 50, this.canvas);
-        this.blocks['3rd'] = new _block2.default(150, 250, 40, 50, this.canvas);
-        this.blocks['4th'] = new _block2.default(200, 200, 40, 50, this.canvas);
-        this.blocks['5th'] = new _block2.default(250, 150, 40, 50, this.canvas);
+        this.buttons["win"] = new _button2.default(670, 92, 20, 30, this.canvas);
+        this.blocks["boss"] = new _block2.default(355, 120, 40, 20, this.canvas);
+        this.blocks["boss3"] = new _block2.default(465, 120, 40, 20, this.canvas);
+        this.blocks["boss5"] = new _block2.default(565, 120, 40, 20, this.canvas);
+        this.blocks["boss7"] = new _block2.default(665, 120, 40, 20, this.canvas);
+        this.blocks["1st"] = new _block2.default(50, 350, 40, 50, this.canvas);
+        this.blocks["2nd"] = new _block2.default(100, 300, 40, 50, this.canvas);
+        this.blocks["3rd"] = new _block2.default(150, 250, 40, 50, this.canvas);
+        this.blocks["4th"] = new _block2.default(200, 200, 40, 50, this.canvas);
+        this.blocks["5th"] = new _block2.default(250, 150, 40, 50, this.canvas);
       }
 
       if (this.player.won) {
-        delete this.buttons['win'];
+        delete this.buttons["win"];
       }
     }
   }, {
-    key: 'renderText',
+    key: "renderText",
     value: function renderText() {
       this.ctx.font = '20px "Press Start 2P"';
-      this.ctx.fillStyle = 'white';
-      this.ctx.fillText('Read above && press N to start a new game!', 100, 250, 500);
+      this.ctx.fillStyle = "white";
+      this.ctx.fillText("Press N to start a new game!", 100, 250, 500);
     }
   }, {
-    key: 'renderWinMessage',
+    key: "renderWinMessage",
     value: function renderWinMessage() {
       this.ctx.font = '20px "Press Start 2P"';
-      this.ctx.fillStyle = 'white';
-      this.ctx.fillText('You did it! You won! Press R to restart!', 100, 250, 500);
+      this.ctx.fillStyle = "white";
+      this.ctx.fillText("You did it! You won! Press R to restart!", 100, 250, 500);
     }
   }, {
-    key: 'renderGameOver',
+    key: "renderGameOver",
     value: function renderGameOver() {
       this.ctx.font = '20px "Press Start 2P"';
-      this.ctx.fillStyle = 'white';
-      this.ctx.fillText('You lost! Try again...  Press s to try again!', 100, 250, 500);
+      this.ctx.fillStyle = "white";
+      this.ctx.fillText("You lost! Try again...  Press s to try again!", 100, 250, 500);
     }
   }, {
-    key: 'toggleMusic',
+    key: "toggleMusic",
     value: function toggleMusic() {
       if (this.playSong) {
         this.theme.play();
@@ -340,7 +340,7 @@ var Game = function () {
       }
     }
   }, {
-    key: 'restart',
+    key: "restart",
     value: function restart() {
       this.blocks = {
         moving: new _block2.default(-60, 500, 60, 20, this.canvas),
@@ -362,26 +362,26 @@ var Game = function () {
       this.player.boss = false;
       this.player.won = false;
       this.player.lost = false;
-      delete this.buttons['win'];
-      delete this.blocks['boss'];
-      delete this.blocks['boss3'];
-      delete this.blocks['boss5'];
-      delete this.blocks['boss7'];
-      delete this.blocks['1st'];
-      delete this.blocks['2nd'];
-      delete this.blocks['3rd'];
-      delete this.blocks['4th'];
-      delete this.blocks['5th'];
-      delete this.buttons['2'];
-      delete this.buttons['6'];
-      delete this.buttons['7'];
-      delete this.buttons['8'];
+      delete this.buttons["win"];
+      delete this.blocks["boss"];
+      delete this.blocks["boss3"];
+      delete this.blocks["boss5"];
+      delete this.blocks["boss7"];
+      delete this.blocks["1st"];
+      delete this.blocks["2nd"];
+      delete this.blocks["3rd"];
+      delete this.blocks["4th"];
+      delete this.blocks["5th"];
+      delete this.buttons["2"];
+      delete this.buttons["6"];
+      delete this.buttons["7"];
+      delete this.buttons["8"];
       this.player.x = 0;
       this.player.y = 620;
       this.start = true;
     }
   }, {
-    key: 'render',
+    key: "render",
     value: function render() {
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       if (this.start && !this.player.won && !this.player.lost) {
@@ -422,25 +422,25 @@ var Game = function () {
   return Game;
 }();
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener("DOMContentLoaded", function () {
   var game = new Game();
   game.render();
 
-  document.addEventListener('keydown', function (e) {
-    if (e.code === 'KeyQ') {
+  document.addEventListener("keydown", function (e) {
+    if (e.code === "KeyQ") {
       game.playSong = !game.playSong;
     }
-    if (e.code === 'KeyN') game.start = true;
-    if (e.code === 'KeyR' && game.player.won) {
+    if (e.code === "KeyN") game.start = true;
+    if (e.code === "KeyR" && game.player.won) {
       game.restart();
     }
-    if (e.code === 'KeyS' && game.player.lost) {
+    if (e.code === "KeyS" && game.player.lost) {
       game.restart();
     }
     game.player.keysPressed[e.code] = true;
   });
 
-  document.addEventListener('keyup', function (e) {
+  document.addEventListener("keyup", function (e) {
     game.player.keysPressed[e.code] = false;
   });
 });
@@ -475,7 +475,7 @@ var Player = function () {
     _classCallCheck(this, Player);
 
     this.stage = stage;
-    this.ctx = this.stage.getContext('2d');
+    this.ctx = this.stage.getContext("2d");
     this.x = 0;
     this.y = 620;
     this.width = 35;
@@ -492,82 +492,82 @@ var Player = function () {
     this.animation = new _bass2.default().animation;
     this.currImg = this.animation.idleAnim;
     this.frames = 0;
-    this.direction = 'right';
+    this.direction = "right";
     this.isColliding = this.isColliding.bind(this);
     this.lives = 3;
     this.checkpoint = { x: 20, y: 620 };
   }
 
   _createClass(Player, [{
-    key: 'changeDirection',
+    key: "changeDirection",
     value: function changeDirection() {
       if (this.keysPressed.Comma) {
-        this.direction = 'left';
+        this.direction = "left";
       }
       if (this.keysPressed.Period) {
-        this.direction = 'right';
+        this.direction = "right";
       }
     }
   }, {
-    key: 'moveRight',
+    key: "moveRight",
     value: function moveRight() {
       if (this.keysPressed.ArrowRight) {
-        this.direction = 'right';
+        this.direction = "right";
         if (this.velX < this.speed) this.velX++;
         if (this.frames === 1) {
-          if (this.direction === 'right') {
+          if (this.direction === "right") {
             this.currImg = this.animation.rightAnim1;
-          } else if (this.direction === 'left') {
+          } else if (this.direction === "left") {
             this.currImg = this.animation.rightMoveAnim1;
           }
         }
         if (this.frames === 17) {
-          if (this.direction === 'right') {
+          if (this.direction === "right") {
             this.currImg = this.animation.rightAnim3;
-          } else if (this.direction === 'left') {
+          } else if (this.direction === "left") {
             this.currImg = this.animation.rightMoveAnim3;
           }
         }
         if (this.frames === 27) {
-          if (this.direction === 'right') {
+          if (this.direction === "right") {
             this.currImg = this.animation.rightAnim2;
-          } else if (this.direction === 'left') {
+          } else if (this.direction === "left") {
             this.currImg = this.animation.rightMoveAnim2;
           }
         }
       }
     }
   }, {
-    key: 'moveLeft',
+    key: "moveLeft",
     value: function moveLeft() {
       if (this.keysPressed.ArrowLeft && !this.keysPressed.ArrowRight) {
-        this.direction = 'left';
+        this.direction = "left";
         if (this.velX > -this.speed) this.velX--;
         if (this.frames === 1) {
-          if (this.direction === 'right') {
+          if (this.direction === "right") {
             this.currImg = this.animation.leftAnim1;
-          } else if (this.direction === 'left') {
+          } else if (this.direction === "left") {
             this.currImg = this.animation.leftMoveAnim1;
           }
         }
         if (this.frames === 17) {
-          if (this.direction === 'right') {
+          if (this.direction === "right") {
             this.currImg = this.animation.leftAnim3;
-          } else if (this.direction === 'left') {
+          } else if (this.direction === "left") {
             this.currImg = this.animation.leftMoveAnim3;
           }
         }
         if (this.frames === 27) {
-          if (this.direction === 'right') {
+          if (this.direction === "right") {
             this.currImg = this.animation.leftAnim2;
-          } else if (this.direction === 'left') {
+          } else if (this.direction === "left") {
             this.currImg = this.animation.leftMoveAnim2;
           }
         }
       }
     }
   }, {
-    key: 'jump',
+    key: "jump",
     value: function jump() {
       if (this.keysPressed.ArrowUp) {
         if (this.grounded || this.velY === 0) {
@@ -577,23 +577,23 @@ var Player = function () {
         }
         if (this.jumping) {
           if (this.frames === 1) {
-            if (this.direction === 'right') {
+            if (this.direction === "right") {
               this.currImg = this.animation.jumpAnim1;
-            } else if (this.direction === 'left') {
+            } else if (this.direction === "left") {
               this.currImg = this.animation.leftJumpAnim1;
             }
           }
           if (this.frames === 5) {
-            if (this.direction === 'right') {
+            if (this.direction === "right") {
               this.currImg = this.animation.jumpAnim2;
-            } else if (this.direction === 'left') {
+            } else if (this.direction === "left") {
               this.currImg = this.animation.leftJumpAnim2;
             }
           }
           if (this.frames === 10) {
-            if (this.direction === 'right') {
+            if (this.direction === "right") {
               this.currImg = this.animation.jumpAnim3;
-            } else if (this.direction === 'left') {
+            } else if (this.direction === "left") {
               this.currImg = this.animation.leftJumpAnim3;
             }
           }
@@ -601,34 +601,34 @@ var Player = function () {
       }
     }
   }, {
-    key: 'shoot',
+    key: "shoot",
     value: function shoot() {
       if (this.keysPressed.Space) {
         if (this.frames === 2) {
-          if (this.direction === 'right') {
+          if (this.direction === "right") {
             this.currImg = this.animation.shootAnim1;
-          } else if (this.direction === 'left') {
+          } else if (this.direction === "left") {
             this.currImg = this.animation.leftShootAnim1;
           }
         }
         if (this.frames === 5) {
-          if (this.direction === 'right') {
+          if (this.direction === "right") {
             this.currImg = this.animation.shootAnim2;
-          } else if (this.direction === 'left') {
+          } else if (this.direction === "left") {
             this.currImg = this.animation.leftShootAnim2;
           }
         }
         if (this.frames === 10) {
-          if (this.direction === 'right') {
+          if (this.direction === "right") {
             this.currImg = this.animation.shootAnim3;
-          } else if (this.direction === 'left') {
+          } else if (this.direction === "left") {
             this.currImg = this.animation.leftShootAnim3;
           }
         }
         if (this.frames === 15) {
-          if (this.direction === 'right') {
+          if (this.direction === "right") {
             this.currImg = this.animation.shootAnim4;
-          } else if (this.direction === 'left') {
+          } else if (this.direction === "left") {
             this.currImg = this.animation.leftShootAnim4;
           }
         }
@@ -636,25 +636,25 @@ var Player = function () {
       }
     }
   }, {
-    key: 'idle',
+    key: "idle",
     value: function idle() {
       if (!this.keysPressed.ArrowRight && !this.keysPressed.ArrowLeft && !this.keysPressed.ArrowUp && !this.keysPressed.Space) {
         this.frames = 0;
-        if (this.direction === 'right') {
+        if (this.direction === "right") {
           this.currImg = this.animation.idleAnim;
         }
-        if (this.direction === 'left') {
+        if (this.direction === "left") {
           this.currImg = this.animation.leftIdleAnim;
         }
       }
     }
   }, {
-    key: 'renderFace',
+    key: "renderFace",
     value: function renderFace() {
       this.ctx.drawImage(this.animation.face.img, this.animation.face.sX, this.animation.face.sY, this.animation.face.sWidth, this.animation.face.sHeight, 0, 0, 50, 50);
     }
   }, {
-    key: 'physics',
+    key: "physics",
     value: function physics() {
       if (this.x + this.width > this.stage.width) {
         this.x = this.stage.width - this.width;
@@ -718,7 +718,7 @@ var Player = function () {
       this.ctx.drawImage(this.currImg.img, this.currImg.sX, this.currImg.sY, this.currImg.sWidth, this.currImg.sHeight, this.x, this.y, this.width, this.height);
     }
   }, {
-    key: 'isColliding',
+    key: "isColliding",
     value: function isColliding(obj) {
       var vX = this.x + this.width / 2 - (obj.x + obj.width / 2);
       var vY = this.y + this.height / 2 - (obj.y + obj.height / 2);
@@ -731,7 +731,6 @@ var Player = function () {
           if (vY < 0) {
             this.y -= oY;
             this.grounded = true;
-            // this.keysPressed.ArrowUp = false;
           } else if (vY > 0) {
             this.y += oY + 5;
             this.velY = 0;
@@ -748,7 +747,7 @@ var Player = function () {
       }
     }
   }, {
-    key: 'shouldFall',
+    key: "shouldFall",
     value: function shouldFall(obj) {
       if (this.x + this.width >= obj.x && this.x < obj.x + obj.width) {
         if (this.y + this.height === obj.y) {
